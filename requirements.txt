@@ -1,4 +1,1 @@
 pyinstaller
-zlib
-base64
-marshall
