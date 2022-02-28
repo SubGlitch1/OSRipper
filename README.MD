@@ -1,7 +1,7 @@
 # OSRIPPPER
 
 OSripper is a Backdoor generator which specialises in evasion. (Fully undetectable at some levels) 
-![alt text]https://i.imgur.com/1jk16QN.png
+![Screenshot]screenshot.png
 ## Description
 
 OSripper not only generates backdoors but also obfuscates and compiles them. This also includes apple M1 backdoors. Take a closer look at the Roadmap to see how close we are to achieving our goal of total evasion but the results so far are extremely good. In the future i will definetly develop some more specialised and sophisticated Backdoors.
