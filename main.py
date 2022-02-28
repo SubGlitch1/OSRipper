@@ -129,4 +129,6 @@ if opt_obf == 'y':
         else:
             compcomd = 'pyinstaller -F --key sdkvksdbx=hk+b.axc132^ '+name
             os.system(compcomd)
-            print('Saved under "dist" folder')
+            os.system(clear)
+            print(logo)
+            print('Backdoor saved under "dist" folder')

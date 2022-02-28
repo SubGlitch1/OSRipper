@@ -6,7 +6,6 @@ import base64
 import marshal
 import py_compile
 
-# Select raw_input() or input()
 if sys.version_info[0]==2:
     _input = "raw_input('%s')"
 elif sys.version_info[0]==3:
@@ -70,8 +69,7 @@ def MainMenu(file):
         output = file.lower().replace('.py', '') + '_enc.py'
         
         Encode(data,output)
-        print("\n [#] Successfully Encrypted %s" % file)
-        print(" [#] Saved as %s" % output)
+        print("Done")
         FileSize(output)
     except KeyboardInterrupt:
         time.sleep(1)
