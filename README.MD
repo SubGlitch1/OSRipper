@@ -1,4 +1,4 @@
-# OSRIPPPER
+# OSripper
 ![Screenshot](img/screenshot.png)
 
 OSripper is a Backdoor generator which specialises in evasion. (Fully undetectable at some levels) 
