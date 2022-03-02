@@ -52,7 +52,7 @@ logo = """
                                                                            OSRIPPER v0.1.3
 """
 
-clear = lambda: os.system('cls')
+clear = lambda: os.system('clear')
 clear()
 print(logo)
 def listen(host, port):
@@ -247,8 +247,8 @@ def postgen():
                 os.system(clear)
                 print(logo)
                 print('Backdoor saved under "dist" folder')
-print("""BackDoor Module
-        
+print("""
+    
         1. Create Bind Backdoor (opens a port on the victim machine and waits for you to connect)
         2. Create Reverse Shell (TCP (Encryption not recommended)) (Connects back to you)
         3. Create Reverse Meterpreter (HTTP) (Connects back to you)
