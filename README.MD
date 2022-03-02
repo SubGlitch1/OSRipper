@@ -47,7 +47,7 @@ python3 main.py
 - [x] Get down detection to 0/26 on antiscan.me
 - [ ] Add Changelog
 - [ ] Add More Backdoor templates
-- [ ] Get down detection to at least 3/68 on VT
+- [x] Get down detection to at least 0/68 on VT (for mac malware)
 
 ## Help
 
