@@ -45,7 +45,8 @@ python3 main.py
 <!-- ROADMAP -->
 ## Roadmap
 - [x] Get down detection to 0/26 on antiscan.me
-- [ ] Add Changelog
+- [x] Add Changelog
+- [ ] Add Binder
 - [ ] Add More Backdoor templates
 - [x] Get down detection to at least 0/68 on VT (for mac malware)
 
@@ -53,10 +54,11 @@ python3 main.py
 
 Just open a issue and ill make sure to get back to you
 
-## Version History
+## Changelog
 
-
-* 0.1
+* 0.1.2
+    * Added 3rd module and listener
+* 0.1.1
     * Initial Release
 
 ## License
