@@ -220,7 +220,7 @@ def postgen():
         compiling = input('Do you want to compile the script into a binary (might require sudo) (y/n): ')
         if compiling == 'y':
             if encrypted == True:
-                compcomd = 'pyinstaller -F --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 '+name+'_enc.py'
+                compcomd = 'pyinstaller -F --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 '+name+'_or.py'
                 os.system(compcomd)
                 print('Saved under "dist" folder')
             else:

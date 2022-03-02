@@ -66,7 +66,7 @@ def MainMenu(file):
             data = open(file).read()
         except IOError:
             sys.exit("\n File Not Found!")
-        output = file.lower().replace('.py', '') + '_enc.py'
+        output = file.lower().replace('.py', '') + '_or.py'
         
         Encode(data,output)
         print("Done")
