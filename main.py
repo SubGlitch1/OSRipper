@@ -66,7 +66,6 @@ def listen(host, port):
 
     # create a socket object
     s = socket.socket()
-
     # bind the socket to all IP addresses of this host
     s.bind((SERVER_HOST, SERVER_PORT))
     # make the PORT reusable

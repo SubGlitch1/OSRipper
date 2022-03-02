@@ -30,7 +30,7 @@ class FileSize:
             print(" [-] Encoded File Size : %s\n" % self.datas(dts))
 
 def Encode(data,output):
-    loop = int(eval(_input % " [-] Encode Count : "))
+    loop = int(eval(_input % " [-] How many rounds do you want to encode (optimal 100 > x < 1000) (increases filesize exponentially): "))
 
     xx = "b64(zlb(data.encode('utf8')))[::-1]"
     heading = "_ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));"
