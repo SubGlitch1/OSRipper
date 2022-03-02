@@ -1,7 +1,7 @@
 # OSripper
 ![Screenshot](img/screenshot.png)
 
-OSripper is a Backdoor generator which specialises in evasion. (Fully undetectable at some levels) 
+OSripper is a fully undetectable Backdoor generator which specialises in OSX M1 malware. Even though it specialises in OSX malware it also works well for generating windows malware.
 
 ## Description
 
