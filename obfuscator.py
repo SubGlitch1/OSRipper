@@ -60,20 +60,16 @@ def SEncode(data,output):
     py_compile.compile(output,output)
 
 def MainMenu(file):
+
     try:
-        os.system('clear') 
-        try:
-            data = open(file).read()
-        except IOError:
-            sys.exit("\n File Not Found!")
-        output = file.lower().replace('.py', '') + '_or.py'
-        
-        Encode(data,output)
-        print("Done")
-        FileSize(output)
-    except KeyboardInterrupt:
-        time.sleep(1)
-        sys.exit()
+        data = open(file).read()
+    except IOError:
+        sys.exit("\n File Not Found!")
+    output = file.lower().replace('.py', '') + '_or.py'
+    Encode(data,output)
+    print("Done")
+    FileSize(output)
+
 
 if __name__ == "__main__":
     MainMenu()
