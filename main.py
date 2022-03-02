@@ -77,17 +77,8 @@ def listen(host, port):
 
     # accept any connections attempted
     client_socket, client_address = s.accept()
-    print(f"{client_address[0]}:{client_address[1]} Connected!")
-    headers = {'Accept': 'application/json'}
-    url = 'http://ip-api.com/json/'+client_address+'?fields=country,city,zip,isp,org,reverse,mobile,proxy'
-    r = requests.get(url, headers = headers)
-    print('Country: '+r.json()['country'])
-    print('City: '+r.json()['city'])
-    print('zip: '+r.json()['zip'])
-    print('Organisation: '+r.json()['org'])
-    print('DNS name: '+r.json()['reverse'])
-    if r.json()['proxy'] == False:
-        print('Proxy: false')
+
+
 
 
     # receiving the current working directory of the client
