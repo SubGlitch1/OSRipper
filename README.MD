@@ -49,8 +49,8 @@ python3 main.py
 - [x] Get down detection to 0/26 on antiscan.me
 - [x] Add Changelog
 - [ ] Daemonise Backdoor
-- [ ] Add Binder
-- [ ] Add More Backdoor templates
+- [x] Add Crypter
+- [x] Add More Backdoor templates
 - [x] Get down detection to at least 0/68 on VT (for mac malware)
 
 ## Help
@@ -58,6 +58,8 @@ python3 main.py
 Just open a issue and ill make sure to get back to you
 
 ## Changelog
+* 0.1.5
+    * Added Crypter
 * 0.1.4
     * Added 4th Module
 * 0.1.3
