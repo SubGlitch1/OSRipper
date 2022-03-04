@@ -17,8 +17,10 @@ Here are example backdoors which were generated with OSRipper
 
 ### Dependencies
 
-You only need python. If you do not wish to download python you can download a compiled release.
-The python dependencies are specified in the requirements.txt file
+You  need python. If you do not wish to download python you can download a compiled release.
+The python dependencies are specified in the requirements.txt file.
+
+Since Version 1.4 you will need metasploit installed and on path so that it can handle the meterpreter listeners.
 
 
 ## Installing
@@ -56,7 +58,10 @@ python3 main.py
 Just open a issue and ill make sure to get back to you
 
 ## Changelog
-
+* 0.1.4
+    * Added 4th Module
+* 0.1.3
+    * Got detection on VT down to 0. Made the Proccess invisible
 * 0.1.2
     * Added 3rd module and listener
 * 0.1.1
