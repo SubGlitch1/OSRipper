@@ -48,12 +48,20 @@ python3 main.py
 Please feel free to fork and open pull repuests. Suggestions/critisizm are appreciated as well
 <!-- ROADMAP -->
 ## Roadmap
+### v0.1
 - [x] Get down detection to 0/26 on antiscan.me
 - [x] Add Changelog
-- [ ] Daemonise Backdoor
+- [x] Daemonise Backdoor
 - [x] Add Crypter
 - [x] Add More Backdoor templates
 - [x] Get down detection to at least 0/68 on VT (for mac malware)
+
+### v0.2
+- [ ] Add Token Logger
+- [ ] Add KeyLogger
+- [ ] Add some new evasion options
+- [ ] Add SilentMiner
+- [ ] Make proper C2 server
 
 ## Help
 
