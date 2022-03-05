@@ -71,7 +71,7 @@ Just open a issue and ill make sure to get back to you
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE.md file for details
+Creative Commons Zero v1.0 Universal
 
 ## Acknowledgments
 
