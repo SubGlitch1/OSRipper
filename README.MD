@@ -45,7 +45,7 @@ Only this
 python3 main.py
 ```
 ## Contributing
-I would appreciate any contribution. Please feel free to fork and open pull reuqests. Suggestions/critisizm are appreciated as well
+Please feel free to fork and open pull repuests. Suggestions/critisizm are appreciated as well
 <!-- ROADMAP -->
 ## Roadmap
 - [x] Get down detection to 0/26 on antiscan.me
