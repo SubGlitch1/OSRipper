@@ -60,6 +60,8 @@ Please feel free to fork and open pull repuests. Suggestions/critisizm are appre
 Just open a issue and ill make sure to get back to you
 
 ## Changelog
+* 0.1.6
+    * Proccess will now trojanise itself as com.apple.system.monitor and drop to /Users/Shared
 * 0.1.5
     * Added Crypter
 * 0.1.4
