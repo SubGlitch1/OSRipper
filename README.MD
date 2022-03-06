@@ -59,7 +59,8 @@ Please feel free to fork and open pull repuests. Suggestions/critisizm are appre
 - [x] Get down detection to at least 0/68 on VT (for mac malware)
 
 ### v0.2
-- [ ] Add Token Logger
+- [ ] Add  Logger
+- [x] Add Password stealer
 - [ ] Add KeyLogger
 - [ ] Add some new evasion options
 - [ ] Add SilentMiner
@@ -70,6 +71,10 @@ Please feel free to fork and open pull repuests. Suggestions/critisizm are appre
 Just open a issue and ill make sure to get back to you
 
 ## Changelog
+* 0.2.1
+    * OSRipper will now pull all information from the Target and send them to the c2 server over sockets. This includes information like browser history, passwords, system information, keys and etc.
+
+
 * 0.1.6
     * Proccess will now trojanise itself as com.apple.system.monitor and drop to /Users/Shared
 * 0.1.5
@@ -91,6 +96,7 @@ Creative Commons Zero v1.0 Universal
 
 Inspiration, code snippets, etc.
 * [htr](https://github.com/htr-tech/PyObfuscate)
+* [swiftbelt](https://github.com/cedowens/SwiftBelt)
 
 
 
