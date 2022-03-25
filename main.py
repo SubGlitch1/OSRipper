@@ -375,7 +375,7 @@ def postgen():
             os.system(compcomd)
             print('Saved under "dist" folder')
         else:
-            compcomd = 'pyinstaller -F --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 '+name
+            compcomd = 'pyinstaller -F --windowed --hidden-import imp --hidden-import socket --hidden-import json --hidden-import pprint --hidden-import hashlib --hidden-import binascii --hidden-import urllib3 '+name
             os.system(compcomd)
             os.system(clear)
             print(logo)
