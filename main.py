@@ -364,6 +364,7 @@ main()
         ina.write(b)
 def postgen():
     opt_obf = input('Do you want to obfuscate the generated programm (recommended) (y/n): ')
+    encrypted = False
     if opt_obf == 'y':
         encrypted = True
         import obfuscator
@@ -371,7 +372,7 @@ def postgen():
     compiling = input('Do you want to compile the script into a binary (might require sudo) (y/n): ')
     if compiling == 'y':
         if encrypted == True:
-            compcomd = 'pyinstaller -F --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 '+name+'_or.py'
+            compcomd = 'pyinstaller -F --windowed --hidden-import imp --hidden-import socket --hidden-import json --hidden-import pprint --hidden-import hashlib --hidden-import binascii --hidden-import urllib3 '+name+'_or.py'
             os.system(compcomd)
             print('Saved under "dist" folder')
         else:
