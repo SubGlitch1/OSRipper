@@ -7,7 +7,7 @@ OSripper is a fully undetectable Backdoor generator and Crypter which specialise
 
 ## Description
 
-OSripper not only generates backdoors but also obfuscates and compiles them. This also includes apple M1 backdoors. Take a closer look at the Roadmap to see how close we are to achieving our goal of total evasion but the results so far are extremely good. In the future i will definetly develop some more specialised and sophisticated Backdoors.
+OSripper not only generates backdoors but also obfuscates and compiles them. This also includes apple M1 backdoors. Take a closer look at the Roadmap to see how close we are to achieving our goal of total evasion but the results so far are extremely good. In the future i will definetly develop some more specialised and sophisticated Backdoors. Since update 2.2 cyrpto miners are included
 
 Here are example backdoors which were generated with OSRipper
 
@@ -63,7 +63,7 @@ Please feel free to fork and open pull repuests. Suggestions/critisizm are appre
 - [x] Add Password stealer
 - [ ] Add KeyLogger
 - [ ] Add some new evasion options
-- [ ] Add SilentMiner
+- [x] Add SilentMiner
 - [ ] Make proper C2 server
 
 ## Help

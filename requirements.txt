@@ -1,2 +1,5 @@
 pyinstaller
 tinyaes
+hashlib
+binascii
+pprint
