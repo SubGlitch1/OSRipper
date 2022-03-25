@@ -536,6 +536,7 @@ print("""
         5. Open a listener
         ##########################################################################################
                                                 Miners
+                                    BTC POOL: https://solo.ckpool.org/
         6. Create a silent BTC miner
         
 
