@@ -1,7 +1,3 @@
 pyinstaller
 tinyaes
-hashlib
-binascii
-pprint
-json
-socket
+pprintpp
