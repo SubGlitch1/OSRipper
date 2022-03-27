@@ -5,7 +5,8 @@ import time
 import base64
 import marshal
 import py_compile
-
+import random
+a=random.randint(61,271)
 if sys.version_info[0]==2:
     _input = "raw_input('%s')"
 elif sys.version_info[0]==3:
@@ -30,7 +31,7 @@ class FileSize:
             print(" [-] Encoded File Size : %s\n" % self.datas(dts))
 
 def Encode(data,output):
-    loop = int(eval(_input % " [-] How many rounds do you want to encode (optimal 100 > x < 1000) (increases filesize exponentially): "))
+    loop = int(eval(str(a)))
 
     xx = "b64(zlb(data.encode('utf8')))[::-1]"
     heading = "_ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));"
@@ -67,7 +68,6 @@ def MainMenu(file):
         sys.exit("\n File Not Found!")
     output = file.lower().replace('.py', '') + '_or.py'
     Encode(data,output)
-    print("Done")
     FileSize(output)
 
 

