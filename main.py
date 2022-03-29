@@ -1,6 +1,7 @@
 import os
 import socket
 import shutil
+import platform
 import requests
 from pickle import GLOBAL
 bind=0
@@ -508,7 +509,12 @@ def cleanup():
         os.remove('ocr_or.spec')
         os.remove(name2)
         os.remove(name2+'.spec')
-        shutil.rmtree(os.getcwd()+'/dist/ocr_or.app')
+        if platform.system() == 'Darwin':
+            shutil.rmtree(os.getcwd()+'/dist/ocr_or.app')
+        if platform.system() == 'Linux':
+            shutil.rmtree(os.getcwd()+'/dist/ocr_or')
+        if platform.system() == 'Windows':
+            shutil.rmtree(os.getcwd()+'/dist/ocr_or.exe')
         shutil.rmtree(os.getcwd()+'/dist/'+name2)
     except PermissionError:
         pass

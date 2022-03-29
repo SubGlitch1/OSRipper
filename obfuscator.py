@@ -28,6 +28,7 @@ class FileSize:
     def __init__(self,path):
         if os.path.isfile(path):
             dts = os.stat(path).st_size
+            print('\n')
             print(" [-] Encoded File Size : %s\n" % self.datas(dts))
 
 def Encode(data,output):
