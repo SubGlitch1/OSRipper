@@ -558,8 +558,6 @@ def cleanup():
         os.remove(name2+'.spec')
         if platform.system() == 'Darwin':
             shutil.rmtree(os.getcwd()+'/dist/ocr_or.app')
-        if platform.system() == 'Linux':
-            shutil.rmtree(os.getcwd()+'/dist/ocr_or')
         if platform.system() == 'Windows':
             shutil.rmtree(os.getcwd()+'/dist/ocr_or.exe')
         shutil.rmtree(os.getcwd()+'/dist/'+name2)
