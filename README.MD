@@ -44,7 +44,7 @@ or download the latest release from https://github.com/SubGlitch1/OSRipper/relea
 ### Executing program
 Only this
 ```
-python3 main.py
+sudo python3 main.py
 ```
 ## Contributing
 Please feel free to fork and open pull repuests. Suggestions/critisizm are appreciated as well
