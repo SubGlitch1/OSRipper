@@ -51,20 +51,20 @@ Please feel free to fork and open pull repuests. Suggestions/critisizm are appre
 <!-- ROADMAP -->
 ## Roadmap
 ### v0.1
-- [x] Get down detection to 0/26 on antiscan.me
-- [x] Add Changelog
-- [x] Daemonise Backdoor
-- [x] Add Crypter
-- [x] Add More Backdoor templates
-- [x] Get down detection to at least 0/68 on VT (for mac malware)
+- ✅ Get down detection to 0/26 on antiscan.me
+- ✅ Add Changelog
+- ✅ Daemonise Backdoor
+- ✅ Add Crypter
+- ✅ Add More Backdoor templates
+- ✅ Get down detection to at least 0/68 on VT (for mac malware)
 
 ### v0.2
-:heavy_check_mark: Add AntiVM 
+- ✅ Add AntiVM 
 - [ ] Add  Logger
-- [x] Add Password stealer
+- ✅ Add Password stealer
 - [ ] Add KeyLogger
 - [ ] Add some new evasion options
-- [x] Add SilentMiner
+- ✅ Add SilentMiner
 - [ ] Make proper C2 server
 
 ## Help
