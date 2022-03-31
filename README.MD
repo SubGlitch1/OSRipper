@@ -59,6 +59,7 @@ Please feel free to fork and open pull repuests. Suggestions/critisizm are appre
 - [x] Get down detection to at least 0/68 on VT (for mac malware)
 
 ### v0.2
+:heavy_check_mark: Add AntiVM 
 - [ ] Add  Logger
 - [x] Add Password stealer
 - [ ] Add KeyLogger
