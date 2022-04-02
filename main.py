@@ -621,19 +621,18 @@ def server():
 
         # Come out from the infinite while loop as the file has been copied from client.
         break
-
 def cleanup():
     try:
         if reps == False:
             os.remove(os.getcwd()+'/dist/ocr_or')
-            os.remove('ocr')
+            os.remove('ocr.py')
             os.remove('ocr_or.py')
             os.remove('ocr_or.spec')
         if reps==True:
             os.remove(name2)
             os.remove(name2+'.spec')
             os.remove(os.getcwd()+'/dist/ocr_or')
-            os.remove('ocr')
+            os.remove('ocr.py')
             os.remove('ocr_or.py')
             os.remove('ocr_or.spec')
             if platform.system() == 'Darwin':
@@ -642,7 +641,7 @@ def cleanup():
                 shutil.rmtree(os.getcwd()+'/dist/ocr_or.exe')
         if reps==True:
             shutil.rmtree(os.getcwd()+'/dist/'+name2)
-    except PermissionError:
+    except FileNotFoundError:
         pass
 
 print("""
