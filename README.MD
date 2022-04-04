@@ -91,7 +91,7 @@ Just open a issue and ill make sure to get back to you
 
 ## License
 
-Creative Commons Zero v1.0 Universal
+MIT
 
 ## Acknowledgments
 
