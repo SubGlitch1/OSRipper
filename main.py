@@ -621,7 +621,6 @@ def server():
 def cleanup():
     try:
         if reps == False:
-            os.remove(os.getcwd()+'/dist/ocr_or')
             os.remove('ocr.py')
             os.remove('ocr_or.py')
             os.remove('ocr_or.spec')
