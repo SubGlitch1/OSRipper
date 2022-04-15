@@ -60,6 +60,7 @@ Please feel free to fork and open pull repuests. Suggestions/critisizm are appre
 
 ### v0.2
 - ✅ Add AntiVM 
+- [ ] Implement tor hidden services
 - [ ] Add  Logger
 - ✅ Add Password stealer
 - [ ] Add KeyLogger
