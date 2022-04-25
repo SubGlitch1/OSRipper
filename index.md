@@ -1,5 +1,5 @@
 # OSripper
-![Screenshot](img/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/SubGlitch1/OSRipper/main/img/screenshot.png)
 
 [![CodeFactor](https://www.codefactor.io/repository/github/subglitch1/osripper/badge)](https://www.codefactor.io/repository/github/subglitch1/osripper/)
 
@@ -11,9 +11,9 @@ OSripper not only generates backdoors but also obfuscates and compiles them. Thi
 
 Here are example backdoors which were generated with OSRipper
 
-![Screenshot](img/example.png))
+![Screenshot](https://raw.githubusercontent.com/SubGlitch1/OSRipper/main/img/example.png))
 
-![Screenshot](img/vt.png))
+![Screenshot](https://raw.githubusercontent.com/SubGlitch1/OSRipper/main/img/vt.png))
 
 ## Getting Started
 
