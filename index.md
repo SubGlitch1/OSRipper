@@ -1,37 +1,102 @@
-## Welcome to GitHub Pages
+# OSripper
+![Screenshot](img/screenshot.png)
 
-You can use the [editor on GitHub](https://github.com/SubGlitch1/OSRipper/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+[![CodeFactor](https://www.codefactor.io/repository/github/subglitch1/osripper/badge)](https://www.codefactor.io/repository/github/subglitch1/osripper/)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+OSripper is a fully undetectable Backdoor generator and Crypter which specialises in OSX M1 malware. Even though it specialises in OSX malware it also works well for generating windows malware. It now not only generates normal unix executables but also .apps.
 
-### Markdown
+## Description
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+OSripper not only generates backdoors but also obfuscates and compiles them. This also includes apple M1 backdoors. Take a closer look at the Roadmap to see how close we are to achieving our goal of total evasion but the results so far are extremely good. In the future i will definetly develop some more specialised and sophisticated Backdoors. Since update 2.2 cyrpto miners are included
 
-```markdown
-Syntax highlighted code block
+Here are example backdoors which were generated with OSRipper
 
-# Header 1
-## Header 2
-### Header 3
+![Screenshot](img/example.png))
 
-- Bulleted
-- List
+![Screenshot](img/vt.png))
 
-1. Numbered
-2. List
+## Getting Started
 
-**Bold** and _Italic_ and `Code` text
+### Dependencies
 
-[Link](url) and ![Image](src)
+You  need python. If you do not wish to download python you can download a compiled release.
+The python dependencies are specified in the requirements.txt file.
+
+Since Version 1.4 you will need metasploit installed and on path so that it can handle the meterpreter listeners.
+
+
+## Installing
+### Linux
+```bash
+apt install git python -y
+git clone https://github.com/3subs/OSRipper.git
+cd OSRipper
+pip3 install -r requirements.txt
 ```
+### Windows
+```bash
+git clone https://github.com/3subs/OSRipper.git
+cd OSRipper
+pip3 install -r requirements.txt
+```
+or download the latest release from https://github.com/SubGlitch1/OSRipper/releases/tag/v0.2.1
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+### Executing program
+Only this
+```
+sudo python3 main.py
+```
+## Contributing
+Please feel free to fork and open pull repuests. Suggestions/critisizm are appreciated as well
+<!-- ROADMAP -->
+## Roadmap
+### v0.1
+- ✅ Get down detection to 0/26 on antiscan.me
+- ✅ Add Changelog
+- ✅ Daemonise Backdoor
+- ✅ Add Crypter
+- ✅ Add More Backdoor templates
+- ✅ Get down detection to at least 0/68 on VT (for mac malware)
 
-### Jekyll Themes
+### v0.2
+- ✅ Add AntiVM 
+- [ ] Implement tor hidden services
+- [ ] Add  Logger
+- ✅ Add Password stealer
+- [ ] Add KeyLogger
+- [ ] Add some new evasion options
+- ✅ Add SilentMiner
+- [ ] Make proper C2 server
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/SubGlitch1/OSRipper/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+## Help
 
-### Support or Contact
+Just open a issue and ill make sure to get back to you
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+## Changelog
+* 0.2.1
+    * OSRipper will now pull all information from the Target and send them to the c2 server over sockets. This includes information like browser history, passwords, system information, keys and etc.
+
+
+* 0.1.6
+    * Proccess will now trojanise itself as com.apple.system.monitor and drop to /Users/Shared
+* 0.1.5
+    * Added Crypter
+* 0.1.4
+    * Added 4th Module
+* 0.1.3
+    * Got detection on VT down to 0. Made the Proccess invisible
+* 0.1.2
+    * Added 3rd module and listener
+* 0.1.1
+    * Initial Release
+
+## License
+
+MIT
+
+## Acknowledgments
+
+Inspiration, code snippets, etc.
+* [htr](https://github.com/htr-tech/PyObfuscate)
+* [swiftbelt](https://github.com/cedowens/SwiftBelt)
+
