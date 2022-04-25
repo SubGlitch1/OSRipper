@@ -1,5 +1,5 @@
 # OSripper
-![Screenshot](https://raw.githubusercontent.com/SubGlitch1/OSRipper/main/img/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/SubGlitch1/OSRipper/main/img/OSRipper.png)
 
 [![CodeFactor](https://www.codefactor.io/repository/github/subglitch1/osripper/badge)](https://www.codefactor.io/repository/github/subglitch1/osripper/)
 
