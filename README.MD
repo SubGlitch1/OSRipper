@@ -4,7 +4,7 @@
 
 [![CodeFactor](https://www.codefactor.io/repository/github/subglitch1/osripper/badge)](https://www.codefactor.io/repository/github/subglitch1/osripper/)
 
-OSripper is a fully undetectable Backdoor generator and Crypter which specialises in OSX M1 malware. Even though it specialises in OSX malware it also works well for generating windows malware. It now not only generates normal unix executables but also .apps.
+OSripper is a fully undetectable Backdoor generator and Crypter which specialises in OSX M1 malware. It will also work on windows but for now there is no support for it. It now not only generates normal unix executables but also .apps.
 
 ## Description
 
@@ -63,13 +63,13 @@ Please feel free to fork and open pull repuests. Suggestions/critisizm are appre
 
 ### v0.2
 - ✅ Add AntiVM 
-- [ ] Implement tor hidden services
-- [ ] Add  Logger
+- [] Implement tor hidden services
+- [] Add  Logger
 - ✅ Add Password stealer
-- [ ] Add KeyLogger
-- [ ] Add some new evasion options
+- [] Add KeyLogger
+- [] Add some new evasion options
 - ✅ Add SilentMiner
-- [ ] Make proper C2 server
+- [] Make proper C2 server
 
 ## Help
 
