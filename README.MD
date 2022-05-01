@@ -45,7 +45,7 @@ git clone https://github.com/3subs/OSRipper.git
 cd OSRipper
 pip3 install -r requirements.txt
 ```
-or download the latest release from https://github.com/SubGlitch1/OSRipper/releases/tag/v0.2.1
+or download the latest release from https://github.com/SubGlitch1/OSRipper/releases/tag/v0.2.3
 
 ### Executing program
 Only this
