@@ -19,7 +19,6 @@ Here are example backdoors which were generated with OSRipper
 ![Screenshot](img/vt.png)
 
 ![Screenshot](img/vt_app.png)
-
 macOS .apps will look like this on vt
 
 ## Getting Started
