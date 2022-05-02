@@ -1,6 +1,34 @@
 # OSripper
 ![Screenshot](https://raw.githubusercontent.com/SubGlitch1/OSRipper/main/img/OSRipper.png)
 
+```
+
+
+                   .=-.-.   _ __              _,.---._      ,-,--.          ,-.--, 
+       .-.,.---.  /==/_ /.-`.' ,`.          ,-.' , -  `.  ,-.'-  _\.--.-.  /=/, .' 
+      /==/  `   \|==|, |/==/, -   \        /==/_,  ,  - \/==/_ ,_.'\==\ -\/=/- /   
+     |==|-, .=., |==|  |==| _ .=. |       |==|   .=.     \==\  \    \==\ `-' ,/    
+     |==|   '='  /==|- |==| , '=',|       |==|_ : ;=:  - |\==\ -\    |==|,  - |    
+     |==|- ,   .'|==| ,|==|-  '..'        |==| , '='     |_\==\ ,\  /==/   ,   \   
+     |==|_  . ,'.|==|- |==|,  |            \==\ -    ,_ //==/\/ _ |/==/, .--, - \  
+     /==/  /\ ,  )==/. /==/ - |             '.='. -   .' \==\ - , /\==\- \/=/ , /  
+     `--`-`--`--'`--`-``--`---'               `--`--''    `--`---'  `--`-'  `--`   
+
+    
+
+    
+     1. Create Bind Backdoor (opens a port on the victim machine and waits for you to connect)
+     2. Create Encrypted TCP Meterpreter (can embed in other script) (recommended)
+
+     ##########################################################################################
+                                                Miners
+     3. Create a silent BTC miner
+        
+
+Please select a module: 
+
+```
+
 [![CodeFactor](https://www.codefactor.io/repository/github/subglitch1/osripper/badge)](https://www.codefactor.io/repository/github/subglitch1/osripper/)
 
 OSripper is a fully undetectable Backdoor generator and Crypter which specialises in OSX M1 malware. Even though it specialises in OSX malware it also works well for generating windows malware. It now not only generates normal unix executables but also .apps.
