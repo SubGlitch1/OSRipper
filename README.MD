@@ -8,7 +8,7 @@ OSripper is a fully undetectable Backdoor generator and Crypter which specialise
 
 ## Description
 
-Please check the wiki for information on how OSRipper functions
+Please check the wiki for information on how OSRipper functions (which changes extremely frequently)
 
 https://github.com/SubGlitch1/OSRipper/wiki
 
