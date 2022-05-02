@@ -99,6 +99,9 @@ Please feel free to fork and open pull repuests. Suggestions/critisizm are appre
 - ✅ Add SilentMiner
 - [] Make proper C2 server
 
+### v0.3
+Coming soon
+
 ## Help
 
 Just open a issue and ill make sure to get back to you
