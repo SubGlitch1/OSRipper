@@ -4,3 +4,4 @@ img/.DS_Store
 .DS_Store
 build/*
 dist/*
+ocr.py

