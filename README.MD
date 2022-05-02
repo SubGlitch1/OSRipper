@@ -92,10 +92,10 @@ Please feel free to fork and open pull repuests. Suggestions/critisizm are appre
 ### v0.2
 - ✅ Add AntiVM 
 - [] Implement tor hidden services
-- [] Add  Logger
+- ✅ Add  Logger
 - ✅ Add Password stealer
 - [] Add KeyLogger
-- [] Add some new evasion options
+- ✅ Add some new evasion options
 - ✅ Add SilentMiner
 - [] Make proper C2 server
 
