@@ -1,6 +1,30 @@
 ![Screenshot](img/OSRipper.png)
+```
+
+                               .=-.-.   _ __              _,.---._      ,-,--.          ,-.--, 
+                   .-.,.---.  /==/_ /.-`.' ,`.          ,-.' , -  `.  ,-.'-  _\.--.-.  /=/, .' 
+                  /==/  `   \|==|, |/==/, -   \        /==/_,  ,  - \/==/_ ,_.'\==\ -\/=/- /   
+                 |==|-, .=., |==|  |==| _ .=. |       |==|   .=.     \==\  \    \==\ `-' ,/    
+                 |==|   '='  /==|- |==| , '=',|       |==|_ : ;=:  - |\==\ -\    |==|,  - |    
+                 |==|- ,   .'|==| ,|==|-  '..'        |==| , '='     |_\==\ ,\  /==/   ,   \   
+                 |==|_  . ,'.|==|- |==|,  |            \==\ -    ,_ //==/\/ _ |/==/, .--, - \  
+                 /==/  /\ ,  )==/. /==/ - |             '.='. -   .' \==\ - , /\==\- \/=/ , /  
+                 `--`-`--`--'`--`-``--`---'               `--`--''    `--`---'  `--`-'  `--`   
 
 
+
+
+                 1. Create Bind Backdoor (opens a port on the victim machine and waits for you to connect)
+                 2. Create Encrypted TCP Meterpreter (can embed in other script) (recommended)
+
+                 ##########################################################################################
+                                                         Miners
+                 3. Create a silent BTC miner
+
+
+         Please select a module: 
+
+```
 
 [![CodeFactor](https://www.codefactor.io/repository/github/subglitch1/osripper/badge)](https://www.codefactor.io/repository/github/subglitch1/osripper/)
 
