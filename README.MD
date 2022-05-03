@@ -32,7 +32,7 @@ Please select a module:
 OSripper is a fully undetectable Backdoor generator and Crypter which specialises in OSX M1 malware. It will also work on windows but for now there is no support for it and it IS NOT FUD for windows (yet at least) and for now i will not focus on windows.
 
 
-You can also PM me on discord for support or to ask for new features
+**You can also PM me on discord for support or to ask for new features SubGlitch1#2983**
 
 
 ## Description
