@@ -1,4 +1,3 @@
-# OSripper
 ![Screenshot](https://raw.githubusercontent.com/SubGlitch1/OSRipper/main/img/OSRipper.png)
 
 ```
