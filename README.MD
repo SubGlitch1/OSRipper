@@ -64,13 +64,13 @@ Since Version 1.4 you will need metasploit installed and on path so that it can 
 ### Linux
 ```bash
 apt install git python -y
-git clone https://github.com/3subs/OSRipper.git
+git clone https://github.com/SubGlitch1/OSRipper.git
 cd OSRipper
 pip3 install -r requirements.txt
 ```
 ### Windows
 ```bash
-git clone https://github.com/3subs/OSRipper.git
+git clone https://github.com/SubGlitch1/OSRipper.git
 cd OSRipper
 pip3 install -r requirements.txt
 ```
