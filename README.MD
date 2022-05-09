@@ -31,6 +31,18 @@ Please select a module:
 
 OSripper is a fully undetectable Backdoor generator and Crypter which specialises in OSX M1 malware. It will also work on windows but for now there is no support for it and it IS NOT FUD for windows (yet at least) and for now i will not focus on windows.
 
+
+**You can also PM me on discord for support or to ask for new features SubGlitch1#2983**
+
+## Features
+- FUD (for macOS)
+- Cloacks as an official app (Microsoft, ExpressVPN etc)
+- Dumps; Sys info, Browser History, Logins, ssh/aws/azure/gcloud creds, clipboard content, local users etc. (more on Cedric Owens swiftbelt)
+- Encrypted communications
+- Rootkit-like Behaviour
+- Every Backdoor generated is entirely unique
+
+
 ## Description
 
 Please check the wiki for information on how OSRipper functions (which changes extremely frequently)
@@ -46,6 +58,7 @@ Here are example backdoors which were generated with OSRipper
 ![Screenshot](img/vt_app.png)
 macOS .apps will look like this on vt
 
+
 ## Getting Started
 
 ### Dependencies
@@ -60,13 +73,13 @@ Since Version 1.4 you will need metasploit installed and on path so that it can 
 ### Linux
 ```bash
 apt install git python -y
-git clone https://github.com/3subs/OSRipper.git
+git clone https://github.com/SubGlitch1/OSRipper.git
 cd OSRipper
 pip3 install -r requirements.txt
 ```
 ### Windows
 ```bash
-git clone https://github.com/3subs/OSRipper.git
+git clone https://github.com/SubGlitch1/OSRipper.git
 cd OSRipper
 pip3 install -r requirements.txt
 ```
@@ -92,12 +105,15 @@ Please feel free to fork and open pull repuests. Suggestions/critisizm are appre
 ### v0.2
 - ✅ Add AntiVM 
 - [] Implement tor hidden services
-- [] Add  Logger
+- ✅ Add  Logger
 - ✅ Add Password stealer
 - [] Add KeyLogger
-- [] Add some new evasion options
+- ✅ Add some new evasion options
 - ✅ Add SilentMiner
 - [] Make proper C2 server
+
+### v0.3
+Coming soon
 
 ## Help
 
