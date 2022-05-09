@@ -34,6 +34,14 @@ OSripper is a fully undetectable Backdoor generator and Crypter which specialise
 
 **You can also PM me on discord for support or to ask for new features SubGlitch1#2983**
 
+## Features
+- FUD (for macOS)
+- Cloacks as an official app (Microsoft, ExpressVPN etc)
+- Dumps; Sys info, Browser History, Logins, ssh/aws/azure/gcloud creds, clipboard content, local users etc. (more on Cedric Owens swiftbelt)
+- Encrypted communications
+- Rootkit-like Behaviour
+- Every Backdoor generated is entirely unique
+
 
 ## Description
 
@@ -50,13 +58,6 @@ Here are example backdoors which were generated with OSRipper
 ![Screenshot](img/vt_app.png)
 macOS .apps will look like this on vt
 
-## Features
-- FUD (for macOS)
-- Cloacks as an official app (Microsoft, ExpressVPN etc)
-- Dumps; Sys info, Browser History, Logins, ssh/aws/azure/gcloud creds, clipboard content, local users etc. (more on Cedric Owens swiftbelt)
-- Encrypted communications
-- Rootkit-like Behaviour
-- Every Backdoor generated is entirely unique
 
 ## Getting Started
 
