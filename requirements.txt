@@ -3,3 +3,4 @@ tinyaes
 pprintpp
 zstandard
 sandboxed
+pyinstaller
