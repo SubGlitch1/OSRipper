@@ -1,5 +1,5 @@
 ########################################
-#------OSRIPPER MASTER V0.2.4.2--------#
+#------OSRIPPER MASTER V0.2.4.3--------#
 ########################################
 
 import os
@@ -13,11 +13,11 @@ import random
 from pickle import GLOBAL
 bind=0
 ## RandomVariables
-nonce1=secrets.randbelow(14)
-nonce2=secrets.randbelow(14)
-UltimateRandomNumberhigh = random.randint(15,30)
+nonce1=secrets.randbelow(13)
+nonce2=secrets.randbelow(13)
+UltimateRandomNumberhigh = random.randint(14,30)
 UltimateRandomNumberlow=secrets.randbelow(nonce1)
-UltimateRandomNumberhigh2 = random.randint(15,30)
+UltimateRandomNumberhigh2 = random.randint(14,30)
 UltimateRandomNumberlow2=secrets.randbelow(nonce2)
 sleeptime = secrets.randbelow(12)
 VariableRange = random.randint(8,22)
