@@ -1,5 +1,4 @@
-![Screenshot](https://raw.githubusercontent.com/SubGlitch1/OSRipper/main/img/OSRipper.png)
-
+![Screenshot](img/OSRipper.png)
 ```
 
 
@@ -30,17 +29,35 @@ Please select a module:
 
 [![CodeFactor](https://www.codefactor.io/repository/github/subglitch1/osripper/badge)](https://www.codefactor.io/repository/github/subglitch1/osripper/)
 
-OSripper is a fully undetectable Backdoor generator and Crypter which specialises in OSX M1 malware. Even though it specialises in OSX malware it also works well for generating windows malware. It now not only generates normal unix executables but also .apps.
+OSripper is a fully undetectable Backdoor generator and Crypter which specialises in OSX M1 malware. It will also work on windows but for now there is no support for it and it IS NOT FUD for windows (yet at least) and for now i will not focus on windows.
+
+
+**You can also PM me on discord for support or to ask for new features SubGlitch1#2983**
+
+## Features
+- FUD (for macOS)
+- Cloacks as an official app (Microsoft, ExpressVPN etc)
+- Dumps; Sys info, Browser History, Logins, ssh/aws/azure/gcloud creds, clipboard content, local users etc. (more on Cedric Owens swiftbelt)
+- Encrypted communications
+- Rootkit-like Behaviour
+- Every Backdoor generated is entirely unique
+
 
 ## Description
 
-OSripper not only generates backdoors but also obfuscates and compiles them. This also includes apple M1 backdoors. Take a closer look at the Roadmap to see how close we are to achieving our goal of total evasion but the results so far are extremely good. In the future i will definetly develop some more specialised and sophisticated Backdoors. Since update 2.2 cyrpto miners are included
+Please check the wiki for information on how OSRipper functions (which changes extremely frequently)
+
+https://github.com/SubGlitch1/OSRipper/wiki
 
 Here are example backdoors which were generated with OSRipper
 
-![Screenshot](https://raw.githubusercontent.com/SubGlitch1/OSRipper/main/img/example.png))
+![Screenshot](img/example.png)
 
-![Screenshot](https://raw.githubusercontent.com/SubGlitch1/OSRipper/main/img/vt.png))
+![Screenshot](img/vt.png)
+
+![Screenshot](img/vt_app.png)
+macOS .apps will look like this on vt
+
 
 ## Getting Started
 
@@ -56,17 +73,17 @@ Since Version 1.4 you will need metasploit installed and on path so that it can 
 ### Linux
 ```bash
 apt install git python -y
-git clone https://github.com/3subs/OSRipper.git
+git clone https://github.com/SubGlitch1/OSRipper.git
 cd OSRipper
 pip3 install -r requirements.txt
 ```
 ### Windows
 ```bash
-git clone https://github.com/3subs/OSRipper.git
+git clone https://github.com/SubGlitch1/OSRipper.git
 cd OSRipper
 pip3 install -r requirements.txt
 ```
-or download the latest release from https://github.com/SubGlitch1/OSRipper/releases/tag/v0.2.1
+or download the latest release from https://github.com/SubGlitch1/OSRipper/releases/tag/v0.2.3
 
 ### Executing program
 Only this
@@ -87,13 +104,16 @@ Please feel free to fork and open pull repuests. Suggestions/critisizm are appre
 
 ### v0.2
 - ✅ Add AntiVM 
-- [ ] Implement tor hidden services
-- [ ] Add  Logger
+- [] Implement tor hidden services
+- ✅ Add  Logger
 - ✅ Add Password stealer
-- [ ] Add KeyLogger
-- [ ] Add some new evasion options
+- [] Add KeyLogger
+- ✅ Add some new evasion options
 - ✅ Add SilentMiner
-- [ ] Make proper C2 server
+- [] Make proper C2 server
+
+### v0.3
+Coming soon
 
 ## Help
 
@@ -126,4 +146,12 @@ MIT
 Inspiration, code snippets, etc.
 * [htr](https://github.com/htr-tech/PyObfuscate)
 * [swiftbelt](https://github.com/cedowens/SwiftBelt)
+
+## Disclaimer
+I am not responsible for what is done with this project. This tool is solely written to be studied by other security researchers to see how easy it is to develop macOS malware.
+
+
+
+
+
 
