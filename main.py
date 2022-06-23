@@ -565,7 +565,7 @@ print("""
         3. Create Obfuscated file with custom code
         ##########################################################################################
                                                 Miners
-        3. Create a silent BTC miner
+        4. Create a silent BTC miner
         
 """)  
 encrypted = False     
