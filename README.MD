@@ -46,6 +46,7 @@ OSripper is a fully undetectable Backdoor generator and Crypter which specialise
 - Encrypted communications
 - Rootkit-like Behaviour
 - Every Backdoor generated is entirely unique
+- ngrok support
 
 
 ## Description
