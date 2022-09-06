@@ -4,3 +4,6 @@ pprintpp
 zstandard
 sandboxed
 pyinstaller
+ngrok-api
+pyngrok
+ordered-set
