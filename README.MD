@@ -81,13 +81,13 @@ Since Version 1.4 you will need metasploit installed and on path so that it can 
 apt install git python -y
 git clone https://github.com/SubGlitch1/OSRipper.git
 cd OSRipper
-pip3 install -r requirements.txt
+sudo python3 setup.py
 ```
 ### Windows
 ```bash
 git clone https://github.com/SubGlitch1/OSRipper.git
 cd OSRipper
-pip3 install -r requirements.txt
+sudo python3 setup.py
 ```
 or download the latest release from https://github.com/SubGlitch1/OSRipper/releases/tag/v0.2.3
 
