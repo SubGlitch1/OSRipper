@@ -154,11 +154,7 @@ Inspiration, code snippets, etc.
 * [swiftbelt](https://github.com/cedowens/SwiftBelt)
 
 
-## Support
-I am very sorry to even write this here but my finances are not looking good right now. 
-If you appreciate my work i would really be happy about any donation. You do NOT have to this is solely optional
 
-BTC: 1LTq6rarb13Qr9j37176p3R9eGnp5WZJ9T
 
 ## Disclaimer
 I am not responsible for what is done with this project. This tool is solely written to be studied by other security researchers to see how easy it is to develop macOS malware.
