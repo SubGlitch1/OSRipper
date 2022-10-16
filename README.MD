@@ -87,7 +87,7 @@ sudo python3 setup.py
 ```bash
 git clone https://github.com/SubGlitch1/OSRipper.git
 cd OSRipper
-sudo python3 setup.py
+python3 setup.py
 ```
 or download the latest release from https://github.com/SubGlitch1/OSRipper/releases/tag/v0.2.3
 
