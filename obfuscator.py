@@ -6,7 +6,9 @@ import base64
 import marshal
 import py_compile
 import random
-a=random.randint(61,271)
+import secrets
+a=random.randint(50,70)
+randint = UltimateRandomNumberlow2 = secrets.randbelow(2)
 if sys.version_info[0]==2:
     _input = "raw_input('%s')"
 elif sys.version_info[0]==3:
@@ -34,17 +36,26 @@ class FileSize:
 def Encode(data,output):
     loop = int(eval(str(a)))
 
-    xx = "b64(zlb(data.encode('utf8')))[::-1]"
-    heading = "_ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));"
+    x1 = "b32(zlb(data.encode('utf8')))[::-1]"
+    heading1 = "_ = lambda __ : __import__('zlib').decompress(__import__('base64').b32decode(__[::-1]));"
+    x2 = "b64(zlb(data.encode('utf8')))[::-1]"
+    heading2 = "_ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));"
 
     
     for x in range(loop):
         try:
-            data = "exec((_)(%s))" % repr(eval(xx))
+            data = "exec((_)(%s))" % repr(eval(x1))
         except TypeError as s:
             sys.exit(" TypeError : " + str(s))
+    ab=(heading1 + data)
+    for x in range(loop):
+        try:
+            data = "exec((_)(%s))" % repr(eval(x2))
+        except TypeError as s:
+            sys.exit(" TypeError : " + str(s))
+    abc=(heading2 + ab)
     with open(output, 'w') as f:
-        f.write(heading + data)
+        f.write(abc)
         f.close()
 
 def SEncode(data,output):
