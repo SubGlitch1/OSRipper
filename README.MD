@@ -37,7 +37,11 @@ Please select a module:
 OSripper is a fully undetectable Backdoor generator and Crypter which specialises in OSX M1 malware. It will also work on windows but for now there is no support for it and it IS NOT FUD for windows (yet at least) and for now i will not focus on windows.
 
 
-**You can also PM me on discord for support or to ask for new features SubGlitch1#2983**
+#Attention
+I know that i have promised to update within a week. this was aroud a month ago. i want you to know that the delay is partly because i have been busy with work and university. The main reason however is that i have found some interesting new techniques which will fundamentally change this Framework. For this reason i am still researching and developing these techniques. Therefore, for V0.3 i am planning to integrate polymorphic shellcode in C for both windows and linux. The project will therefore cease of focusing on MacOS and develop into a full flexed cross platform framework. I have already gotten the shells down to 0 detection on VT. Now i am on the last step of this update by also accomplishing this for staged meterpreters. Thank you for your patience 
+
+
+
 
 ## Features
 - FUD (for macOS)
