@@ -37,13 +37,16 @@ Please select a module:
 OSripper is a fully undetectable Backdoor generator and Crypter which specialises in OSX M1 malware. It will also work on windows but for now there is no support for it and it IS NOT FUD for windows (yet at least) and for now i will not focus on windows.
 
 
-#Attention
-I know that i have promised to update within a week. this was aroud a month ago. i want you to know that the delay is partly because i have been busy with work and university. The main reason however is that i have found some interesting new techniques which will fundamentally change this Framework. For this reason i am still researching and developing these techniques. Therefore, for V0.3 i am planning to integrate polymorphic shellcode in C for both windows and linux. The project will therefore cease of focusing on MacOS and develop into a full flexed cross platform framework. I have already gotten the shells down to 0 detection on VT. Now i am on the last step of this update by also accomplishing this for staged meterpreters. Thank you for your patience 
+# Update
+This is the first v0.3 Release. The payloads will now be double staged in order to evade av detection. Please keep in mind that i develop on arch and only test on a few platforms so there are sure to be bugs and you should open issues for them. 
+Biggest difference to last release is that this project isnt focused on macOS anymore but on all platforms. It also now features a web server on which the staged payload is stored. I will develop this server into a C2 to which data will be pushed from the victim.
+With this update the developtment is officially back in progress.
 
 
 
 
 ## Features
+- Staged payloads
 - FUD (for macOS)
 - Cloacks as an official app (Microsoft, ExpressVPN etc)
 - Dumps; Sys info, Browser History, Logins, ssh/aws/azure/gcloud creds, clipboard content, local users etc. (more on Cedric Owens swiftbelt)

