@@ -126,8 +126,11 @@ Please feel free to fork and open pull repuests. Suggestions/critisizm are appre
 - [] Make proper C2 server
 
 ### v0.3
-Coming soon
-
+- ✅ Add c2
+- ✅ Double staged Web delivery
+- ⏳ Backdoor pushes data to c2 through POST request
+- ❔❓Add post exploitation Modules? (im not sure if this would be helpful)
+- ⏳ Add shells with modules instead of python meterpreter
 ## Help
 
 Just open a issue and ill make sure to get back to you
