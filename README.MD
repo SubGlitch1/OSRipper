@@ -46,7 +46,7 @@ Biggest difference to last release is that this project isnt focused on macOS an
 With this update the developtment is officially back in progress.
 
 # Scheme of concept
-'''
+```
         +-----------------+
         |   Generated     |
         |    Binary       |
@@ -93,7 +93,7 @@ With this update the developtment is officially back in progress.
         |    (Stage 2)    |
         +-----------------+
 
-'''
+```
 
 ## Features
 - Staged payloads
