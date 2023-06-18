@@ -45,8 +45,55 @@ This is the first v0.3 Release. The payloads will now be double staged in order 
 Biggest difference to last release is that this project isnt focused on macOS anymore but on all platforms. It also now features a web server on which the staged payload is stored. I will develop this server into a C2 to which data will be pushed from the victim.
 With this update the developtment is officially back in progress.
 
+# Scheme of concept
+'''
+        +-----------------+
+        |   Generated     |
+        |    Binary       |
+        +-----------------+
+                 |
+                 | Execute
+                 |
+                 v
+        +------------------+
+        |oBFUSCATED dropper|
+        +------------------+
+                 |
+                 | GET request
+                 |
+                 v
+        +-----------------+
+        |                 |
+        |    C2 SERVER    |
+        |                 |
+        +-----------------+
+                 |
+                 | Download
+                 |
+                 v
+        +-----------------+
+        |    Meterpreter  |
+        |   Staged Payload|
+        |    (Stage 1)    |
+        +-----------------+
+                 |
+                 | Download
+                 |
+                 v
+        +-----------------+
+        |    C2 Server    |
+        +-----------------+
+                 |
+                 | Socket
+                 |
+                 v
+        +-----------------+
+        |    Meterpreter  |
+        |   Staged Payload|
+        |    (Stage 2)    |
+        +-----------------+
 
-
+'''
 
 ## Features
 - Staged payloads
