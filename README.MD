@@ -146,7 +146,7 @@ git clone https://github.com/SubGlitch1/OSRipper.git
 cd OSRipper
 python3 setup.py
 ```
-or download the latest release from https://github.com/SubGlitch1/OSRipper/releases/tag/v0.2.3
+or download the latest release from https://github.com/SubGlitch1/OSRipper/releases/tag/v0.3
 
 ### Executing program
 Only this
