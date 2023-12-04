@@ -38,9 +38,12 @@ OSripper is a fully undetectable Backdoor generator and Crypter which specialise
 
 
 # Gen 3 OSRipper backdoor results 
-https://www.virustotal.com/gui/file/2a0bf1e4bb7035d473c1e93d93acd0df532abc6d8ab662bb5919cd5a216d9986/detection 
+https://www.virustotal.com/gui/file/e7e654893cec4e1f1aa76e2bbfa4bb1e0c6a15adf19236845948877e93013aea (py)
+https://www.virustotal.com/gui/file-analysis/MjM2MTJiMjI3YTMzM2JjYzExMTJhMzhiMGY4ODQxZjA6MTcwMTcyOTE3MQ== (unix binary)
 
 # Update
+Hey sorry ive been lost in action revently. happy to say this project still works and the binaries are FUD. Will try to continue as planned
+
 This is the first v0.3 Release. The payloads will now be double staged in order to evade av detection. Please keep in mind that i develop on arch and only test on a few platforms so there are sure to be bugs and you should open issues for them. 
 Biggest difference to last release is that this project isnt focused on macOS anymore but on all platforms. It also now features a web server on which the staged payload is stored. I will develop this server into a C2 to which data will be pushed from the victim.
 With this update the developtment is officially back in progress.
