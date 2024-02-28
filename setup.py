@@ -42,6 +42,7 @@ elif platform.system() == "Linux":
         print('You can get this key for free from here https://dashboard.ngrok.com/api')
         print('\n')
         ngrok_auth = input('Please enter your key: ')
+        os.system("sudo apt install patchelf")
     os.system("pip3 install -r requirements.txt")
     with open('creds', 'w+') as creds:
         creds.write(str(ngrok_auth))

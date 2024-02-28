@@ -566,7 +566,7 @@ def start_web_server(webroot):
 
 def rep_syst():
     hide = input(
-        "Do you want the backdoor to hide itself and replicate a system proccess? (OSX and linux only and doesnt support ngrok) (y/n): "
+        "Do you want the backdoor to hide itself and replicate a system proccess? (OSX and linux (aarch64) only and doesnt support ngrok) (y/n): "
     )
     if hide == "y":
         global name2
